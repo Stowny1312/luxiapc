@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>77tashaci Coming Soon</title>
+    <meta
+      name="description"
+      content="77tashaci is coming soon. A neon-lit placeholder page for deployment testing."
+    >
+    <style>
+      :root {
+        color-scheme: dark;
+        --ink: #f7fbff;
+        --muted: #a8b3c7;
+        --cyan: #24f0ff;
+        --pink: #ff4fd8;
+        --lime: #bbff4f;
+        --deep: #05070d;
+        --panel: rgba(255, 255, 255, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at 18% 12%, rgba(36, 240, 255, 0.2), transparent 26rem),
+          radial-gradient(circle at 82% 78%, rgba(255, 79, 216, 0.22), transparent 24rem),
+          linear-gradient(135deg, #05070d 0%, #11162a 42%, #07080f 100%);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      body::before {
+        position: fixed;
+        inset: -20%;
+        content: "";
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        background-size: 52px 52px;
+        mask-image: radial-gradient(circle, black 0%, transparent 72%);
+        transform: perspective(900px) rotateX(58deg) translateY(18%);
+        animation: drift 16s linear infinite;
+      }
+
+      main {
+        position: relative;
+        z-index: 1;
+        width: min(920px, calc(100vw - 36px));
+        padding: clamp(36px, 7vw, 86px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 8px;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)),
+          var(--panel);
+        box-shadow:
+          0 0 0 1px rgba(36, 240, 255, 0.16) inset,
+          0 36px 90px rgba(0, 0, 0, 0.48),
+          0 0 80px rgba(36, 240, 255, 0.12);
+        backdrop-filter: blur(22px);
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 28px;
+        color: var(--muted);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .tag::before {
+        width: 10px;
+        height: 10px;
+        content: "";
+        border-radius: 999px;
+        background: var(--lime);
+        box-shadow: 0 0 24px var(--lime);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(3.7rem, 14vw, 9.6rem);
+        line-height: 0.82;
+        letter-spacing: 0;
+        text-transform: lowercase;
+        text-shadow:
+          0 0 18px rgba(36, 240, 255, 0.48),
+          5px 5px 0 rgba(255, 79, 216, 0.42);
+      }
+
+      p {
+        max-width: 620px;
+        margin: 30px 0 0;
+        color: var(--muted);
+        font-size: clamp(1.05rem, 2vw, 1.35rem);
+        line-height: 1.65;
+      }
+
+      .soon {
+        display: block;
+        margin-top: 12px;
+        color: var(--ink);
+        font-weight: 800;
+      }
+
+      .beam {
+        position: fixed;
+        width: 46vw;
+        height: 2px;
+        left: 50%;
+        top: 50%;
+        z-index: 0;
+        background: linear-gradient(90deg, transparent, var(--cyan), var(--pink), transparent);
+        filter: blur(0.2px);
+        opacity: 0.8;
+        transform-origin: left center;
+        animation: sweep 7s ease-in-out infinite alternate;
+      }
+
+      .beam:nth-child(2) {
+        animation-delay: -3s;
+        opacity: 0.58;
+      }
+
+      @keyframes drift {
+        to {
+          background-position: 52px 52px;
+        }
+      }
+
+      @keyframes sweep {
+        from {
+          transform: rotate(-24deg) translateX(-28%);
+        }
+        to {
+          transform: rotate(21deg) translateX(-34%);
+        }
+      }
+
+      @media (max-width: 620px) {
+        body {
+          overflow: auto;
+        }
+
+        main {
+          padding: 34px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="beam"></div>
+    <div class="beam"></div>
+    <main aria-labelledby="page-title">
+      <div class="tag">launch signal acquired</div>
+      <h1 id="page-title">77tashaci</h1>
+      <p>
+        A sharper corner of the internet is powering up.
+        <span class="soon">77tashaci coming soon.</span>
+      </p>
+    </main>
+  </body>
+</html>
