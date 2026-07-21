@@ -606,6 +606,9 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   margin: 0 auto;
   padding: 24px 0 70px;
 }
+.client-space-main {
+  padding-top: 10px;
+}
 .sub-main .section {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -698,6 +701,19 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.66);
+}
+.client-summary .summary-cta {
+  width: fit-content;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 225, 214, 0.96), rgba(168, 217, 87, 0.78), rgba(100, 221, 235, 0.58));
+  color: #213a30;
+  text-decoration: none;
+  font-weight: 950;
 }
 .client-summary strong {
   font-size: 1.2rem;

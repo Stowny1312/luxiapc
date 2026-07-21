@@ -66,7 +66,7 @@
 
     if (!user) {
       summaries.forEach((summary) => {
-        summary.innerHTML = "<strong>Not signed in yet</strong><span>Create an account or log in to see your bookings.</span>";
+        summary.innerHTML = '<strong>Not signed in yet</strong><a class="summary-cta" href="create-account.html">Create account</a>';
       });
       return;
     }
