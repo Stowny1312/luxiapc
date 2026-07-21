@@ -775,11 +775,36 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   display: grid;
   gap: 18px;
 }
+.account-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
 .account-section-title span {
   color: #5d7e36;
   font-size: 0.8rem;
   font-weight: 950;
   text-transform: uppercase;
+}
+.section-action {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 15px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(168, 217, 87, 0.36), rgba(100, 221, 235, 0.3));
+  border: 1px solid rgba(54, 90, 40, 0.13);
+  color: #213a30 !important;
+  font-size: 0.9rem;
+  font-weight: 950;
+  text-decoration: none;
+}
+.section-action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(54, 90, 40, 0.12);
 }
 .account-choice span {
   color: #5d7e36;
