@@ -45,7 +45,9 @@
     });
     userMenus.forEach((menu) => {
       menu.hidden = !user;
-      if (!user) menu.removeAttribute("open");
+      if (!user) {
+        menu.querySelector("[data-user-menu-popover]")?.setAttribute("hidden", "");
+      }
     });
     userNames.forEach((nameNode) => {
       const firstName = user && user.user_metadata && user.user_metadata.first_name;
@@ -221,7 +223,19 @@
 
   document.addEventListener("click", async (event) => {
     const target = event.target;
-    if (!(target instanceof HTMLElement) || !target.matches("[data-sign-out], [data-header-sign-out]")) return;
+    if (!(target instanceof HTMLElement)) return;
+
+    if (target.matches("[data-user-menu-toggle]")) {
+      const menu = target.closest("[data-user-menu]");
+      const popover = menu && menu.querySelector("[data-user-menu-popover]");
+      if (popover instanceof HTMLElement) {
+        popover.hidden = !popover.hidden;
+        target.textContent = popover.hidden ? "▾" : "▴";
+      }
+      return;
+    }
+
+    if (!target.matches("[data-sign-out], [data-header-sign-out]")) return;
 
     await client.auth.signOut();
     showStatus("You have been signed out.", "success");
