@@ -22,8 +22,11 @@
   }
 
   async function getCurrentUser() {
+    const { data: sessionData } = await client.auth.getSession();
+    if (!sessionData.session) return null;
+
     const { data } = await client.auth.getUser();
-    return data.user || null;
+    return data.user || sessionData.session.user || null;
   }
 
   async function refreshHeaderClientLinks() {
@@ -39,7 +42,7 @@
       }
 
       const firstName = user.user_metadata && user.user_metadata.first_name;
-      link.textContent = `👋 ${firstName || "Client"}`;
+      link.textContent = `Hi, ${firstName || "Client"}`;
       link.classList.add("is-signed-in");
       link.setAttribute("href", link.getAttribute("href") && link.getAttribute("href").includes("pages/") ? "pages/bookings.html" : "bookings.html");
     });
@@ -71,7 +74,7 @@
       user.user_metadata && user.user_metadata.last_name
     ].filter(Boolean).join(" ");
 
-    summary.innerHTML = `<strong>👋 ${name || "Client space"}</strong><span>${user.email}</span><span>You are already logged in to your Luxia client account.</span><a href="bookings.html">Open bookings</a><button type="button" data-sign-out>Log out</button>`;
+    summary.innerHTML = `<strong>Hi, ${name || "Client space"}</strong><span>${user.email}</span><span>You are already logged in to your Luxia client account.</span><a href="bookings.html">Open bookings</a><button type="button" data-sign-out>Log out</button>`;
   }
 
   async function loadBookings() {
