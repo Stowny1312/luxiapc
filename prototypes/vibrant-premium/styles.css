@@ -337,6 +337,7 @@ p { color: var(--muted); line-height: 1.7; font-size: 1.02rem; }
 }
 .hero-book-now {
   width: fit-content;
+  justify-self: center;
   min-height: 46px;
   display: inline-flex;
   align-items: center;
