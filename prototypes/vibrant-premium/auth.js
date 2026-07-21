@@ -160,16 +160,29 @@
     if (form.matches("[data-signup-form]")) {
       event.preventDefault();
       const formData = new FormData(form);
-      const { error } = await client.auth.signUp({
-        email: String(formData.get("email") || ""),
-        password: String(formData.get("password") || ""),
+      const firstName = String(formData.get("first_name") || "").trim();
+      const lastName = String(formData.get("last_name") || "").trim();
+      const dateOfBirth = String(formData.get("date_of_birth") || "").trim();
+      const gender = String(formData.get("gender") || "").trim();
+      const email = String(formData.get("email") || "").trim().toLowerCase();
+      const password = String(formData.get("password") || "");
+
+      if (!form.checkValidity() || !firstName || !lastName || !dateOfBirth || !gender || !email || !password) {
+        form.reportValidity();
+        showStatus("Please fill in all required fields before creating your account.", "error");
+        return;
+      }
+
+      const { data, error } = await client.auth.signUp({
+        email,
+        password,
         options: {
           emailRedirectTo: fullOriginPath("client-space.html"),
           data: {
-            first_name: String(formData.get("first_name") || ""),
-            last_name: String(formData.get("last_name") || ""),
-            date_of_birth: String(formData.get("date_of_birth") || ""),
-            gender: String(formData.get("gender") || "other")
+            first_name: firstName,
+            last_name: lastName,
+            date_of_birth: dateOfBirth,
+            gender
           }
         }
       });
@@ -179,7 +192,13 @@
         return;
       }
 
-      showStatus("Account created. Please check your email if confirmation is enabled, then log in.", "success");
+      const identities = data && data.user && Array.isArray(data.user.identities) ? data.user.identities : [];
+      if (data && data.user && identities.length === 0) {
+        showStatus("This email is already connected to a Luxia P&C account. Please log in or use Forgot password.", "error");
+        return;
+      }
+
+      showStatus("Account created. Please check your email to activate it, then log in.", "success");
       form.reset();
     }
 
