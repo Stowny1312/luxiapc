@@ -16,6 +16,23 @@
 
   const client = window.supabase.createClient(config.url, config.publishableKey);
 
+  async function refreshHeaderClientLinks() {
+    const links = document.querySelectorAll(".client-link");
+    if (!links.length) return;
+
+    const { data } = await client.auth.getUser();
+    links.forEach((link) => {
+      if (!data.user) {
+        link.textContent = "Login / Create account";
+        return;
+      }
+
+      const firstName = data.user.user_metadata && data.user.user_metadata.first_name;
+      link.textContent = `👋 ${firstName || "Client"}`;
+      link.setAttribute("href", link.getAttribute("href") && link.getAttribute("href").includes("pages/") ? "pages/bookings.html" : "bookings.html");
+    });
+  }
+
   function fullOriginPath(page) {
     const path = window.location.pathname.replace(/pages\/[^/]+$/, `pages/${page}`);
     return `${window.location.origin}${path}`;
@@ -36,7 +53,7 @@
       data.user.user_metadata && data.user.user_metadata.last_name
     ].filter(Boolean).join(" ");
 
-    summary.innerHTML = `<strong>${name || "Client space"}</strong><span>${data.user.email}</span><a href="bookings.html">Open bookings</a><button type="button" data-sign-out>Sign out</button>`;
+    summary.innerHTML = `<strong>👋 ${name || "Client space"}</strong><span>${data.user.email}</span><a href="bookings.html">Open bookings</a><button type="button" data-sign-out>Sign out</button>`;
   }
 
   async function loadBookings() {
@@ -106,12 +123,12 @@
         email: String(formData.get("email") || ""),
         password: String(formData.get("password") || ""),
         options: {
+          emailRedirectTo: fullOriginPath("client-space.html"),
           data: {
             first_name: String(formData.get("first_name") || ""),
             last_name: String(formData.get("last_name") || ""),
             date_of_birth: String(formData.get("date_of_birth") || ""),
-            gender: String(formData.get("gender") || "prefer_not_to_say"),
-            gender_self_describe: String(formData.get("gender_self_describe") || "")
+            gender: String(formData.get("gender") || "other")
           }
         }
       });
@@ -170,8 +187,10 @@
     await client.auth.signOut();
     showStatus("You have been signed out.", "success");
     refreshClientSummary();
+    refreshHeaderClientLinks();
   });
 
+  refreshHeaderClientLinks();
   refreshClientSummary();
   loadBookings();
 })();

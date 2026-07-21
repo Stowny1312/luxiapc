@@ -95,15 +95,15 @@ body {
   align-items: center;
   justify-content: center;
   padding: 10px 14px;
-  border: 1px solid rgba(54, 90, 40, 0.2);
+  border: 1px solid rgba(34, 23, 39, 0.12);
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(33, 58, 48, 0.94), rgba(111, 174, 69, 0.9));
-  color: #fffdf8;
+  background: linear-gradient(135deg, rgba(255, 225, 214, 0.96), rgba(168, 217, 87, 0.72), rgba(100, 221, 235, 0.62));
+  color: #213a30;
   text-decoration: none;
   font-size: 0.86rem;
   font-weight: 950;
   white-space: nowrap;
-  box-shadow: 0 14px 38px rgba(72, 94, 56, 0.13);
+  box-shadow: 0 14px 38px rgba(72, 94, 56, 0.11);
 }
 .language { display: flex; gap: 6px; }
 .language button {
@@ -201,7 +201,7 @@ p { color: var(--muted); line-height: 1.7; font-size: 1.02rem; }
   transform: translateY(-1px);
   box-shadow: 0 14px 40px rgba(133, 86, 38, 0.12);
 }
-.actions .primary-cta { background: linear-gradient(135deg, #213a30, #6fae45); color: #fffdf8; }
+.actions .primary-cta { background: linear-gradient(135deg, rgba(255, 225, 214, 0.96), rgba(168, 217, 87, 0.8)); color: #213a30; }
 .actions a:not(.primary-cta) { background: rgba(255, 255, 255, 0.72); }
 .actions a:focus-visible, .drawer a:focus-visible, .route-grid a:focus-visible, .client-link:focus-visible, button:focus-visible {
   outline: 3px solid rgba(100, 221, 235, 0.78);
@@ -538,8 +538,8 @@ button {
   border: 0;
   border-radius: 999px;
   padding: 12px 18px;
-  background: linear-gradient(135deg, #213a30, #6fae45);
-  color: #fffdf8;
+  background: linear-gradient(135deg, rgba(255, 225, 214, 0.96), rgba(168, 217, 87, 0.78), rgba(100, 221, 235, 0.58));
+  color: #213a30;
   font: inherit;
   font-weight: 950;
   cursor: pointer;
@@ -606,9 +606,10 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 }
 .auth-card {
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(247, 255, 239, 0.7)),
-    radial-gradient(circle at 90% 0%, rgba(168, 217, 87, 0.18), transparent 14rem);
-  box-shadow: 0 20px 64px rgba(72, 94, 56, 0.1);
+    linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 250, 243, 0.74)),
+    radial-gradient(circle at 90% 0%, rgba(100, 221, 235, 0.18), transparent 14rem),
+    radial-gradient(circle at 0% 100%, rgba(255, 225, 214, 0.26), transparent 13rem);
+  box-shadow: 0 20px 64px rgba(133, 86, 38, 0.09);
 }
 .auth-card h2 {
   font-size: clamp(1.35rem, 2vw, 2rem);
@@ -616,8 +617,37 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 .auth-card a,
 .client-summary a,
 .booking-list a {
-  color: #365a28;
+  color: #1d6570;
   font-weight: 950;
+}
+.login-only {
+  grid-template-columns: minmax(260px, 0.9fr) minmax(260px, 1.1fr);
+}
+.account-choice {
+  align-content: center;
+  gap: 14px;
+}
+.account-choice span {
+  color: #5d7e36;
+  font-size: 0.8rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+.soft-cta {
+  width: fit-content;
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 225, 214, 0.96), rgba(100, 221, 235, 0.58));
+  color: #213a30 !important;
+  text-decoration: none;
+}
+.create-account-card {
+  max-width: 720px;
+  justify-self: stretch;
 }
 .form-row {
   display: grid;

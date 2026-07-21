@@ -3,8 +3,7 @@ create table if not exists public.profiles (
   first_name text not null,
   last_name text not null,
   date_of_birth date not null,
-  gender text not null check (gender in ('female', 'male', 'non_binary', 'prefer_not_to_say', 'self_describe')),
-  gender_self_describe text,
+  gender text not null check (gender in ('female', 'male', 'other')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -80,23 +79,20 @@ begin
     first_name,
     last_name,
     date_of_birth,
-    gender,
-    gender_self_describe
+    gender
   )
   values (
     new.id,
     coalesce(new.raw_user_meta_data ->> 'first_name', ''),
     coalesce(new.raw_user_meta_data ->> 'last_name', ''),
     nullif(new.raw_user_meta_data ->> 'date_of_birth', '')::date,
-    coalesce(new.raw_user_meta_data ->> 'gender', 'prefer_not_to_say'),
-    nullif(new.raw_user_meta_data ->> 'gender_self_describe', '')
+    coalesce(new.raw_user_meta_data ->> 'gender', 'other')
   )
   on conflict (id) do update set
     first_name = excluded.first_name,
     last_name = excluded.last_name,
     date_of_birth = excluded.date_of_birth,
-    gender = excluded.gender,
-    gender_self_describe = excluded.gender_self_describe;
+    gender = excluded.gender;
 
   return new;
 end;
@@ -107,3 +103,6 @@ create trigger on_auth_user_created
   after insert on auth.users
   for each row
   execute function public.handle_new_user();
+
+revoke execute on function public.set_updated_at() from public, anon, authenticated;
+revoke execute on function public.handle_new_user() from public, anon, authenticated;
