@@ -90,7 +90,8 @@ body {
   gap: 10px;
   min-width: 0;
 }
-.client-link {
+.client-link,
+.create-link {
   min-height: 38px;
   display: inline-flex;
   align-items: center;
@@ -105,6 +106,29 @@ body {
   font-weight: 950;
   white-space: nowrap;
   box-shadow: 0 14px 38px rgba(72, 94, 56, 0.11);
+}
+.create-link {
+  background: rgba(255, 255, 255, 0.76);
+  color: #213a30;
+}
+.user-menu {
+  position: relative;
+}
+.user-menu summary {
+  list-style: none;
+  cursor: pointer;
+}
+.user-menu summary::-webkit-details-marker {
+  display: none;
+}
+.user-menu[open] .logout-link {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  min-width: 110px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 46px rgba(72, 94, 56, 0.14);
 }
 .logout-link {
   min-height: 36px;
@@ -712,19 +736,6 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.66);
 }
-.client-summary .summary-cta {
-  width: fit-content;
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 18px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(255, 225, 214, 0.96), rgba(168, 217, 87, 0.78), rgba(100, 221, 235, 0.58));
-  color: #213a30;
-  text-decoration: none;
-  font-weight: 950;
-}
 .client-summary strong {
   font-size: 1.2rem;
 }
@@ -818,7 +829,8 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   .header-actions {
     gap: 6px;
   }
-  .client-link {
+  .client-link,
+  .create-link {
     min-height: 34px;
     padding: 8px 10px;
     font-size: 0.72rem;
@@ -998,7 +1010,8 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     min-width: 31px;
     padding: 0 6px;
   }
-  .client-link {
+  .client-link,
+  .create-link {
     max-width: 96px;
     line-height: 1.05;
     text-align: center;

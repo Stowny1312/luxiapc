@@ -31,20 +31,25 @@
 
   async function refreshHeaderClientLinks() {
     const user = await getCurrentUser();
-    const links = document.querySelectorAll(".client-link");
+    const loginLinks = document.querySelectorAll(".login-link");
+    const createLinks = document.querySelectorAll(".create-link");
+    const userMenus = document.querySelectorAll("[data-user-menu]");
+    const userNames = document.querySelectorAll("[data-user-name]");
     const logoutButtons = document.querySelectorAll("[data-header-sign-out]");
 
-    links.forEach((link) => {
-      if (!user) {
-        link.textContent = "Login / Create account";
-        link.classList.remove("is-signed-in");
-        return;
-      }
-
-      const firstName = user.user_metadata && user.user_metadata.first_name;
-      link.textContent = `Hi, ${firstName || "Client"}`;
-      link.classList.add("is-signed-in");
-      link.setAttribute("href", link.getAttribute("href") && link.getAttribute("href").includes("pages/") ? "pages/client-space.html" : "client-space.html");
+    loginLinks.forEach((link) => {
+      link.hidden = Boolean(user);
+    });
+    createLinks.forEach((link) => {
+      link.hidden = Boolean(user);
+    });
+    userMenus.forEach((menu) => {
+      menu.hidden = !user;
+      if (!user) menu.removeAttribute("open");
+    });
+    userNames.forEach((nameNode) => {
+      const firstName = user && user.user_metadata && user.user_metadata.first_name;
+      nameNode.textContent = `Hi, ${firstName || "Client"}`;
     });
 
     logoutButtons.forEach((button) => {
@@ -66,7 +71,7 @@
 
     if (!user) {
       summaries.forEach((summary) => {
-        summary.innerHTML = '<strong>Not signed in yet</strong><a class="summary-cta" href="create-account.html">Create account</a>';
+        summary.innerHTML = "";
       });
       return;
     }
@@ -84,7 +89,7 @@
     ].filter(Boolean);
 
     summaries.forEach((summary) => {
-      summary.innerHTML = `<strong>Hi, ${name || "Client space"}</strong>${details.map((item) => `<span>${item}</span>`).join("")}<button type="button" data-sign-out>Log out</button>`;
+      summary.innerHTML = `<strong>Hi, ${name || "Client space"}</strong>${details.map((item) => `<span>${item}</span>`).join("")}`;
     });
   }
 

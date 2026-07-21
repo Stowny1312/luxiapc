@@ -15,7 +15,7 @@
   <a data-page="coach-schedule" href="coach-schedule.html">Coach schedule</a>
   <a data-page="contact" href="contact.html">Contact</a>
 </nav>
-    <header class="sub-header"><a class="brand" href="../"><span class="brand-text"><strong>Luxia P&C</strong><small>Prevention & Coaching</small></span></a><div class="header-actions"><a class="client-link" href="client-space.html">Login / Create account</a><button class="logout-link" type="button" data-header-sign-out hidden>Log out</button><div class="language"><button>EN</button><button>NL</button><button>PL</button></div></div></header>
+    <header class="sub-header"><a class="brand" href="../"><span class="brand-text"><strong>Luxia P&C</strong><small>Prevention & Coaching</small></span></a><div class="header-actions"><a class="client-link login-link" href="client-space.html">Login</a><a class="create-link" href="create-account.html">Create account</a><details class="user-menu" data-user-menu hidden><summary class="client-link" data-user-name>Hi</summary><button class="logout-link" type="button" data-header-sign-out>Logout</button></details><div class="language"><button>EN</button><button>NL</button><button>PL</button></div></div></header>
     <main class="sub-main client-space-main">
       <section class="section auth-layout client-space-auth">
         <div class="auth-intro">
@@ -23,7 +23,6 @@
           <p class="auth-status" data-auth-status hidden></p>
         </div>
         <div class="auth-panels login-only" data-logged-out-only hidden>
-          <div class="client-summary" data-client-summary></div>
           <form class="mock-form auth-card" data-login-form>
             <h2>Login</h2>
             <label>Email<input type="email" name="email" autocomplete="email" required></label>
