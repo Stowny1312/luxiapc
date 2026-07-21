@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Payments - Luxia</title><link rel="stylesheet" href="../styles.css"></head>
-  <body class="subpage" data-page="payment">
+  <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Bookings - Luxia</title><link rel="stylesheet" href="../styles.css"></head>
+  <body class="subpage" data-page="bookings">
     <input id="menu-toggle" class="menu-toggle" type="checkbox" aria-label="Toggle navigation">
 <label class="menu-button" for="menu-toggle"><span></span><span></span><span></span></label>
 <nav class="drawer" aria-label="Main navigation">
@@ -18,6 +18,18 @@
   <a data-page="contact" href="contact.html">Contact</a>
 </nav>
     <header class="sub-header"><a class="brand" href="../"><span class="brand-text"><strong>Luxia P&C</strong><small>Prevention & Coaching</small></span></a><div class="language"><button>EN</button><button>NL</button><button>PL</button></div></header>
-    <main class="sub-main"><a class="back-link" href="../">Back to prototype</a><section class="section payment"><div><p class="eyebrow">Payment acknowledgement</p><h1>Every paid session plants a tree.</h1><p>Mock checkout panel with payment summary, terms acknowledgement, and visible appreciation message before payment confirmation.</p></div><div class="checkout"><span>Coaching session</span><strong>EUR 85</strong><label><input type="checkbox" checked> I understand a tree will be planted after this payment.</label><button>Continue to secure payment</button></div></section></main>
+    <main class="sub-main">
+      <a class="back-link" href="../">Back to prototype</a>
+      <section class="section">
+        <p class="eyebrow">Bookings</p>
+        <h1>History and upcoming bookings.</h1>
+        <p>After login, this page reads the client's private booking records from Supabase and separates upcoming and past coaching sessions visually.</p>
+        <p class="auth-status" data-auth-status hidden></p>
+        <div class="booking-list" data-bookings-list></div>
+      </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-config.js"></script>
+    <script src="../auth.js"></script>
   </body>
 </html>

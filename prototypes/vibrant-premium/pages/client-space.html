@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Client space - Luxia</title><link rel="stylesheet" href="../styles.css"></head>
+  <body class="subpage" data-page="client-space">
+    <input id="menu-toggle" class="menu-toggle" type="checkbox" aria-label="Toggle navigation">
+<label class="menu-button" for="menu-toggle"><span></span><span></span><span></span></label>
+<nav class="drawer" aria-label="Main navigation">
+  <a data-page="home" href="../">Home</a>
+  <a data-page="aboutme" href="aboutme.html">About me</a>
+  <a data-page="consultation" href="consultation.html">Free consultation</a>
+  <a data-page="booking" href="booking.html">Book coaching</a>
+  <a data-page="payment" href="payment.html">Payments</a>
+  <a data-page="session" href="session.html">Online session</a>
+  <a data-page="client-space" href="client-space.html">Client space</a>
+  <a data-page="bookings" href="bookings.html">Bookings</a>
+  <a data-page="reviews" href="reviews.html">Reviews</a>
+  <a data-page="coach-schedule" href="coach-schedule.html">Coach schedule</a>
+  <a data-page="contact" href="contact.html">Contact</a>
+</nav>
+    <header class="sub-header"><a class="brand" href="../"><span class="brand-text"><strong>Luxia P&C</strong><small>Prevention & Coaching</small></span></a><div class="language"><button>EN</button><button>NL</button><button>PL</button></div></header>
+    <main class="sub-main">
+      <a class="back-link" href="../">Back to prototype</a>
+      <section class="section auth-layout">
+        <div class="auth-intro">
+          <p class="eyebrow">Client space</p>
+          <h1>Log in or create your private account.</h1>
+          <p>Clients can use their email and password to access session history, upcoming bookings, and future private session links.</p>
+          <div class="client-summary" data-client-summary></div>
+          <p class="auth-status" data-auth-status hidden></p>
+        </div>
+        <div class="auth-panels">
+          <form class="mock-form auth-card" data-login-form>
+            <h2>Login</h2>
+            <label>Email<input type="email" name="email" autocomplete="email" required></label>
+            <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+            <button type="submit">Log in</button>
+            <a href="reset-password.html">Forgot password?</a>
+          </form>
+          <form class="mock-form auth-card" data-signup-form>
+            <h2>Create account</h2>
+            <div class="form-row">
+              <label>First name<input name="first_name" autocomplete="given-name" required></label>
+              <label>Last name<input name="last_name" autocomplete="family-name" required></label>
+            </div>
+            <div class="form-row">
+              <label>Date of birth<input type="date" name="date_of_birth" required></label>
+              <label>Gender<select name="gender" required><option value="">Choose</option><option value="female">Female</option><option value="male">Male</option><option value="non_binary">Non-binary</option><option value="prefer_not_to_say">Prefer not to say</option><option value="self_describe">Self describe</option></select></label>
+            </div>
+            <label>Self described gender, optional<input name="gender_self_describe"></label>
+            <label>Email<input type="email" name="email" autocomplete="email" required></label>
+            <label>Password<input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+            <button type="submit">Create account</button>
+          </form>
+        </div>
+      </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-config.js"></script>
+    <script src="../auth.js"></script>
+  </body>
+</html>
