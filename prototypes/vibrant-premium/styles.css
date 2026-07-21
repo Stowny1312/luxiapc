@@ -667,6 +667,16 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   align-content: center;
   gap: 14px;
 }
+.client-account-panel {
+  display: grid;
+  gap: 18px;
+}
+.account-section-title span {
+  color: #5d7e36;
+  font-size: 0.8rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
 .account-choice span {
   color: #5d7e36;
   font-size: 0.8rem;
@@ -745,6 +755,9 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 14px;
   margin-top: 22px;
+}
+.compact-bookings {
+  margin-top: 0;
 }
 .booking-list article {
   border: 1px solid var(--line);

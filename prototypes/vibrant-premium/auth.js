@@ -44,7 +44,7 @@
       const firstName = user.user_metadata && user.user_metadata.first_name;
       link.textContent = `Hi, ${firstName || "Client"}`;
       link.classList.add("is-signed-in");
-      link.setAttribute("href", link.getAttribute("href") && link.getAttribute("href").includes("pages/") ? "pages/bookings.html" : "bookings.html");
+      link.setAttribute("href", link.getAttribute("href") && link.getAttribute("href").includes("pages/") ? "pages/client-space.html" : "client-space.html");
     });
 
     logoutButtons.forEach((button) => {
@@ -75,9 +75,16 @@
       user.user_metadata && user.user_metadata.first_name,
       user.user_metadata && user.user_metadata.last_name
     ].filter(Boolean).join(" ");
+    const birthDate = user.user_metadata && user.user_metadata.date_of_birth;
+    const gender = user.user_metadata && user.user_metadata.gender;
+    const details = [
+      user.email,
+      birthDate ? `Date of birth: ${birthDate}` : "",
+      gender ? `Gender: ${gender}` : ""
+    ].filter(Boolean);
 
     summaries.forEach((summary) => {
-      summary.innerHTML = `<strong>Hi, ${name || "Client space"}</strong><span>${user.email}</span><span>You are already logged in to your Luxia client account.</span><a href="bookings.html">Open bookings</a><button type="button" data-sign-out>Log out</button>`;
+      summary.innerHTML = `<strong>Hi, ${name || "Client space"}</strong>${details.map((item) => `<span>${item}</span>`).join("")}<button type="button" data-sign-out>Log out</button>`;
     });
   }
 
@@ -137,10 +144,10 @@
         return;
       }
 
-      showStatus("You are logged in. Opening your bookings...", "success");
+      showStatus("You are logged in.", "success");
       await refreshHeaderClientLinks();
       await refreshClientSummary();
-      setTimeout(() => { window.location.href = "bookings.html"; }, 600);
+      await loadBookings();
     }
 
     if (form.matches("[data-signup-form]")) {
