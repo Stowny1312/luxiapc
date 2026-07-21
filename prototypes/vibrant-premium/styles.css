@@ -105,6 +105,16 @@ body {
   white-space: nowrap;
   box-shadow: 0 14px 38px rgba(72, 94, 56, 0.11);
 }
+.logout-link {
+  min-height: 36px;
+  padding: 9px 12px;
+  border: 1px solid rgba(34, 23, 39, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #5d4630;
+  font-size: 0.8rem;
+  box-shadow: none;
+}
 .language { display: flex; gap: 6px; }
 .language button {
   height: 34px;
@@ -521,6 +531,28 @@ p { color: var(--muted); line-height: 1.7; font-size: 1.02rem; }
 }
 article, .calendar-card, .session-card, .checkout { display: grid; gap: 10px; }
 article span, .calendar-card span, .session-card p { color: var(--muted); }
+.optional-consultation {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 14px;
+  border: 1px solid rgba(34, 23, 39, 0.1);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 225, 214, 0.5), rgba(100, 221, 235, 0.18));
+}
+.optional-consultation small {
+  color: #5d7e36;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+.optional-consultation p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+.optional-consultation a {
+  color: #1d6570;
+  font-weight: 950;
+}
 .timeline { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 30px; }
 .timeline span {
   padding: 18px;
@@ -757,6 +789,11 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     padding: 8px 10px;
     font-size: 0.72rem;
   }
+  .logout-link {
+    min-height: 34px;
+    padding: 8px 9px;
+    font-size: 0.72rem;
+  }
   .language button {
     min-width: 34px;
     height: 32px;
@@ -932,6 +969,9 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     line-height: 1.05;
     text-align: center;
     white-space: normal;
+  }
+  .logout-link {
+    max-width: 70px;
   }
   .hero {
     padding-left: 12px;

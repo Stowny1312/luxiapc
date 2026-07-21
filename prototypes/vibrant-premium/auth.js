@@ -16,52 +16,70 @@
 
   const client = window.supabase.createClient(config.url, config.publishableKey);
 
-  async function refreshHeaderClientLinks() {
-    const links = document.querySelectorAll(".client-link");
-    if (!links.length) return;
-
-    const { data } = await client.auth.getUser();
-    links.forEach((link) => {
-      if (!data.user) {
-        link.textContent = "Login / Create account";
-        return;
-      }
-
-      const firstName = data.user.user_metadata && data.user.user_metadata.first_name;
-      link.textContent = `👋 ${firstName || "Client"}`;
-      link.setAttribute("href", link.getAttribute("href") && link.getAttribute("href").includes("pages/") ? "pages/bookings.html" : "bookings.html");
-    });
-  }
-
   function fullOriginPath(page) {
     const path = window.location.pathname.replace(/pages\/[^/]+$/, `pages/${page}`);
     return `${window.location.origin}${path}`;
+  }
+
+  async function getCurrentUser() {
+    const { data } = await client.auth.getUser();
+    return data.user || null;
+  }
+
+  async function refreshHeaderClientLinks() {
+    const user = await getCurrentUser();
+    const links = document.querySelectorAll(".client-link");
+    const logoutButtons = document.querySelectorAll("[data-header-sign-out]");
+
+    links.forEach((link) => {
+      if (!user) {
+        link.textContent = "Login / Create account";
+        link.classList.remove("is-signed-in");
+        return;
+      }
+
+      const firstName = user.user_metadata && user.user_metadata.first_name;
+      link.textContent = `👋 ${firstName || "Client"}`;
+      link.classList.add("is-signed-in");
+      link.setAttribute("href", link.getAttribute("href") && link.getAttribute("href").includes("pages/") ? "pages/bookings.html" : "bookings.html");
+    });
+
+    logoutButtons.forEach((button) => {
+      button.hidden = !user;
+    });
   }
 
   async function refreshClientSummary() {
     const summary = document.querySelector("[data-client-summary]");
     if (!summary) return;
 
-    const { data } = await client.auth.getUser();
-    if (!data.user) {
+    const user = await getCurrentUser();
+    document.querySelectorAll("[data-logged-out-only]").forEach((node) => {
+      node.hidden = Boolean(user);
+    });
+    document.querySelectorAll("[data-logged-in-only]").forEach((node) => {
+      node.hidden = !user;
+    });
+
+    if (!user) {
       summary.innerHTML = "<strong>Not signed in yet</strong><span>Create an account or log in to see your bookings.</span>";
       return;
     }
 
     const name = [
-      data.user.user_metadata && data.user.user_metadata.first_name,
-      data.user.user_metadata && data.user.user_metadata.last_name
+      user.user_metadata && user.user_metadata.first_name,
+      user.user_metadata && user.user_metadata.last_name
     ].filter(Boolean).join(" ");
 
-    summary.innerHTML = `<strong>👋 ${name || "Client space"}</strong><span>${data.user.email}</span><a href="bookings.html">Open bookings</a><button type="button" data-sign-out>Sign out</button>`;
+    summary.innerHTML = `<strong>👋 ${name || "Client space"}</strong><span>${user.email}</span><span>You are already logged in to your Luxia client account.</span><a href="bookings.html">Open bookings</a><button type="button" data-sign-out>Log out</button>`;
   }
 
   async function loadBookings() {
     const list = document.querySelector("[data-bookings-list]");
     if (!list) return;
 
-    const { data: userData } = await client.auth.getUser();
-    if (!userData.user) {
+    const user = await getCurrentUser();
+    if (!user) {
       list.innerHTML = '<article><strong>Please log in first</strong><span>Your private bookings are visible after login.</span><a href="client-space.html">Go to Client space</a></article>';
       return;
     }
@@ -69,7 +87,7 @@
     const { data, error } = await client
       .from("bookings")
       .select("id, session_type, starts_at, ends_at, status, meeting_url, notes")
-      .eq("user_id", userData.user.id)
+      .eq("user_id", user.id)
       .order("starts_at", { ascending: false });
 
     if (error) {
@@ -113,6 +131,8 @@
       }
 
       showStatus("You are logged in. Opening your bookings...", "success");
+      await refreshHeaderClientLinks();
+      await refreshClientSummary();
       setTimeout(() => { window.location.href = "bookings.html"; }, 600);
     }
 
@@ -182,12 +202,12 @@
 
   document.addEventListener("click", async (event) => {
     const target = event.target;
-    if (!(target instanceof HTMLElement) || !target.matches("[data-sign-out]")) return;
+    if (!(target instanceof HTMLElement) || !target.matches("[data-sign-out], [data-header-sign-out]")) return;
 
     await client.auth.signOut();
     showStatus("You have been signed out.", "success");
-    refreshClientSummary();
-    refreshHeaderClientLinks();
+    await refreshHeaderClientLinks();
+    await refreshClientSummary();
   });
 
   refreshHeaderClientLinks();
