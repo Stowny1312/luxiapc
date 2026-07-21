@@ -624,9 +624,13 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 }
 .auth-layout {
   display: grid;
-  grid-template-columns: minmax(0, 0.78fr) minmax(340px, 1.22fr);
+  grid-template-columns: minmax(240px, 0.72fr) minmax(320px, 0.9fr);
   gap: 22px;
   align-items: start;
+}
+.client-space-auth {
+  grid-template-columns: minmax(280px, 560px);
+  justify-content: center;
 }
 .auth-intro {
   display: grid;
@@ -654,7 +658,7 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   font-weight: 950;
 }
 .login-only {
-  grid-template-columns: minmax(260px, 0.9fr) minmax(260px, 1.1fr);
+  grid-template-columns: minmax(260px, 520px);
 }
 .account-choice {
   align-content: center;

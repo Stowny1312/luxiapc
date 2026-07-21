@@ -19,30 +19,24 @@
     <header class="sub-header"><a class="brand" href="../"><span class="brand-text"><strong>Luxia P&C</strong><small>Prevention & Coaching</small></span></a><div class="header-actions"><a class="client-link" href="client-space.html">Login / Create account</a><button class="logout-link" type="button" data-header-sign-out hidden>Log out</button><div class="language"><button>EN</button><button>NL</button><button>PL</button></div></div></header>
     <main class="sub-main">
       <a class="back-link" href="../">Back to prototype</a>
-      <section class="section auth-layout">
+      <section class="section auth-layout client-space-auth">
         <div class="auth-intro">
           <p class="eyebrow">Client space</p>
-          <h1>Log in to your private client space.</h1>
-          <p>Use your email and password to access session history, upcoming bookings, and future private session links.</p>
-          <div class="client-summary" data-client-summary></div>
           <p class="auth-status" data-auth-status hidden></p>
         </div>
         <div class="auth-panels login-only" data-logged-out-only hidden>
+          <div class="client-summary" data-client-summary></div>
           <form class="mock-form auth-card" data-login-form>
             <h2>Login</h2>
             <label>Email<input type="email" name="email" autocomplete="email" required></label>
             <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
             <button type="submit">Log in</button>
             <a href="reset-password.html">Forgot password?</a>
+            <a href="create-account.html">Create account</a>
           </form>
-          <article class="auth-card account-choice">
-            <span>New client?</span>
-            <h2>Create your account</h2>
-            <p>Add your name, date of birth, gender, email, and password so your bookings can be connected to you.</p>
-            <a class="soft-cta" href="create-account.html">Create account</a>
-          </article>
         </div>
         <article class="auth-card account-choice" data-logged-in-only hidden>
+          <div class="client-summary" data-client-summary></div>
           <span>Active account</span>
           <h2>You are already logged in.</h2>
           <p>Your login is active. Open your bookings to review past and upcoming sessions, or log out from this account.</p>

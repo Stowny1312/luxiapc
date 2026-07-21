@@ -53,8 +53,8 @@
   }
 
   async function refreshClientSummary() {
-    const summary = document.querySelector("[data-client-summary]");
-    if (!summary) return;
+    const summaries = document.querySelectorAll("[data-client-summary]");
+    if (!summaries.length) return;
 
     const user = await getCurrentUser();
     document.querySelectorAll("[data-logged-out-only]").forEach((node) => {
@@ -65,7 +65,9 @@
     });
 
     if (!user) {
-      summary.innerHTML = "<strong>Not signed in yet</strong><span>Create an account or log in to see your bookings.</span>";
+      summaries.forEach((summary) => {
+        summary.innerHTML = "<strong>Not signed in yet</strong><span>Create an account or log in to see your bookings.</span>";
+      });
       return;
     }
 
@@ -74,7 +76,9 @@
       user.user_metadata && user.user_metadata.last_name
     ].filter(Boolean).join(" ");
 
-    summary.innerHTML = `<strong>Hi, ${name || "Client space"}</strong><span>${user.email}</span><span>You are already logged in to your Luxia client account.</span><a href="bookings.html">Open bookings</a><button type="button" data-sign-out>Log out</button>`;
+    summaries.forEach((summary) => {
+      summary.innerHTML = `<strong>Hi, ${name || "Client space"}</strong><span>${user.email}</span><span>You are already logged in to your Luxia client account.</span><a href="bookings.html">Open bookings</a><button type="button" data-sign-out>Log out</button>`;
+    });
   }
 
   async function loadBookings() {
