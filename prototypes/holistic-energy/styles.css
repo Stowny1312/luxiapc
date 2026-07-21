@@ -1,0 +1,195 @@
+:root {
+  color-scheme: light;
+  --soil: #24151e;
+  --paper: #fff9ec;
+  --sage: #4fb586;
+  --leaf: #174f3c;
+  --sun: #ffcf5c;
+  --coral: #ff8066;
+  --sky: #69c9dd;
+  --muted: rgba(36, 21, 30, 0.72);
+  --line: rgba(36, 21, 30, 0.14);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--soil);
+  background:
+    radial-gradient(circle at 14% 8%, rgba(255, 207, 92, 0.72), transparent 24rem),
+    radial-gradient(circle at 86% 24%, rgba(105, 201, 221, 0.42), transparent 24rem),
+    linear-gradient(150deg, #fff9ec, #edf8df 52%, #ffe6d7);
+  font-family: Georgia, "Times New Roman", serif;
+}
+.topbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 10;
+  height: 74px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 clamp(18px, 4vw, 48px) 0 88px;
+  background: rgba(255, 249, 236, 0.76);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(16px);
+}
+.brand { color: var(--leaf); text-decoration: none; font: 900 1.25rem Inter, sans-serif; }
+.language { display: flex; gap: 6px; }
+.language button {
+  min-width: 40px;
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--leaf);
+  font: 900 0.78rem Inter, sans-serif;
+}
+.menu-toggle { position: fixed; opacity: 0; pointer-events: none; }
+.menu-button {
+  position: fixed;
+  z-index: 30;
+  top: 18px;
+  left: 22px;
+  width: 42px;
+  height: 38px;
+  display: grid;
+  place-content: center;
+  gap: 5px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 249, 236, 0.8);
+  cursor: pointer;
+}
+.menu-button span { width: 20px; height: 2px; background: var(--leaf); display: block; }
+.drawer {
+  position: fixed;
+  z-index: 25;
+  inset: 0 auto 0 0;
+  width: min(330px, 86vw);
+  padding: 92px 24px 24px;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  transform: translateX(-102%);
+  transition: transform 220ms ease;
+  background: #fff9ec;
+  border-right: 1px solid var(--line);
+}
+.drawer a { color: var(--leaf); text-decoration: none; font: 900 1rem Inter, sans-serif; padding: 13px; border-radius: 8px; }
+.drawer a:hover { background: rgba(79, 181, 134, 0.14); }
+.menu-toggle:checked ~ .drawer { transform: translateX(0); }
+main { padding-top: 74px; }
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(28px, 6vw, 80px);
+  align-items: center;
+  padding: clamp(86px, 10vw, 142px) clamp(18px, 5vw, 74px) 52px;
+}
+.sunfield {
+  min-height: 560px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 207, 92, 0.95), transparent 8rem),
+    radial-gradient(circle at 40% 78%, rgba(79, 181, 134, 0.8), transparent 15rem),
+    linear-gradient(160deg, #ffeac1, #d9f3ca 60%, #ffcdbf);
+}
+.sunfield span {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 78%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(23, 79, 60, 0.18);
+  border-radius: 50%;
+}
+.sunfield span:nth-child(2) { width: 52%; }
+.sunfield span:nth-child(3) { width: 28%; background: rgba(255, 249, 236, 0.46); }
+.hero-copy { display: grid; gap: 22px; }
+.eyebrow { margin: 0; color: var(--coral); font: 900 0.78rem Inter, sans-serif; text-transform: uppercase; }
+h1, h2 { margin: 0; color: var(--leaf); line-height: 0.98; letter-spacing: 0; }
+h1 { font-size: clamp(3.3rem, 7.6vw, 8.3rem); }
+h2 { font-size: clamp(2.2rem, 5vw, 5.4rem); }
+p { color: var(--muted); line-height: 1.75; font-size: 1.08rem; }
+.actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.actions a, .seed-card button {
+  border: 0;
+  border-radius: 999px;
+  background: var(--leaf);
+  color: var(--paper);
+  padding: 14px 18px;
+  text-decoration: none;
+  font: 900 0.94rem Inter, sans-serif;
+}
+.actions a + a { background: var(--coral); }
+.section {
+  padding: clamp(72px, 9vw, 128px) clamp(18px, 5vw, 74px);
+  border-top: 1px solid var(--line);
+}
+.intro, .path, .reviews { background: rgba(255, 255, 255, 0.28); }
+.leaf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+article, .mock-form, .seed-card, .room, .voice-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 249, 236, 0.72);
+  padding: 20px;
+  box-shadow: 0 22px 54px rgba(23, 79, 60, 0.08);
+}
+article { display: grid; gap: 8px; }
+article strong { color: var(--leaf); font: 950 1rem Inter, sans-serif; }
+article span { color: var(--muted); }
+.pathline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 28px;
+}
+.pathline span {
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  border-radius: 8px;
+  background: linear-gradient(145deg, rgba(255, 207, 92, 0.52), rgba(79, 181, 134, 0.28));
+  color: var(--leaf);
+  font: 950 1rem Inter, sans-serif;
+}
+.booking, .seed {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 28px;
+  align-items: start;
+}
+.mock-form { display: grid; gap: 14px; }
+label { display: grid; gap: 7px; color: var(--muted); font: 800 0.9rem Inter, sans-serif; }
+input, select, textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fffdf7;
+  color: var(--soil);
+  padding: 12px;
+  font: 1rem Inter, sans-serif;
+}
+textarea { min-height: 96px; }
+.seed-card { display: grid; gap: 12px; }
+.seed-card strong { color: var(--leaf); font: 950 3rem Inter, sans-serif; }
+.room code { display: block; color: var(--coral); overflow-wrap: anywhere; font: 900 1.2rem Inter, sans-serif; }
+.voice-card { color: var(--leaf); font: 950 clamp(1.4rem, 3.4vw, 3rem) Inter, sans-serif; text-align: center; }
+.contact a { color: var(--coral); font: 950 1.4rem Inter, sans-serif; }
+@media (max-width: 860px) {
+  .hero, .booking, .seed { grid-template-columns: 1fr; }
+  .leaf-grid, .pathline { grid-template-columns: 1fr; }
+  .sunfield { min-height: 360px; order: 2; }
+}

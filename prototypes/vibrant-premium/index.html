@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prototype 01 - Vibrant Premium</title>
+    <meta name="description" content="Vibrant premium prototype for a life coaching website.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <input id="menu-toggle" class="menu-toggle" type="checkbox" aria-label="Toggle navigation">
+    <label class="menu-button" for="menu-toggle"><span></span><span></span><span></span></label>
+    <div class="scrim"></div>
+    <nav class="drawer" aria-label="Main navigation">
+      <a href="#home">Home</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#consultation">Free consultation</a>
+      <a href="#booking">Book coaching</a>
+      <a href="#payment">Payments</a>
+      <a href="#session">Online session</a>
+      <a href="#account">Client account</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#coach-admin">Coach schedule</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <header class="topbar">
+      <a class="brand" href="../../">Luxia</a>
+      <div class="language" aria-label="Language selector">
+        <button>EN</button><button>NL</button><button>PL</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="home" class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Life coaching with clarity, courage, and measurable momentum</p>
+          <h1>Turn the noise into a life you can actually recognize.</h1>
+          <p>Premium one-to-one coaching for people who want direction, accountability, and a calm plan for the next version of their life.</p>
+          <div class="actions">
+            <a href="#consultation">Free 20 min call</a>
+            <a href="#booking">Book a session</a>
+          </div>
+        </div>
+        <div class="portrait-panel" aria-label="Abstract premium coaching visual">
+          <div class="orbital one"></div>
+          <div class="orbital two"></div>
+          <div class="signal">Private growth plan</div>
+          <div class="metric"><strong>4 steps</strong><span>Reflect, choose, act, integrate</span></div>
+        </div>
+      </section>
+
+      <section id="portfolio" class="section split">
+        <div>
+          <p class="eyebrow">Portfolio</p>
+          <h2>Meet the coach behind the room.</h2>
+          <p>Mock profile area for certifications, personal story, coaching philosophy, prevention background, and client outcomes. Prevention services remain future scope and are presented here only as future capability.</p>
+        </div>
+        <div class="credential-grid">
+          <article><strong>Certified practice</strong><span>Credential cards and verified training.</span></article>
+          <article><strong>Personal method</strong><span>Structured sessions with human warmth.</span></article>
+          <article><strong>Future prevention</strong><span>Physical follow-up only with certified support.</span></article>
+        </div>
+      </section>
+
+      <section id="consultation" class="section consultation">
+        <p class="eyebrow">Free introduction</p>
+        <h2>20 minutes to understand each other.</h2>
+        <div class="timeline">
+          <span>Choose a time</span><span>Share your intention</span><span>Meet the coach</span><span>Decide together</span>
+        </div>
+      </section>
+
+      <section id="booking" class="section">
+        <p class="eyebrow">Booking flow</p>
+        <h2>Session booking with preparation questions.</h2>
+        <div class="booking-grid">
+          <form class="mock-form">
+            <label>What brings you here now?<input value="I want a clearer direction"></label>
+            <label>What would feel different after coaching?<input value="More confidence and structure"></label>
+            <label>Preferred session language<select><option>English</option><option>Dutch</option><option>Polish</option></select></label>
+            <label>Energy level today<input value="6 / 10"></label>
+            <label>Anything the coach should know?<textarea>Recent life transition, looking for calm accountability.</textarea></label>
+          </form>
+          <aside class="calendar-card">
+            <strong>Available sessions</strong>
+            <span>Tue 10:00</span><span>Thu 17:30</span><span>Sat 09:30</span>
+          </aside>
+        </div>
+      </section>
+
+      <section id="payment" class="section payment">
+        <div>
+          <p class="eyebrow">Payment acknowledgement</p>
+          <h2>Every paid session plants a tree.</h2>
+          <p>Mock checkout panel with payment summary, terms acknowledgement, and visible appreciation message before payment confirmation.</p>
+        </div>
+        <div class="checkout">
+          <span>Coaching session</span><strong>EUR 85</strong>
+          <label><input type="checkbox" checked> I understand a tree will be planted after this payment.</label>
+          <button>Continue to secure payment</button>
+        </div>
+      </section>
+
+      <section id="session" class="section split">
+        <div>
+          <p class="eyebrow">Private online room</p>
+          <h2>Unique session link, active only during booking time.</h2>
+        </div>
+        <div class="session-card">
+          <span>Luxia private room</span>
+          <code>luxia.video/session/LC-8429</code>
+          <p>Access window: 14:50-16:10, client and coach only.</p>
+        </div>
+      </section>
+
+      <section id="account" class="section">
+        <p class="eyebrow">Client account</p>
+        <h2>Dashboard for upcoming and past sessions.</h2>
+        <div class="dashboard">
+          <article><strong>Next session</strong><span>Thursday, 17:30</span></article>
+          <article><strong>History</strong><span>3 completed sessions</span></article>
+          <article><strong>Password</strong><span>Forgot password flow mockup</span></article>
+        </div>
+      </section>
+
+      <section id="reviews" class="section reviews">
+        <p class="eyebrow">Trust and reviews</p>
+        <h2>Trustpilot placeholder plus personal testimonials.</h2>
+        <div class="review-grid">
+          <article><strong>Trustpilot</strong><span>Widget/API placeholder</span></article>
+          <article>"The sessions helped me make decisions without panic."</article>
+          <article>"Warm, direct, and practical. I left with a plan."</article>
+        </div>
+      </section>
+
+      <section id="coach-admin" class="section split">
+        <div>
+          <p class="eyebrow">Future AI scheduling</p>
+          <h2>Coach controls availability by voice from phone.</h2>
+          <p>Mock admin concept: add, delete, block, or change hours with voice confirmation before the calendar updates.</p>
+        </div>
+        <div class="voice-card">"Block Friday after 14:00 and open Monday morning."</div>
+      </section>
+
+      <section id="contact" class="section contact">
+        <p class="eyebrow">Contact</p>
+        <h2>Ready for questions, referrals, and follow-up.</h2>
+        <a href="mailto:hello@example.com">hello@example.com</a>
+      </section>
+    </main>
+  </body>
+</html>
