@@ -665,7 +665,7 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 }
 .about-story {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.44fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px;
   align-items: end;
 }
@@ -673,26 +673,8 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   display: grid;
   gap: 16px;
 }
-.about-panel {
-  min-height: 260px;
-  display: grid;
-  align-content: end;
-  gap: 14px;
-  padding: 24px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background:
-    radial-gradient(circle at 18% 12%, rgba(255, 225, 214, 0.72), transparent 12rem),
-    radial-gradient(circle at 90% 20%, rgba(100, 221, 235, 0.26), transparent 14rem),
-    rgba(255, 255, 255, 0.56);
-}
-.about-panel span,
 .story-card h2 {
   color: #5d7e36;
-}
-.about-panel strong {
-  font-size: clamp(1.45rem, 2vw, 2rem);
-  line-height: 1.08;
 }
 .about-content {
   display: grid;
@@ -1085,9 +1067,6 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   .about-story,
   .about-content {
     grid-template-columns: 1fr;
-  }
-  .about-panel {
-    min-height: 190px;
   }
   .large-story {
     grid-row: auto;
