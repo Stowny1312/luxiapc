@@ -3,17 +3,16 @@
   const isPagePreview = window.location.search.includes("no-loader");
   if (isPagePreview) return;
 
+  const assetPrefix = window.location.pathname.includes("/pages/") ? "../" : "";
   const loader = document.createElement("div");
   loader.className = "luxia-loader";
   loader.setAttribute("role", "status");
   loader.setAttribute("aria-live", "polite");
   loader.innerHTML = [
     '<div class="luxia-loader-mark" aria-hidden="true">',
-    '  <span class="loader-orbit loader-orbit-one"></span>',
-    '  <span class="loader-orbit loader-orbit-two"></span>',
-    '  <span class="loader-orbit loader-orbit-three"></span>',
-    '  <strong>Luxia P&amp;C</strong>',
-    '  <small>Prevention &amp; Coaching</small>',
+    '  <span class="loader-glow loader-glow-one"></span>',
+    '  <span class="loader-glow loader-glow-two"></span>',
+    `  <img src="${assetPrefix}assets/luxia-loader-logo.png" alt="">`,
     "</div>",
     '<span class="screen-reader-text">Loading Luxia P&amp;C</span>'
   ].join("");

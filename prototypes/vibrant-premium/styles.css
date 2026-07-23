@@ -69,74 +69,69 @@ body {
 }
 .luxia-loader-mark {
   position: relative;
-  width: min(76vw, 360px);
-  aspect-ratio: 1;
+  width: min(82vw, 720px);
   display: grid;
   place-items: center;
-  align-content: center;
-  gap: 8px;
   isolation: isolate;
-  color: #6f501e;
-  text-align: center;
+  animation: loaderLogoArrive 720ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 .luxia-loader-mark::before {
   content: "";
   position: absolute;
-  inset: 20%;
+  inset: 12% 5%;
   z-index: -1;
-  border-radius: 50%;
-  background: rgba(255, 253, 248, 0.72);
+  border-radius: 28px;
+  background: rgba(255, 253, 248, 0.48);
   border: 1px solid rgba(34, 23, 39, 0.08);
-  box-shadow: 0 28px 80px rgba(72, 94, 56, 0.16);
-  backdrop-filter: blur(18px);
+  box-shadow: 0 30px 90px rgba(72, 94, 56, 0.14);
+  backdrop-filter: blur(16px);
 }
-.luxia-loader-mark strong {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.1rem, 9vw, 4.3rem);
-  line-height: 0.9;
-  font-style: italic;
-  font-weight: 950;
-  letter-spacing: 0;
-  text-shadow: 0 16px 48px rgba(230, 184, 92, 0.22);
+.luxia-loader-mark img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  filter: drop-shadow(0 28px 62px rgba(72, 94, 56, 0.14));
 }
-.luxia-loader-mark small {
-  color: #785f30;
-  font-size: clamp(0.62rem, 2.2vw, 0.82rem);
-  font-weight: 950;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-.loader-orbit {
+.loader-glow {
   position: absolute;
-  inset: 10%;
   z-index: -2;
-  border-radius: 42% 58% 54% 46%;
-  border: 1px solid rgba(34, 23, 39, 0.08);
-  filter: blur(0.1px);
-  animation: loaderDrift 4s ease-in-out infinite alternate;
+  width: 44%;
+  aspect-ratio: 1;
+  border-radius: 999px;
+  filter: blur(28px);
+  opacity: 0.42;
+  animation: loaderGlow 4.8s ease-in-out infinite alternate;
 }
-.loader-orbit-one {
-  background: rgba(255, 179, 138, 0.36);
+.loader-glow-one {
+  left: 4%;
+  top: 8%;
+  background: rgba(255, 179, 138, 0.5);
 }
-.loader-orbit-two {
-  inset: 17%;
-  background: rgba(168, 217, 87, 0.34);
-  animation-delay: -1.2s;
-  animation-duration: 4.8s;
-}
-.loader-orbit-three {
-  inset: 24%;
-  background: rgba(100, 221, 235, 0.26);
-  animation-delay: -2s;
-  animation-duration: 5.4s;
+.loader-glow-two {
+  right: 3%;
+  bottom: 6%;
+  background: rgba(100, 221, 235, 0.42);
+  animation-delay: -1.8s;
 }
 
-@keyframes loaderDrift {
+@keyframes loaderLogoArrive {
   from {
-    transform: rotate(0deg) scale(0.96);
+    opacity: 0;
+    transform: translateY(10px) scale(0.975);
   }
   to {
-    transform: rotate(12deg) scale(1.04);
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes loaderGlow {
+  from {
+    transform: translate3d(-8px, 4px, 0) scale(0.95);
+  }
+  to {
+    transform: translate3d(8px, -5px, 0) scale(1.06);
   }
 }
 
@@ -149,10 +144,23 @@ body {
   }
 }
 
+@media (max-width: 640px) {
+  .luxia-loader-mark {
+    width: min(88vw, 430px);
+  }
+  .luxia-loader-mark::before {
+    border-radius: 18px;
+  }
+  .luxia-loader-mark img {
+    border-radius: 12px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .luxia-loader,
   .luxia-loader.is-entering,
-  .loader-orbit {
+  .luxia-loader-mark,
+  .loader-glow {
     animation: none;
     transition-duration: 80ms;
   }
