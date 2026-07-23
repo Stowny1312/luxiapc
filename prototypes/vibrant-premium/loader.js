@@ -10,8 +10,6 @@
   loader.setAttribute("aria-live", "polite");
   loader.innerHTML = [
     '<div class="luxia-loader-mark" aria-hidden="true">',
-    '  <span class="loader-glow loader-glow-one"></span>',
-    '  <span class="loader-glow loader-glow-two"></span>',
     `  <img src="${assetPrefix}assets/luxia-loader-logo.png" alt="">`,
     "</div>",
     '<span class="screen-reader-text">Loading Luxia P&amp;C</span>'

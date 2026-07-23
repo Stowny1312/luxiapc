@@ -51,11 +51,7 @@ body {
   z-index: 9999;
   display: grid;
   place-items: center;
-  background:
-    radial-gradient(circle at 28% 20%, rgba(255, 179, 138, 0.28), transparent 22rem),
-    radial-gradient(circle at 70% 28%, rgba(168, 217, 87, 0.28), transparent 24rem),
-    radial-gradient(circle at 52% 82%, rgba(100, 221, 235, 0.24), transparent 26rem),
-    linear-gradient(135deg, #fffaf3, #fff0e8 48%, #f4f9e9);
+  background: #fffaf3;
   opacity: 1;
   visibility: visible;
   transition: opacity 420ms ease, visibility 420ms ease;
@@ -85,28 +81,6 @@ body {
   border-radius: 0;
   filter: drop-shadow(0 28px 58px rgba(72, 94, 56, 0.12));
 }
-.loader-glow {
-  position: absolute;
-  z-index: -2;
-  width: 44%;
-  aspect-ratio: 1;
-  border-radius: 999px;
-  filter: blur(28px);
-  opacity: 0.42;
-  animation: loaderGlow 4.8s ease-in-out infinite alternate;
-}
-.loader-glow-one {
-  left: 4%;
-  top: 8%;
-  background: rgba(255, 179, 138, 0.5);
-}
-.loader-glow-two {
-  right: 3%;
-  bottom: 6%;
-  background: rgba(100, 221, 235, 0.42);
-  animation-delay: -1.8s;
-}
-
 @keyframes loaderLogoArrive {
   from {
     opacity: 0;
@@ -115,15 +89,6 @@ body {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes loaderGlow {
-  from {
-    transform: translate3d(-8px, 4px, 0) scale(0.95);
-  }
-  to {
-    transform: translate3d(8px, -5px, 0) scale(1.06);
   }
 }
 
@@ -151,8 +116,7 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .luxia-loader,
   .luxia-loader.is-entering,
-  .luxia-loader-mark,
-  .loader-glow {
+  .luxia-loader-mark {
     animation: none;
     transition-duration: 80ms;
   }
