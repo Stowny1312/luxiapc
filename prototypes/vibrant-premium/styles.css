@@ -249,16 +249,59 @@ body {
   font-size: 0.8rem;
   box-shadow: none;
 }
-.language { display: flex; gap: 6px; }
-.language button {
+.language-menu {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+.language-toggle,
+.language-options button {
   height: 34px;
-  min-width: 42px;
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--ink);
   background: rgba(255, 255, 255, 0.76);
   font-weight: 900;
   touch-action: manipulation;
+}
+.language-toggle {
+  min-width: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 12px;
+}
+.language-arrow {
+  font-size: 0.7rem;
+  line-height: 1;
+  transition: transform 160ms ease;
+}
+.language-toggle[aria-expanded="true"] .language-arrow { transform: rotate(180deg); }
+.language-options {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 45;
+  min-width: 74px;
+  display: grid;
+  gap: 6px;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 46px rgba(72, 94, 56, 0.14);
+}
+.language-options[hidden] { display: none; }
+.language-options button {
+  width: 100%;
+  min-width: 54px;
+  justify-content: center;
+  padding: 0 10px;
+  background: rgba(255, 253, 248, 0.94);
+}
+.language-options button:hover {
+  background: linear-gradient(135deg, rgba(214, 240, 143, 0.58), rgba(255, 201, 168, 0.44));
 }
 
 .menu-toggle { position: fixed; opacity: 0; pointer-events: none; }
@@ -1062,10 +1105,7 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     height: 58px;
     padding: 0;
   }
-  .language {
-    gap: 4px;
-    flex-shrink: 0;
-  }
+  .language-menu { flex-shrink: 0; }
   .header-actions {
     gap: 6px;
   }
@@ -1080,11 +1120,22 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     padding: 8px 9px;
     font-size: 0.72rem;
   }
-  .language button {
-    min-width: 34px;
+  .language-toggle,
+  .language-options button {
     height: 32px;
-    padding: 0 7px;
     font-size: 0.72rem;
+  }
+  .language-toggle {
+    min-width: 58px;
+    padding: 0 7px;
+  }
+  .language-options {
+    min-width: 66px;
+    padding: 6px;
+  }
+  .language-options button {
+    min-width: 48px;
+    padding: 0 8px;
   }
   .hero {
     gap: 24px;
@@ -1251,10 +1302,8 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   .brand-logo {
     border-radius: 7px;
   }
-  .language button {
-    min-width: 31px;
-    padding: 0 6px;
-  }
+  .language-toggle { min-width: 54px; padding: 0 6px; }
+  .language-options button { min-width: 46px; padding: 0 7px; }
   .client-link,
   .create-link {
     max-width: 96px;

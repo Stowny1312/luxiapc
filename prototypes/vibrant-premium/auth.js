@@ -340,12 +340,52 @@
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
+    if (target.matches("[data-language-toggle], [data-language-toggle] *")) {
+      const toggle = target.closest("[data-language-toggle]");
+      const menu = toggle && toggle.closest("[data-language-menu]");
+      const options = menu && menu.querySelector("[data-language-options]");
+      if (toggle instanceof HTMLButtonElement && options instanceof HTMLElement) {
+        const willOpen = options.hidden;
+        document.querySelectorAll("[data-language-options]").forEach((panel) => {
+          if (panel !== options) panel.hidden = true;
+        });
+        document.querySelectorAll("[data-language-toggle]").forEach((button) => {
+          if (button !== toggle) button.setAttribute("aria-expanded", "false");
+        });
+        options.hidden = !willOpen;
+        toggle.setAttribute("aria-expanded", String(willOpen));
+      }
+      return;
+    }
+
+    if (target.matches("[data-language-option]")) {
+      const menu = target.closest("[data-language-menu]");
+      const current = menu && menu.querySelector("[data-language-current]");
+      const toggle = menu && menu.querySelector("[data-language-toggle]");
+      const options = menu && menu.querySelector("[data-language-options]");
+      if (current instanceof HTMLElement && toggle instanceof HTMLButtonElement && options instanceof HTMLElement) {
+        current.textContent = target.getAttribute("data-language-option") || "EN";
+        toggle.setAttribute("aria-expanded", "false");
+        options.hidden = true;
+      }
+      return;
+    }
+
+    if (!target.closest("[data-language-menu]")) {
+      document.querySelectorAll("[data-language-options]").forEach((panel) => {
+        panel.hidden = true;
+      });
+      document.querySelectorAll("[data-language-toggle]").forEach((button) => {
+        button.setAttribute("aria-expanded", "false");
+      });
+    }
+
     if (target.matches("[data-user-menu-toggle]")) {
       const menu = target.closest("[data-user-menu]");
       const popover = menu && menu.querySelector("[data-user-menu-popover]");
       if (popover instanceof HTMLElement) {
         popover.hidden = !popover.hidden;
-        target.textContent = popover.hidden ? "▾" : "▴";
+        target.innerHTML = popover.hidden ? "&#9662;" : "&#9652;";
       }
       return;
     }
