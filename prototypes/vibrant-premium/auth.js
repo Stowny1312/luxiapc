@@ -9,6 +9,13 @@
     statusNode.hidden = false;
   }
 
+  function showNodeStatus(node, message, type) {
+    if (!node) return;
+    node.textContent = message;
+    node.dataset.type = type || "info";
+    node.hidden = false;
+  }
+
   if (!config || !config.url || !config.publishableKey || !window.supabase) {
     showStatus("Supabase is not configured yet. Please check supabase-config.js.", "error");
     return;
@@ -134,6 +141,36 @@
     }).join("");
   }
 
+  async function refreshContactForm() {
+    const form = document.querySelector("[data-contact-form]");
+    if (!(form instanceof HTMLFormElement)) return;
+
+    const user = await getCurrentUser();
+    const emailField = form.querySelector("[data-contact-email-field]");
+    const emailInput = form.querySelector('input[name="email"]');
+    const note = document.querySelector("[data-contact-account-note]");
+
+    if (user && emailInput instanceof HTMLInputElement) {
+      emailInput.value = user.email || "";
+      emailInput.required = false;
+      if (emailField instanceof HTMLElement) emailField.hidden = true;
+      if (note) {
+        const firstName = user.user_metadata && user.user_metadata.first_name;
+        note.textContent = `You are sending as ${firstName || "your Luxia account"}${user.email ? ` (${user.email})` : ""}.`;
+      }
+      return;
+    }
+
+    if (emailInput instanceof HTMLInputElement) {
+      emailInput.required = true;
+      emailInput.value = "";
+    }
+    if (emailField instanceof HTMLElement) emailField.hidden = false;
+    if (note) {
+      note.textContent = "Not logged in? Please add a valid email address so Luxia P&C can reply.";
+    }
+  }
+
   document.addEventListener("submit", async (event) => {
     const form = event.target;
     if (!(form instanceof HTMLFormElement)) return;
@@ -238,6 +275,43 @@
       showStatus("Password updated. You can now log in.", "success");
       setTimeout(() => { window.location.href = "client-space.html"; }, 900);
     }
+
+    if (form.matches("[data-contact-form]")) {
+      event.preventDefault();
+      const status = form.querySelector("[data-contact-status]");
+      const formData = new FormData(form);
+      const user = await getCurrentUser();
+      const message = String(formData.get("message") || "").trim();
+      const email = user && user.email
+        ? user.email
+        : String(formData.get("email") || "").trim().toLowerCase();
+
+      if (!message) {
+        showNodeStatus(status, "Please write a message before sending.", "error");
+        form.querySelector('textarea[name="message"]')?.focus();
+        return;
+      }
+
+      if (!user && (!form.checkValidity() || !email)) {
+        form.reportValidity();
+        showNodeStatus(status, "Please enter a valid email address so we can reply.", "error");
+        return;
+      }
+
+      const subject = encodeURIComponent("Luxia P&C contact message");
+      const body = encodeURIComponent([
+        "New message from the Luxia P&C website",
+        "",
+        `From: ${email}`,
+        user ? `Client account: ${user.id}` : "Client account: not logged in",
+        "",
+        "Message:",
+        message
+      ].join("\n"));
+
+      showNodeStatus(status, "Your email app is opening with the message ready to send.", "success");
+      window.location.href = `mailto:tonkata.stoev@gmail.com?subject=${subject}&body=${body}`;
+    }
   });
 
   document.addEventListener("click", async (event) => {
@@ -264,5 +338,6 @@
 
   refreshHeaderClientLinks();
   refreshClientSummary();
+  refreshContactForm();
   loadBookings();
 })();

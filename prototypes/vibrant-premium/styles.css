@@ -772,7 +772,34 @@ textarea { min-height: 96px; resize: vertical; }
 .payment { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: center; }
 .checkout strong { font-size: 2.5rem; }
 code { overflow-wrap: anywhere; color: var(--cyan); }
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 1fr);
+  gap: clamp(18px, 4vw, 42px);
+  align-items: start;
+}
+.contact-intro {
+  display: grid;
+  gap: 16px;
+}
 .contact a { color: var(--ink); font-size: 1.4rem; font-weight: 950; }
+.contact-form {
+  background:
+    radial-gradient(circle at 0 0, rgba(255, 225, 214, 0.68), transparent 18rem),
+    radial-gradient(circle at 100% 10%, rgba(100, 221, 235, 0.2), transparent 16rem),
+    rgba(255, 255, 255, 0.74);
+}
+.contact-form h2,
+.contact-form p {
+  margin: 0;
+}
+.contact-account-note {
+  color: var(--muted);
+  font-size: 0.96rem;
+}
+.contact-form textarea {
+  min-height: 180px;
+}
 .voice-card { min-height: 180px; display: grid; place-items: center; font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 950; color: var(--gold); text-align: center; }
 .subpage {
   min-height: 100vh;
@@ -1040,7 +1067,7 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 }
 
 @media (max-width: 860px) {
-  .hero, .split, .payment, .booking-grid { grid-template-columns: 1fr; }
+  .hero, .split, .payment, .booking-grid, .contact-layout { grid-template-columns: 1fr; }
   .credential-grid, .dashboard, .review-grid, .timeline, .auth-layout, .auth-panels, .form-row { grid-template-columns: 1fr; }
   main { padding-top: 78px; }
   .topbar {
