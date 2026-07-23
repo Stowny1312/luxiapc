@@ -173,9 +173,9 @@ body {
 }
 
 .brand {
-  width: clamp(168px, 19vw, 250px);
+  width: clamp(260px, 28vw, 420px);
   min-width: 0;
-  height: 58px;
+  height: 76px;
   position: relative;
   display: flex;
   align-items: center;
@@ -823,8 +823,8 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   backdrop-filter: blur(16px);
 }
 .sub-header .brand {
-  width: clamp(240px, 26vw, 360px);
-  height: 68px;
+  width: clamp(280px, 30vw, 440px);
+  height: 82px;
 }
 .sub-main {
   width: min(1180px, calc(100vw - 32px));
@@ -1094,8 +1094,8 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     gap: 8px;
   }
   .brand {
-    width: clamp(132px, 30vw, 190px);
-    height: 48px;
+    width: clamp(178px, 38vw, 250px);
+    height: 58px;
     padding: 0;
   }
   .language {
@@ -1250,8 +1250,8 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     gap: 10px;
   }
   .sub-header .brand {
-    width: clamp(132px, 30vw, 190px);
-    height: 48px;
+    width: clamp(178px, 38vw, 250px);
+    height: 58px;
     flex-shrink: 1;
   }
   .sub-main {
@@ -1281,8 +1281,8 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     padding-left: 64px;
   }
   .brand {
-    width: 118px;
-    height: 42px;
+    width: 144px;
+    height: 50px;
   }
   .brand-logo {
     border-radius: 7px;
