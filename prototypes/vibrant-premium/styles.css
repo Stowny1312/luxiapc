@@ -76,22 +76,14 @@ body {
   animation: loaderLogoArrive 720ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 .luxia-loader-mark::before {
-  content: "";
-  position: absolute;
-  inset: 12% 5%;
-  z-index: -1;
-  border-radius: 28px;
-  background: rgba(255, 253, 248, 0.48);
-  border: 1px solid rgba(34, 23, 39, 0.08);
-  box-shadow: 0 30px 90px rgba(72, 94, 56, 0.14);
-  backdrop-filter: blur(16px);
+  content: none;
 }
 .luxia-loader-mark img {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 18px;
-  filter: drop-shadow(0 28px 62px rgba(72, 94, 56, 0.14));
+  border-radius: 0;
+  filter: drop-shadow(0 28px 58px rgba(72, 94, 56, 0.12));
 }
 .loader-glow {
   position: absolute;
@@ -152,7 +144,7 @@ body {
     border-radius: 18px;
   }
   .luxia-loader-mark img {
-    border-radius: 12px;
+    border-radius: 0;
   }
 }
 
