@@ -783,6 +783,17 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   gap: 16px;
 }
 .contact a { color: var(--ink); font-size: 1.4rem; font-weight: 950; }
+.contact-email {
+  width: fit-content;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(34, 23, 39, 0.1);
+  color: #1d6570;
+  font-weight: 950;
+  overflow-wrap: anywhere;
+}
 .contact-form {
   background:
     radial-gradient(circle at 0 0, rgba(255, 225, 214, 0.68), transparent 18rem),
@@ -799,6 +810,10 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 }
 .contact-form textarea {
   min-height: 180px;
+}
+.contact-form button:disabled {
+  cursor: wait;
+  opacity: 0.72;
 }
 .voice-card { min-height: 180px; display: grid; place-items: center; font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 950; color: var(--gold); text-align: center; }
 .subpage {

@@ -279,6 +279,7 @@
     if (form.matches("[data-contact-form]")) {
       event.preventDefault();
       const status = form.querySelector("[data-contact-status]");
+      const submitButton = form.querySelector('button[type="submit"]');
       const formData = new FormData(form);
       const user = await getCurrentUser();
       const message = String(formData.get("message") || "").trim();
@@ -298,19 +299,40 @@
         return;
       }
 
-      const subject = encodeURIComponent("Luxia P&C contact message");
-      const body = encodeURIComponent([
-        "New message from the Luxia P&C website",
-        "",
-        `From: ${email}`,
-        user ? `Client account: ${user.id}` : "Client account: not logged in",
-        "",
-        "Message:",
-        message
-      ].join("\n"));
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+      }
+      showNodeStatus(status, "Sending your message...", "info");
 
-      showNodeStatus(status, "Your email app is opening with the message ready to send.", "success");
-      window.location.href = `mailto:tonkata.stoev@gmail.com?subject=${subject}&body=${body}`;
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+            message,
+            clientAccount: user ? user.id : "not logged in"
+          })
+        });
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          showNodeStatus(status, result.error || "The message could not be sent. Please try again.", "error");
+          return;
+        }
+
+        showNodeStatus(status, "Your message has been sent directly to Luxia P&C.", "success");
+        form.reset();
+        await refreshContactForm();
+      } catch (error) {
+        showNodeStatus(status, "The message could not be sent. Please check your connection and try again.", "error");
+      } finally {
+        if (submitButton instanceof HTMLButtonElement) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Send message";
+        }
+      }
     }
   });
 
