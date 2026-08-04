@@ -134,6 +134,36 @@
           <div class="owner-agenda-heading"><h3>Upcoming calendar</h3><button type="button" class="secondary-button" data-owner-refresh>Refresh</button></div>
           <div class="owner-agenda-list" data-owner-agenda-list><p>Loading your calendar...</p></div>
         </div>
+        <div class="assistant-setup-card gemini-calendar-card" data-google-calendar-setup>
+          <div>
+            <p class="eyebrow">Gemini hands-free calendar</p>
+            <h3>Use Gemini without opening Luxia.</h3>
+            <p>Connect a dedicated Google Calendar once. After that, Gemini can add or remove Luxia availability by voice and the booking calendar will synchronize automatically.</p>
+          </div>
+          <form class="google-calendar-form" data-google-calendar-form>
+            <label>Secret Google Calendar iCal address
+              <input type="url" data-google-calendar-feed autocomplete="off" spellcheck="false" placeholder="https://calendar.google.com/calendar/ical/.../private-.../basic.ics" required>
+            </label>
+            <div class="voice-command-actions">
+              <button type="submit" data-google-calendar-connect>Connect calendar</button>
+              <button type="button" class="secondary-button" data-google-calendar-sync>Sync now</button>
+              <button type="button" class="secondary-button" data-google-calendar-disconnect hidden>Disconnect</button>
+            </div>
+          </form>
+          <p class="auth-status" data-google-calendar-status hidden aria-live="polite"></p>
+          <details class="assistant-shortcut-guide">
+            <summary>One-time Google Calendar and Gemini setup</summary>
+            <ol>
+              <li>In Google Calendar, create a separate calendar named <strong>Luxia Availability</strong>.</li>
+              <li>Open that calendar's <strong>Settings and sharing</strong>, then find <strong>Integrate calendar</strong>.</li>
+              <li>Copy the <strong>Secret address in iCal format</strong> and paste it above. Keep this address private.</li>
+              <li>In Gemini, make sure the Google Workspace connection is enabled and Google Calendar is selected.</li>
+              <li>Say: <strong>“Add an event called Luxia Consultation to my Luxia Availability calendar tomorrow from 10:00 to 10:20.”</strong></li>
+              <li>For coaching, create a 60-minute event containing <strong>Luxia</strong> in its title. Delete that Google Calendar event to remove an unbooked slot.</li>
+            </ol>
+          </details>
+          <p class="assistant-platform-note"><strong>How it works:</strong> only future events containing “Luxia” and lasting exactly 20 or 60 minutes become bookable. Synchronization runs automatically every five minutes and whenever someone opens the booking page.</p>
+        </div>
         <div class="assistant-setup-card" data-assistant-setup>
           <div>
             <p class="eyebrow">Hands-free access</p>
@@ -160,7 +190,7 @@
               <li>Add <strong>Get Dictionary Value</strong> for <strong>message</strong>, then add <strong>Speak Text</strong>.</li>
             </ol>
           </details>
-          <p class="assistant-platform-note"><strong>Gemini:</strong> the secure Luxia endpoint is ready, but Google's direct custom Gemini connection is currently unavailable in Belgium and the rest of the EEA. No calendar access will be weakened to bypass that restriction.</p>
+          <p class="assistant-platform-note"><strong>Siri:</strong> this private Shortcut remains available as an alternative to the Gemini calendar connection above.</p>
         </div>
       </section>
 

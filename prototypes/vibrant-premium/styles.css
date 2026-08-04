@@ -2175,6 +2175,24 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 .assistant-setup-card p {
   margin: 0;
 }
+.google-calendar-form {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 14px;
+}
+.google-calendar-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 850;
+}
+.google-calendar-form input {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.82rem;
+}
+.gemini-calendar-card {
+  border-color: rgba(66, 119, 126, 0.24);
+}
 .assistant-setup-card > button {
   color: var(--ink);
   background: linear-gradient(135deg, rgba(255, 225, 214, 0.96), rgba(168, 217, 87, 0.72), rgba(100, 221, 235, 0.62));

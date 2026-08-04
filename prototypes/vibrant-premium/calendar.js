@@ -29,6 +29,12 @@
   const assistantCredential = document.querySelector("[data-assistant-credential]");
   const assistantEndpoint = document.querySelector("[data-assistant-endpoint]");
   const assistantToken = document.querySelector("[data-assistant-token]");
+  const googleCalendarForm = document.querySelector("[data-google-calendar-form]");
+  const googleCalendarFeed = document.querySelector("[data-google-calendar-feed]");
+  const googleCalendarConnect = document.querySelector("[data-google-calendar-connect]");
+  const googleCalendarSync = document.querySelector("[data-google-calendar-sync]");
+  const googleCalendarDisconnect = document.querySelector("[data-google-calendar-disconnect]");
+  const googleCalendarStatus = document.querySelector("[data-google-calendar-status]");
   const timeZone = "Europe/Brussels";
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const monthLookup = Object.fromEntries(monthNames.map((name, index) => [name.toLowerCase(), index]));
@@ -145,6 +151,129 @@
       field.focus();
       field.select();
       setStatus(assistantKeyStatus, "The value is selected. Choose Copy on your device.", "info");
+    }
+  }
+
+  async function triggerGoogleCalendarSync(announce) {
+    if (!config || !config.url || !config.publishableKey) return null;
+    if (announce) setStatus(googleCalendarStatus, "Synchronizing Google Calendar...", "info");
+
+    try {
+      const { data } = await client.auth.getSession();
+      const accessToken = data.session ? data.session.access_token : config.publishableKey;
+      const request = await fetch(`${config.url}/functions/v1/google-calendar-sync`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": config.publishableKey,
+          "Authorization": `Bearer ${accessToken}`
+        },
+        body: "{}"
+      });
+      const result = await request.json().catch(() => ({}));
+      if (!request.ok) {
+        throw new Error(result.message || "Google Calendar could not be synchronized.");
+      }
+      if (announce) {
+        const message = result.status === "synchronized"
+          ? `Google Calendar synchronized. ${result.imported_events || 0} Luxia event(s) found.`
+          : "Synchronization is already up to date.";
+        setStatus(googleCalendarStatus, message, "success");
+      }
+      return result;
+    } catch (error) {
+      if (announce) {
+        setStatus(googleCalendarStatus, error.message || "Google Calendar could not be synchronized.", "error");
+      }
+      return null;
+    }
+  }
+
+  function formatSyncDate(value) {
+    if (!value) return "";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? "" : longDateFormatter.format(date);
+  }
+
+  async function loadGoogleCalendarStatus() {
+    if (!state.isOwner || !googleCalendarStatus) return;
+    const { data, error } = await client.rpc("get_google_calendar_status");
+    if (error) {
+      setStatus(googleCalendarStatus, error.message || "Google Calendar status is unavailable.", "error");
+      return;
+    }
+
+    const configured = Boolean(data && data.configured && data.enabled);
+    if (googleCalendarDisconnect) googleCalendarDisconnect.hidden = !configured;
+    if (googleCalendarConnect) {
+      googleCalendarConnect.textContent = configured ? "Replace calendar connection" : "Connect calendar";
+    }
+
+    if (!configured) {
+      setStatus(googleCalendarStatus, "Google Calendar is not connected yet.", "info");
+    } else if (data.last_error) {
+      setStatus(googleCalendarStatus, `Connected, but the last synchronization needs attention: ${data.last_error}`, "error");
+    } else if (data.last_synced_at) {
+      setStatus(googleCalendarStatus, `Connected and synchronized. Last update: ${formatSyncDate(data.last_synced_at)}.`, "success");
+    } else {
+      setStatus(googleCalendarStatus, "Google Calendar is connected and waiting for its first synchronization.", "success");
+    }
+  }
+
+  async function connectGoogleCalendar(event) {
+    event.preventDefault();
+    if (!state.isOwner || !googleCalendarFeed) {
+      setStatus(googleCalendarStatus, "Owner access is required.", "error");
+      return;
+    }
+
+    const feedUrl = String(googleCalendarFeed.value || "").trim();
+    if (!feedUrl) {
+      setStatus(googleCalendarStatus, "Paste the secret Google Calendar iCal address.", "error");
+      return;
+    }
+
+    googleCalendarConnect.disabled = true;
+    setStatus(googleCalendarStatus, "Connecting Google Calendar...", "info");
+    const { error } = await client.rpc("configure_google_calendar_feed", {
+      p_feed_url: feedUrl
+    });
+    googleCalendarConnect.disabled = false;
+
+    if (error) {
+      setStatus(googleCalendarStatus, error.message || "Google Calendar could not be connected.", "error");
+      return;
+    }
+
+    googleCalendarFeed.value = "";
+    await triggerGoogleCalendarSync(true);
+    await Promise.all([loadGoogleCalendarStatus(), loadAllCalendars(), loadOwnerAgenda()]);
+  }
+
+  async function disconnectGoogleCalendar() {
+    if (!state.isOwner) {
+      setStatus(googleCalendarStatus, "Owner access is required.", "error");
+      return;
+    }
+    if (!window.confirm("Disconnect Google Calendar and remove its unbooked future slots from Luxia?")) return;
+
+    googleCalendarDisconnect.disabled = true;
+    setStatus(googleCalendarStatus, "Disconnecting Google Calendar...", "info");
+    const { error } = await client.rpc("disable_google_calendar_feed");
+    googleCalendarDisconnect.disabled = false;
+    if (error) {
+      setStatus(googleCalendarStatus, error.message || "Google Calendar could not be disconnected.", "error");
+      return;
+    }
+
+    await Promise.all([loadGoogleCalendarStatus(), loadAllCalendars(), loadOwnerAgenda()]);
+  }
+
+  async function synchronizeAndReload(announce) {
+    await triggerGoogleCalendarSync(Boolean(announce));
+    await loadAllCalendars();
+    if (state.isOwner) {
+      await Promise.all([loadOwnerAgenda(), loadGoogleCalendarStatus()]);
     }
   }
 
@@ -335,7 +464,9 @@
     state.isOwner = Boolean(state.user && state.user.app_metadata && state.user.app_metadata.luxia_role === "owner");
     if (ownerPanel) ownerPanel.hidden = !state.isOwner;
     renderBookingIdentity();
-    if (state.isOwner) await loadOwnerAgenda();
+    if (state.isOwner) {
+      await Promise.all([loadOwnerAgenda(), loadGoogleCalendarStatus()]);
+    }
   }
 
   async function submitBooking(event) {
@@ -596,6 +727,9 @@
   });
   if (applyCommandButton) applyCommandButton.addEventListener("click", applyOwnerCommand);
   if (assistantKeyButton) assistantKeyButton.addEventListener("click", createAssistantCredential);
+  if (googleCalendarForm) googleCalendarForm.addEventListener("submit", connectGoogleCalendar);
+  if (googleCalendarSync) googleCalendarSync.addEventListener("click", () => synchronizeAndReload(true));
+  if (googleCalendarDisconnect) googleCalendarDisconnect.addEventListener("click", disconnectGoogleCalendar);
   document.querySelector("[data-copy-assistant-endpoint]")?.addEventListener("click", () => {
     copyAssistantValue(assistantEndpoint, "Shortcut endpoint copied.");
   });
@@ -606,8 +740,8 @@
     commandInput.value = "";
     clearStatus(commandStatus);
   });
-  document.querySelector("[data-owner-refresh]")?.addEventListener("click", loadOwnerAgenda);
-  window.addEventListener("focus", loadAllCalendars);
+  document.querySelector("[data-owner-refresh]")?.addEventListener("click", () => synchronizeAndReload(false));
+  window.addEventListener("focus", () => synchronizeAndReload(false));
 
-  initializeAuth().then(loadAllCalendars);
+  initializeAuth().then(() => synchronizeAndReload(false));
 })();
