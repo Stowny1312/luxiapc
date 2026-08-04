@@ -22,6 +22,7 @@
   }
 
   const client = window.supabase.createClient(config.url, config.publishableKey);
+  window.LUXIA_SUPABASE_CLIENT = client;
 
   function authErrorMessage(error) {
     const message = String((error && error.message) || error || "");
@@ -75,6 +76,23 @@
     logoutButtons.forEach((button) => {
       button.hidden = !user;
     });
+  }
+
+  async function protectSignupPage() {
+    const signupForm = document.querySelector("[data-signup-form]");
+    if (!(signupForm instanceof HTMLFormElement)) return;
+
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        window.location.replace("client-space.html");
+        return;
+      }
+
+      signupForm.hidden = false;
+    } catch (error) {
+      showStatus(authErrorMessage(error), "error");
+    }
   }
 
   async function refreshClientSummary() {
@@ -248,6 +266,13 @@
 
     if (form.matches("[data-signup-form]")) {
       event.preventDefault();
+      const signedInUser = await getCurrentUser();
+      if (signedInUser) {
+        showStatus("You are already logged in. Opening your Client space...", "success");
+        window.location.replace("client-space.html");
+        return;
+      }
+
       const formData = new FormData(form);
       const firstName = String(formData.get("first_name") || "").trim();
       const lastName = String(formData.get("last_name") || "").trim();
@@ -465,6 +490,7 @@
   });
 
   refreshHeaderClientLinks();
+  protectSignupPage();
   refreshClientSummary();
   refreshContactForm();
   loadBookings();

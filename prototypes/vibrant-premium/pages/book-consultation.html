@@ -25,7 +25,7 @@
     </nav>
     <header class="sub-header">
       <a class="brand" href="../" aria-label="Luxia Prevention and Coaching home"><img class="brand-logo" src="../assets/luxia-header-logo.png" alt="Luxia P&C - Prevention & Coaching"></a>
-      <div class="header-actions"><a class="client-link login-link" href="client-space.html">Login</a><a class="create-link" href="create-account.html">Create account</a><div class="user-menu" data-user-menu hidden><a class="client-link user-name-link" data-user-name href="client-space.html">Hi</a><button class="user-menu-toggle" type="button" data-user-menu-toggle aria-label="Open account menu">&#9662;</button><div class="user-menu-popover" data-user-menu-popover hidden><button class="logout-link" type="button" data-header-sign-out>Logout</button></div></div><div class="language language-menu" data-language-menu aria-label="Language selector"><button class="language-toggle" type="button" data-language-toggle aria-haspopup="true" aria-expanded="false"><span data-language-current>EN</span><span class="language-arrow" aria-hidden="true">&#9662;</span></button><div class="language-options" data-language-options hidden><button type="button" data-language-option="NL">NL</button><button type="button" data-language-option="PL">PL</button></div></div></div>
+      <div class="header-actions"><a class="client-link login-link" hidden href="client-space.html">Login</a><a class="create-link" hidden href="create-account.html">Create account</a><div class="user-menu" data-user-menu hidden><a class="client-link user-name-link" data-user-name href="client-space.html">Hi</a><button class="user-menu-toggle" type="button" data-user-menu-toggle aria-label="Open account menu">&#9662;</button><div class="user-menu-popover" data-user-menu-popover hidden><button class="logout-link" type="button" data-header-sign-out>Logout</button></div></div><div class="language language-menu" data-language-menu aria-label="Language selector"><button class="language-toggle" type="button" data-language-toggle aria-haspopup="true" aria-expanded="false"><span data-language-current>EN</span><span class="language-arrow" aria-hidden="true">&#9662;</span></button><div class="language-options" data-language-options hidden><button type="button" data-language-option="NL">NL</button><button type="button" data-language-option="PL">PL</button></div></div></div>
     </header>
     <main class="sub-main consultation-main">
       <section class="consultation-hero" aria-labelledby="consultation-title">
@@ -44,11 +44,37 @@
 
       <section class="booking-calendar-section" aria-labelledby="free-calendar-title">
         <div class="calendar-intro"><p class="eyebrow">Free introduction</p><h2 id="free-calendar-title">Available 20-minute consultation slots</h2><p>Choose an available date and time for your free online consultation.</p></div>
-        <div class="availability-calendar" aria-label="20-minute consultation availability">
-          <div class="calendar-placeholder-icon" aria-hidden="true">20</div>
-          <div><strong>Consultation calendar</strong><p>Live dates and times will appear here when the booking calendar is connected.</p></div>
-          <a href="consultation.html">View consultation booking</a>
+        <div class="live-slot-calendar" data-slot-calendar data-slot-type="consultation" aria-label="20-minute consultation availability">
+          <div class="slot-calendar-toolbar">
+            <button type="button" data-calendar-previous aria-label="Previous month">&#8592;</button>
+            <strong data-calendar-title>Loading calendar...</strong>
+            <button type="button" data-calendar-next aria-label="Next month">&#8594;</button>
+          </div>
+          <div class="slot-calendar-weekdays" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+          <div class="slot-calendar-grid" data-calendar-grid></div>
+          <p class="calendar-live-status" data-calendar-status aria-live="polite">Loading available times...</p>
         </div>
+      </section>
+
+      <section class="booking-selection-panel" data-booking-panel hidden aria-labelledby="selected-booking-title">
+        <div class="booking-selection-summary">
+          <p class="eyebrow">Your selected time</p>
+          <h2 id="selected-booking-title" data-selected-slot>Choose a time in the calendar.</h2>
+          <p>Your reservation is only confirmed after you press the confirmation button.</p>
+        </div>
+        <div class="booking-login-prompt" data-booking-logged-out hidden>
+          <strong>Please log in to reserve this time.</strong>
+          <p>Your account keeps the booking private and adds it to your Client space.</p>
+          <div class="actions"><a href="client-space.html">Log in</a><a href="create-account.html">Create account</a></div>
+        </div>
+        <form class="booking-confirmation-form" data-booking-form hidden>
+          <p class="booking-account-note" data-booking-account></p>
+          <label data-booking-phone-field hidden>Phone number<input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="e.g. +32 470 00 00 00"></label>
+          <label>Preferred contact method<select name="preferred_contact" required><option value="email">Email</option><option value="phone">Phone</option></select></label>
+          <label>Anything you would like me to know before we meet?<textarea name="message" maxlength="2000" rows="4" placeholder="Optional"></textarea></label>
+          <div class="booking-form-actions"><button type="submit">Confirm this booking</button><button type="button" class="secondary-button" data-cancel-selection>Choose another time</button></div>
+          <p class="auth-status" data-booking-status hidden aria-live="polite"></p>
+        </form>
       </section>
 
       <section class="investment-section" aria-labelledby="investment-title">
@@ -78,11 +104,35 @@
         <blockquote class="journey-quote">“Your first step can begin today. We will plan together for the rest of the journey.”</blockquote>
         <div class="booking-calendar-section embedded-calendar" aria-labelledby="hour-calendar-title">
           <div class="calendar-intro"><p class="eyebrow">Individual coaching</p><h2 id="hour-calendar-title">Available one-hour consultation slots</h2><p>Choose a date and time for your first full coaching session.</p></div>
-          <div class="availability-calendar" aria-label="One-hour coaching availability">
-            <div class="calendar-placeholder-icon" aria-hidden="true">60</div>
-            <div><strong>Coaching calendar</strong><p>Live dates and times will appear here when the booking calendar is connected.</p></div>
-            <a href="contact.html">Contact to schedule</a>
+          <div class="live-slot-calendar" data-slot-calendar data-slot-type="coaching" aria-label="One-hour coaching availability">
+            <div class="slot-calendar-toolbar">
+              <button type="button" data-calendar-previous aria-label="Previous month">&#8592;</button>
+              <strong data-calendar-title>Loading calendar...</strong>
+              <button type="button" data-calendar-next aria-label="Next month">&#8594;</button>
+            </div>
+            <div class="slot-calendar-weekdays" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+            <div class="slot-calendar-grid" data-calendar-grid></div>
+            <p class="calendar-live-status" data-calendar-status aria-live="polite">Loading available times...</p>
           </div>
+        </div>
+      </section>
+
+      <section class="owner-calendar-panel" data-owner-calendar hidden aria-labelledby="owner-calendar-title">
+        <div class="owner-calendar-intro">
+          <p class="eyebrow">Owner calendar</p>
+          <h2 id="owner-calendar-title">Manage free slots with your voice.</h2>
+          <p>On your phone, tap the microphone and speak one command. Review what was heard, then apply it.</p>
+        </div>
+        <div class="voice-command-card">
+          <button class="voice-command-button" type="button" data-voice-start><span aria-hidden="true">&#127908;</span> Speak a command</button>
+          <label>Recognized command<textarea data-owner-command rows="3" placeholder="For example: Add a 20 minute consultation tomorrow at 10 AM"></textarea></label>
+          <div class="voice-command-actions"><button type="button" data-command-apply>Apply command</button><button type="button" class="secondary-button" data-command-clear>Clear</button></div>
+          <p class="auth-status" data-owner-command-status hidden aria-live="polite"></p>
+          <details><summary>Voice command examples</summary><ul><li>Add a 20 minute consultation tomorrow at 10 AM</li><li>Add a one hour coaching session on August 18 at 2 PM</li><li>Remove the slot on August 18 at 2 PM</li></ul></details>
+        </div>
+        <div class="owner-agenda">
+          <div class="owner-agenda-heading"><h3>Upcoming calendar</h3><button type="button" class="secondary-button" data-owner-refresh>Refresh</button></div>
+          <div class="owner-agenda-list" data-owner-agenda-list><p>Loading your calendar...</p></div>
         </div>
       </section>
 
@@ -112,5 +162,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase-config.js"></script>
     <script src="../auth.js"></script>
+    <script src="../calendar.js"></script>
   </body>
 </html>
