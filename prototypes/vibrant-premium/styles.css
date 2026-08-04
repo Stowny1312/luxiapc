@@ -339,6 +339,19 @@ body {
   overscroll-behavior: contain;
 }
 .drawer a { color: var(--ink); text-decoration: none; font-weight: 900; padding: 14px 12px; border-radius: 8px; min-height: 44px; display: flex; align-items: center; }
+.drawer .home-link { gap: 10px; }
+.drawer .home-link::before {
+  content: "\2302";
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: rgba(168, 217, 87, 0.2);
+  color: var(--orchid);
+  font-size: 1.25rem;
+  line-height: 1;
+}
 .drawer a:hover, .drawer a.active, body[data-page="why-luxia"] .drawer a[data-page="why-luxia"], body[data-page="services"] .drawer a[data-page="services"], body[data-page="book-consultation"] .drawer a[data-page="book-consultation"], body[data-page="aboutme"] .drawer a[data-page="aboutme"], body[data-page="consultation"] .drawer a[data-page="consultation"], body[data-page="booking"] .drawer a[data-page="booking"], body[data-page="payment"] .drawer a[data-page="payment"], body[data-page="session"] .drawer a[data-page="session"], body[data-page="account"] .drawer a[data-page="account"], body[data-page="client-space"] .drawer a[data-page="client-space"], body[data-page="bookings"] .drawer a[data-page="bookings"], body[data-page="reviews"] .drawer a[data-page="reviews"], body[data-page="coach-schedule"] .drawer a[data-page="coach-schedule"], body[data-page="contact"] .drawer a[data-page="contact"] {
   background: linear-gradient(135deg, rgba(255, 179, 138, 0.22), rgba(168, 217, 87, 0.18));
   box-shadow: inset 3px 0 0 var(--kiwi);
