@@ -339,7 +339,7 @@ body {
   overscroll-behavior: contain;
 }
 .drawer a { color: var(--ink); text-decoration: none; font-weight: 900; padding: 14px 12px; border-radius: 8px; min-height: 44px; display: flex; align-items: center; }
-.drawer a:hover, .drawer a.active, body[data-page="aboutme"] .drawer a[data-page="aboutme"], body[data-page="consultation"] .drawer a[data-page="consultation"], body[data-page="booking"] .drawer a[data-page="booking"], body[data-page="payment"] .drawer a[data-page="payment"], body[data-page="session"] .drawer a[data-page="session"], body[data-page="account"] .drawer a[data-page="account"], body[data-page="client-space"] .drawer a[data-page="client-space"], body[data-page="bookings"] .drawer a[data-page="bookings"], body[data-page="reviews"] .drawer a[data-page="reviews"], body[data-page="coach-schedule"] .drawer a[data-page="coach-schedule"], body[data-page="contact"] .drawer a[data-page="contact"] {
+.drawer a:hover, .drawer a.active, body[data-page="why-luxia"] .drawer a[data-page="why-luxia"], body[data-page="aboutme"] .drawer a[data-page="aboutme"], body[data-page="consultation"] .drawer a[data-page="consultation"], body[data-page="booking"] .drawer a[data-page="booking"], body[data-page="payment"] .drawer a[data-page="payment"], body[data-page="session"] .drawer a[data-page="session"], body[data-page="account"] .drawer a[data-page="account"], body[data-page="client-space"] .drawer a[data-page="client-space"], body[data-page="bookings"] .drawer a[data-page="bookings"], body[data-page="reviews"] .drawer a[data-page="reviews"], body[data-page="coach-schedule"] .drawer a[data-page="coach-schedule"], body[data-page="contact"] .drawer a[data-page="contact"] {
   background: linear-gradient(135deg, rgba(255, 179, 138, 0.22), rgba(168, 217, 87, 0.18));
   box-shadow: inset 3px 0 0 var(--kiwi);
 }
@@ -1056,6 +1056,131 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(247, 255, 239, 0.7)),
     radial-gradient(circle at 100% 0%, rgba(168, 217, 87, 0.2), transparent 12rem);
 }
+.why-luxia-main {
+  width: min(1240px, calc(100vw - 32px));
+}
+.why-luxia-story {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(36px, 6vw, 76px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 94% 4%, rgba(100, 221, 235, 0.22), transparent 24rem),
+    radial-gradient(circle at 4% 96%, rgba(168, 217, 87, 0.2), transparent 26rem),
+    rgba(255, 255, 255, 0.66);
+  box-shadow: 0 30px 100px rgba(72, 94, 56, 0.11);
+}
+.why-luxia-story::before {
+  content: "";
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  top: -210px;
+  right: -70px;
+  border: 1px solid rgba(33, 58, 48, 0.12);
+  border-radius: 50%;
+  box-shadow: 0 0 0 46px rgba(255, 255, 255, 0.18), 0 0 0 92px rgba(100, 221, 235, 0.06);
+}
+.why-luxia-intro {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  max-width: 940px;
+}
+.why-luxia-intro h1 {
+  max-width: 900px;
+  margin: 0;
+}
+.why-luxia-intro p {
+  max-width: 850px;
+  margin: 0;
+}
+.why-luxia-lead {
+  color: var(--ink);
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  font-weight: 850;
+  line-height: 1.5;
+}
+.why-luxia-purpose {
+  max-width: 900px;
+  margin-top: clamp(28px, 5vw, 52px);
+  padding: clamp(22px, 4vw, 36px);
+  border-left: 5px solid var(--kiwi);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 225, 214, 0.56), rgba(100, 221, 235, 0.17));
+}
+.why-luxia-purpose p {
+  margin: 0;
+  font-size: clamp(1.12rem, 1.8vw, 1.4rem);
+  font-weight: 750;
+  line-height: 1.6;
+}
+.luxia-values {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+.luxia-values article {
+  min-height: 250px;
+  align-content: space-between;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 20px 64px rgba(72, 94, 56, 0.07);
+}
+.luxia-values article:nth-child(2) {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.76), rgba(240, 253, 255, 0.74));
+}
+.luxia-values article:nth-child(3) {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.76), rgba(247, 255, 239, 0.74));
+}
+.luxia-values span {
+  color: #5d7e36;
+  font-weight: 950;
+}
+.luxia-values strong {
+  font-size: clamp(1.7rem, 3vw, 2.7rem);
+  line-height: 1;
+}
+.luxia-values p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.why-luxia-finale {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.65fr) minmax(0, 1.35fr);
+  gap: 14px;
+  margin-top: 18px;
+}
+.why-luxia-finale > strong,
+.why-luxia-finale blockquote {
+  min-height: 220px;
+  margin: 0;
+  padding: clamp(24px, 4vw, 40px);
+  border-radius: 8px;
+}
+.why-luxia-finale > strong {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  font-size: clamp(1.7rem, 3vw, 2.75rem);
+  line-height: 1.08;
+}
+.why-luxia-finale blockquote {
+  display: flex;
+  align-items: center;
+  color: #fffdf8;
+  background: linear-gradient(135deg, rgba(33, 58, 48, 0.97), rgba(89, 130, 48, 0.9));
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  font-weight: 950;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
 .back-link {
   display: inline-flex;
   margin: 0 0 18px;
@@ -1454,6 +1579,21 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   .about-story,
   .about-content {
     grid-template-columns: 1fr;
+  }
+  .why-luxia-story {
+    padding: 26px 18px;
+  }
+  .luxia-values,
+  .why-luxia-finale {
+    grid-template-columns: 1fr;
+  }
+  .luxia-values article {
+    min-height: 190px;
+  }
+  .why-luxia-finale > strong,
+  .why-luxia-finale blockquote {
+    min-height: 180px;
+    padding: 24px 20px;
   }
   .large-story {
     grid-row: auto;
