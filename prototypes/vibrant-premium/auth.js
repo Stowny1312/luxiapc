@@ -23,6 +23,17 @@
 
   const client = window.supabase.createClient(config.url, config.publishableKey);
 
+  function authErrorMessage(error) {
+    const message = String((error && error.message) || error || "");
+    const isConnectionError =
+      (error && error.name === "AuthRetryableFetchError") ||
+      /networkerror|failed to fetch|fetch resource|network request/i.test(message);
+
+    return isConnectionError
+      ? "Login is temporarily unavailable. Please wait a moment and try again."
+      : message || "Login was unsuccessful. Please check your details and try again.";
+  }
+
   function fullOriginPath(page) {
     const path = window.location.pathname.replace(/pages\/[^/]+$/, `pages/${page}`);
     return `${window.location.origin}${path}`;
@@ -213,13 +224,19 @@
     if (form.matches("[data-login-form]")) {
       event.preventDefault();
       const formData = new FormData(form);
-      const { error } = await client.auth.signInWithPassword({
-        email: String(formData.get("email") || ""),
-        password: String(formData.get("password") || "")
-      });
+      let error;
+
+      try {
+        ({ error } = await client.auth.signInWithPassword({
+          email: String(formData.get("email") || "").trim().toLowerCase(),
+          password: String(formData.get("password") || "")
+        }));
+      } catch (requestError) {
+        error = requestError;
+      }
 
       if (error) {
-        showStatus(error.message, "error");
+        showStatus(authErrorMessage(error), "error");
         return;
       }
 
