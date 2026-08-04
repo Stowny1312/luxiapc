@@ -135,7 +135,7 @@
     }
 
     if (!data || data.length === 0) {
-      list.innerHTML = '<article><strong>No bookings yet</strong><span>Once a coaching session is booked, it will appear here with its status and private session link.</span><a href="booking.html">Book coaching</a></article>';
+      list.innerHTML = '<article><strong>No bookings yet</strong><span>Once a coaching session is booked, it will appear here with its status and private session link.</span><a href="book-consultation.html">Book coaching</a></article>';
       return;
     }
 
