@@ -146,28 +146,63 @@
     if (!(form instanceof HTMLFormElement)) return;
 
     const user = await getCurrentUser();
+    const nameField = form.querySelector("[data-contact-name-field]");
     const emailField = form.querySelector("[data-contact-email-field]");
+    const phoneField = form.querySelector("[data-contact-phone-field]");
+    const nameInput = form.querySelector('input[name="full_name"]');
     const emailInput = form.querySelector('input[name="email"]');
+    const phoneInput = form.querySelector('input[name="phone"]');
     const note = document.querySelector("[data-contact-account-note]");
 
-    if (user && emailInput instanceof HTMLInputElement) {
+    if (user) {
+      const metadata = user.user_metadata || {};
+      const fullName = [metadata.first_name, metadata.last_name].filter(Boolean).join(" ");
+      const accountPhone = user.phone || metadata.phone || "";
+
+      if (nameInput instanceof HTMLInputElement) {
+        nameInput.value = fullName;
+        nameInput.required = false;
+      }
+      if (nameField instanceof HTMLElement) nameField.hidden = true;
+
+      if (emailInput instanceof HTMLInputElement) {
       emailInput.value = user.email || "";
       emailInput.required = false;
+      }
       if (emailField instanceof HTMLElement) emailField.hidden = true;
+
+      if (phoneInput instanceof HTMLInputElement) {
+        phoneInput.value = accountPhone;
+        phoneInput.required = !accountPhone;
+      }
+      if (phoneField instanceof HTMLElement) phoneField.hidden = Boolean(accountPhone);
+
       if (note) {
-        const firstName = user.user_metadata && user.user_metadata.first_name;
-        note.textContent = `You are sending as ${firstName || "your Luxia account"}${user.email ? ` (${user.email})` : ""}.`;
+        const identity = [fullName || "Luxia client", user.email, accountPhone].filter(Boolean).join(" · ");
+        note.textContent = accountPhone
+          ? `Your verified account details will be used: ${identity}.`
+          : `Your account name and email will be used automatically (${identity}). Please add a phone number for this message.`;
       }
       return;
     }
 
+    if (nameInput instanceof HTMLInputElement) {
+      nameInput.required = true;
+      nameInput.value = "";
+    }
     if (emailInput instanceof HTMLInputElement) {
       emailInput.required = true;
       emailInput.value = "";
     }
+    if (phoneInput instanceof HTMLInputElement) {
+      phoneInput.required = true;
+      phoneInput.value = "";
+    }
+    if (nameField instanceof HTMLElement) nameField.hidden = false;
     if (emailField instanceof HTMLElement) emailField.hidden = false;
+    if (phoneField instanceof HTMLElement) phoneField.hidden = false;
     if (note) {
-      note.textContent = "Not logged in? Please add a valid email address so Luxia P&C can reply.";
+      note.textContent = "Not logged in? Please provide your contact details so Luxia can reply in your preferred way.";
     }
   }
 
@@ -202,9 +237,10 @@
       const dateOfBirth = String(formData.get("date_of_birth") || "").trim();
       const gender = String(formData.get("gender") || "").trim();
       const email = String(formData.get("email") || "").trim().toLowerCase();
+      const phone = String(formData.get("phone") || "").trim();
       const password = String(formData.get("password") || "");
 
-      if (!form.checkValidity() || !firstName || !lastName || !dateOfBirth || !gender || !email || !password) {
+      if (!form.checkValidity() || !firstName || !lastName || !dateOfBirth || !gender || !email || !phone || !password) {
         form.reportValidity();
         showStatus("Please fill in all required fields before creating your account.", "error");
         return;
@@ -219,7 +255,8 @@
             first_name: firstName,
             last_name: lastName,
             date_of_birth: dateOfBirth,
-            gender
+            gender,
+            phone
           }
         }
       });
@@ -282,10 +319,19 @@
       const submitButton = form.querySelector('button[type="submit"]');
       const formData = new FormData(form);
       const user = await getCurrentUser();
+      const metadata = (user && user.user_metadata) || {};
+      const accountName = [metadata.first_name, metadata.last_name].filter(Boolean).join(" ");
+      const fullName = user
+        ? accountName || "Luxia client"
+        : String(formData.get("full_name") || "").trim();
       const message = String(formData.get("message") || "").trim();
       const email = user && user.email
         ? user.email
         : String(formData.get("email") || "").trim().toLowerCase();
+      const phone = user && (user.phone || metadata.phone)
+        ? String(user.phone || metadata.phone).trim()
+        : String(formData.get("phone") || "").trim();
+      const preferredContact = String(formData.get("preferred_contact") || "").trim();
 
       if (!message) {
         showNodeStatus(status, "Please write a message before sending.", "error");
@@ -293,9 +339,9 @@
         return;
       }
 
-      if (!user && (!form.checkValidity() || !email)) {
+      if (!form.checkValidity() || !fullName || !email || !phone || !["email", "phone"].includes(preferredContact)) {
         form.reportValidity();
-        showNodeStatus(status, "Please enter a valid email address so we can reply.", "error");
+        showNodeStatus(status, "Please complete your contact details and choose how you prefer to be contacted.", "error");
         return;
       }
 
@@ -310,7 +356,10 @@
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            fullName,
             email,
+            phone,
+            preferredContact,
             message,
             clientAccount: user ? user.id : "not logged in"
           })

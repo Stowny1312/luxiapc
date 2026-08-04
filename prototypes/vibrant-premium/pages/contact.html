@@ -23,15 +23,25 @@
       <section class="section contact contact-layout">
         <div class="contact-intro">
           <p class="eyebrow">Contact</p>
-          <h1>Send a private message to Luxia P&C.</h1>
-          <p>Ask a question, share what you need help with, or request follow-up before booking a session. The message is sent directly to Luxia P&C.</p>
-          <p class="contact-email">Messages are delivered to tonkata.stoev@gmail.com.</p>
+          <h1>Let’s Connect!</h1>
+          <p>Do you have a question, would you like more information, or are you unsure where to begin?</p>
+          <p>Whether you are looking for personal coaching, professional support, or solutions for your organization, I am here to help.</p>
+          <p>Complete the contact form below, and I will get back to you as soon as possible. Together, we will explore your situation, discuss your needs, and identify the most suitable form of support for you.</p>
+          <p>Every journey is unique, and sometimes all it takes is one conversation to gain clarity and discover the next step forward.</p>
+          <strong>I look forward to hearing from you.</strong>
         </div>
         <form class="mock-form contact-form" data-contact-form>
           <h2>Your message</h2>
-          <p class="contact-account-note" data-contact-account-note>Logged in clients can send a message from their account email.</p>
+          <p class="contact-account-note" data-contact-account-note>Checking your Luxia account details…</p>
+          <label data-contact-name-field>Full name<input name="full_name" autocomplete="name" maxlength="120" required></label>
           <label data-contact-email-field>Email address<input type="email" name="email" autocomplete="email" required></label>
-          <label>Message<textarea name="message" minlength="2" required placeholder="Write your message here..."></textarea></label>
+          <label data-contact-phone-field>Phone number<input type="tel" name="phone" autocomplete="tel" inputmode="tel" minlength="7" maxlength="30" required placeholder="e.g. +32 470 00 00 00"></label>
+          <fieldset class="contact-preference">
+            <legend>How would you prefer to be contacted?</legend>
+            <label><input type="radio" name="preferred_contact" value="email" required checked><span>Email</span></label>
+            <label><input type="radio" name="preferred_contact" value="phone" required><span>Phone number</span></label>
+          </fieldset>
+          <label>Message<textarea name="message" minlength="2" maxlength="5000" required placeholder="Write your message here..."></textarea></label>
           <button type="submit">Send message</button>
           <p class="auth-status" data-contact-status hidden></p>
         </form>

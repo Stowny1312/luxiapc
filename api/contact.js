@@ -10,6 +10,10 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function isValidPhone(phone) {
+  return /^[+()\d\s.-]{7,30}$/.test(phone);
+}
+
 module.exports = async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -36,15 +40,33 @@ module.exports = async function handler(request, response) {
   }
 
   const email = String((payload && payload.email) || "").trim().toLowerCase();
+  const fullName = String((payload && payload.fullName) || "").trim();
+  const phone = String((payload && payload.phone) || "").trim();
+  const preferredContact = String((payload && payload.preferredContact) || "").trim().toLowerCase();
   const message = String((payload && payload.message) || "").trim();
   const clientAccount = String((payload && payload.clientAccount) || "not logged in").trim();
+
+  if (!fullName || fullName.length > 120) {
+    sendJson(response, 400, { error: "Please enter a valid full name." });
+    return;
+  }
 
   if (!isValidEmail(email)) {
     sendJson(response, 400, { error: "Please enter a valid email address." });
     return;
   }
 
-  if (!message) {
+  if (!isValidPhone(phone)) {
+    sendJson(response, 400, { error: "Please enter a valid phone number." });
+    return;
+  }
+
+  if (!["email", "phone"].includes(preferredContact)) {
+    sendJson(response, 400, { error: "Please choose email or phone as your preferred contact method." });
+    return;
+  }
+
+  if (!message || message.length > 5000) {
     sendJson(response, 400, { error: "Please write a message before sending." });
     return;
   }
@@ -63,7 +85,10 @@ module.exports = async function handler(request, response) {
       text: [
         "New message from the Luxia P&C website",
         "",
-        `From: ${email}`,
+        `Full name: ${fullName}`,
+        `Email: ${email}`,
+        `Phone: ${phone}`,
+        `Preferred contact method: ${preferredContact}`,
         `Client account: ${clientAccount}`,
         "",
         "Message:",

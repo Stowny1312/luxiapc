@@ -1056,6 +1056,46 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(247, 255, 239, 0.7)),
     radial-gradient(circle at 100% 0%, rgba(168, 217, 87, 0.2), transparent 12rem);
 }
+.contact-intro strong {
+  color: #213a30;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  line-height: 1.4;
+}
+.contact-preference {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.contact-preference legend {
+  grid-column: 1 / -1;
+  margin-bottom: 7px;
+  color: var(--muted);
+  font-weight: 800;
+}
+.contact-preference label {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+}
+.contact-preference input {
+  width: auto;
+  margin: 0;
+  accent-color: #6fae45;
+}
+.contact-preference label:has(input:checked) {
+  border-color: rgba(93, 126, 54, 0.42);
+  background: linear-gradient(135deg, rgba(255, 225, 214, 0.56), rgba(168, 217, 87, 0.28));
+  box-shadow: inset 3px 0 0 var(--kiwi);
+}
 .why-luxia-main {
   width: min(1240px, calc(100vw - 32px));
 }
