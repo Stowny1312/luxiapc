@@ -24,6 +24,11 @@
   const commandStatus = document.querySelector("[data-owner-command-status]");
   const voiceButton = document.querySelector("[data-voice-start]");
   const applyCommandButton = document.querySelector("[data-command-apply]");
+  const assistantKeyButton = document.querySelector("[data-assistant-key-create]");
+  const assistantKeyStatus = document.querySelector("[data-assistant-key-status]");
+  const assistantCredential = document.querySelector("[data-assistant-credential]");
+  const assistantEndpoint = document.querySelector("[data-assistant-endpoint]");
+  const assistantToken = document.querySelector("[data-assistant-token]");
   const timeZone = "Europe/Brussels";
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const monthLookup = Object.fromEntries(monthNames.map((name, index) => [name.toLowerCase(), index]));
@@ -80,6 +85,67 @@
     node.textContent = "";
     node.hidden = true;
     delete node.dataset.type;
+  }
+
+  function bytesToBase64Url(bytes) {
+    let binary = "";
+    bytes.forEach((value) => { binary += String.fromCharCode(value); });
+    return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  }
+
+  async function sha256Hex(value) {
+    const encoded = new TextEncoder().encode(value);
+    const hash = await window.crypto.subtle.digest("SHA-256", encoded);
+    return Array.from(new Uint8Array(hash), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  }
+
+  async function createAssistantCredential() {
+    if (!state.isOwner || !state.user) {
+      setStatus(assistantKeyStatus, "Owner access is required.", "error");
+      return;
+    }
+    if (!window.crypto || !window.crypto.subtle) {
+      setStatus(assistantKeyStatus, "This browser cannot securely create a voice key.", "error");
+      return;
+    }
+
+    assistantKeyButton.disabled = true;
+    setStatus(assistantKeyStatus, "Creating your private voice key...", "info");
+    const secretBytes = new Uint8Array(32);
+    window.crypto.getRandomValues(secretBytes);
+    const rawToken = `luxia_voice_${bytesToBase64Url(secretBytes)}`;
+    const tokenHash = await sha256Hex(rawToken);
+    const { error } = await client.rpc("register_voice_calendar_token", {
+      p_token_hash: tokenHash,
+      p_label: "Siri and Gemini"
+    });
+    assistantKeyButton.disabled = false;
+
+    if (error) {
+      setStatus(assistantKeyStatus, error.message || "The private voice key could not be created.", "error");
+      return;
+    }
+
+    assistantEndpoint.value = `${window.location.origin}/api/voice-calendar`;
+    assistantToken.value = rawToken;
+    assistantCredential.hidden = false;
+    assistantKeyButton.textContent = "Replace private voice key";
+    setStatus(assistantKeyStatus, "Private voice access is ready. Save the key in your Shortcut now.", "success");
+  }
+
+  async function copyAssistantValue(field, successMessage) {
+    if (!field || !field.value) {
+      setStatus(assistantKeyStatus, "Create a private voice key first.", "error");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(field.value);
+      setStatus(assistantKeyStatus, successMessage, "success");
+    } catch (error) {
+      field.focus();
+      field.select();
+      setStatus(assistantKeyStatus, "The value is selected. Choose Copy on your device.", "info");
+    }
   }
 
   function partsInBrussels(date) {
@@ -529,6 +595,13 @@
     bookingPanel.hidden = true;
   });
   if (applyCommandButton) applyCommandButton.addEventListener("click", applyOwnerCommand);
+  if (assistantKeyButton) assistantKeyButton.addEventListener("click", createAssistantCredential);
+  document.querySelector("[data-copy-assistant-endpoint]")?.addEventListener("click", () => {
+    copyAssistantValue(assistantEndpoint, "Shortcut endpoint copied.");
+  });
+  document.querySelector("[data-copy-assistant-token]")?.addEventListener("click", () => {
+    copyAssistantValue(assistantToken, "Private voice key copied.");
+  });
   document.querySelector("[data-command-clear]")?.addEventListener("click", () => {
     commandInput.value = "";
     clearStatus(commandStatus);

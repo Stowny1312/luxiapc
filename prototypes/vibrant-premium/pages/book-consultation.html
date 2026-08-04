@@ -134,6 +134,34 @@
           <div class="owner-agenda-heading"><h3>Upcoming calendar</h3><button type="button" class="secondary-button" data-owner-refresh>Refresh</button></div>
           <div class="owner-agenda-list" data-owner-agenda-list><p>Loading your calendar...</p></div>
         </div>
+        <div class="assistant-setup-card" data-assistant-setup>
+          <div>
+            <p class="eyebrow">Hands-free access</p>
+            <h3>Use Siri without opening the website.</h3>
+            <p>Create one private voice key, add it to an Apple Shortcut, and then say “Siri, Luxia Calendar” from your iPhone, Apple Watch, AirPods, or HomePod.</p>
+          </div>
+          <button type="button" data-assistant-key-create>Create a private voice key</button>
+          <p class="auth-status" data-assistant-key-status hidden aria-live="polite"></p>
+          <div class="assistant-credential" data-assistant-credential hidden>
+            <p><strong>Save this key now.</strong> For security, Luxia cannot show it again. Creating another key disables the previous one.</p>
+            <label>Shortcut endpoint<input data-assistant-endpoint readonly></label>
+            <button type="button" class="secondary-button" data-copy-assistant-endpoint>Copy endpoint</button>
+            <label>Private voice key<textarea data-assistant-token rows="3" readonly></textarea></label>
+            <button type="button" class="secondary-button" data-copy-assistant-token>Copy private key</button>
+          </div>
+          <details class="assistant-shortcut-guide">
+            <summary>One-time Siri Shortcut setup</summary>
+            <ol>
+              <li>Open Shortcuts on your iPhone and create a shortcut named <strong>Luxia Calendar</strong>.</li>
+              <li>Add <strong>Dictate Text</strong> so Siri asks for your calendar command.</li>
+              <li>Add <strong>Get Contents of URL</strong>, select POST, and paste the endpoint shown above.</li>
+              <li>Add the header <strong>Authorization</strong> with the value <strong>Bearer</strong>, one space, then your private key.</li>
+              <li>Set the JSON request body field <strong>command</strong> to the dictated text.</li>
+              <li>Add <strong>Get Dictionary Value</strong> for <strong>message</strong>, then add <strong>Speak Text</strong>.</li>
+            </ol>
+          </details>
+          <p class="assistant-platform-note"><strong>Gemini:</strong> the secure Luxia endpoint is ready, but Google's direct custom Gemini connection is currently unavailable in Belgium and the rest of the EEA. No calendar access will be weakened to bypass that restriction.</p>
+        </div>
       </section>
 
       <section class="business-consultation" aria-labelledby="business-consultation-title">
