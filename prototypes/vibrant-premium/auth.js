@@ -55,6 +55,7 @@
     const userMenus = document.querySelectorAll("[data-user-menu]");
     const userNames = document.querySelectorAll("[data-user-name]");
     const logoutButtons = document.querySelectorAll("[data-header-sign-out]");
+    const isOwner = Boolean(user && user.app_metadata && user.app_metadata.luxia_role === "owner");
 
     loginLinks.forEach((link) => {
       link.hidden = Boolean(user);
@@ -76,6 +77,24 @@
     logoutButtons.forEach((button) => {
       button.hidden = !user;
     });
+    document.querySelectorAll(".drawer").forEach((drawer) => {
+      drawer.querySelector('[data-page="coach-schedule"]')?.remove();
+      let ownerLink = drawer.querySelector("[data-owner-link]");
+      if (isOwner && !ownerLink) {
+        ownerLink = document.createElement("a");
+        ownerLink.href = "administration.html";
+        ownerLink.textContent = "Administration";
+        ownerLink.dataset.ownerLink = "";
+        ownerLink.dataset.page = "administration";
+        const aboutLink = drawer.querySelector('[data-page="aboutme"]');
+        drawer.insertBefore(ownerLink, aboutLink || null);
+      }
+      if (ownerLink) ownerLink.hidden = !isOwner;
+    });
+
+    if (document.body.matches("[data-owner-page]") && !isOwner) {
+      window.location.replace(user ? "client-space.html" : "client-space.html?next=administration");
+    }
   }
 
   async function protectSignupPage() {

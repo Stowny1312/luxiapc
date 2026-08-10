@@ -2,7 +2,8 @@
   "use strict";
 
   const calendarElements = Array.from(document.querySelectorAll("[data-slot-calendar]"));
-  if (!calendarElements.length) return;
+  const ownerPanel = document.querySelector("[data-owner-calendar]");
+  if (!calendarElements.length && !ownerPanel) return;
 
   const config = window.LUXIA_SUPABASE;
   const client = window.LUXIA_SUPABASE_CLIENT || (
@@ -18,7 +19,8 @@
   const selectedSlotTitle = document.querySelector("[data-selected-slot]");
   const bookingAccount = document.querySelector("[data-booking-account]");
   const bookingPhoneField = document.querySelector("[data-booking-phone-field]");
-  const ownerPanel = document.querySelector("[data-owner-calendar]");
+  const serviceButtons = Array.from(document.querySelectorAll("[data-service-choice]"));
+  const availabilityButton = document.querySelector("[data-check-availability]");
   const ownerAgendaList = document.querySelector("[data-owner-agenda-list]");
   const commandInput = document.querySelector("[data-owner-command]");
   const commandStatus = document.querySelector("[data-owner-command-status]");
@@ -43,7 +45,8 @@
     isOwner: false,
     selectedSlot: null,
     slots: new Map(),
-    calendars: new Map()
+    calendars: new Map(),
+    selectedService: "consultation"
   };
 
   const datePartsFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -340,6 +343,7 @@
     const title = calendarElement.querySelector("[data-calendar-title]");
     const status = calendarElement.querySelector("[data-calendar-status]");
     const previous = calendarElement.querySelector("[data-calendar-previous]");
+    const times = calendarElement.querySelector("[data-calendar-times]");
     const nowParts = partsInBrussels(new Date());
     const currentSerial = monthSerial(nowParts.year, nowParts.month - 1);
     const viewedSerial = monthSerial(year, monthIndex);
@@ -355,6 +359,7 @@
     title.textContent = `${monthNames[monthIndex]} ${year}`;
     previous.disabled = viewedSerial <= currentSerial;
     grid.replaceChildren();
+    if (times) times.replaceChildren(createElement("p", "calendar-times-empty", "Select a date to see its free hours."));
 
     const firstWeekday = (new Date(Date.UTC(year, monthIndex, 1)).getUTCDay() + 6) % 7;
     const daysInMonth = new Date(Date.UTC(year, monthIndex + 1, 0)).getUTCDate();
@@ -367,20 +372,35 @@
     for (let day = 1; day <= daysInMonth; day += 1) {
       const key = dateKey(year, monthIndex, day);
       const daySlots = (slotMap.get(key) || []).sort((a, b) => new Date(a.starts_at) - new Date(b.starts_at));
-      const cell = createElement("div", "slot-calendar-day");
+      const cell = createElement("button", "slot-calendar-day");
+      cell.type = "button";
+      cell.disabled = !daySlots.length;
+      cell.dataset.date = key;
       const dayNumber = createElement("span", "slot-calendar-day-number", String(day));
       cell.append(dayNumber);
       if (key === dateKey(nowParts.year, nowParts.month - 1, nowParts.day)) cell.classList.add("is-today");
       if (daySlots.length) cell.classList.add("has-slots");
 
-      daySlots.forEach((slot) => {
-        const button = createElement("button", "slot-time-button", timeFormatter.format(new Date(slot.starts_at)));
-        button.type = "button";
-        button.dataset.slotId = slot.id;
-        button.setAttribute("aria-label", `Choose ${formatSlot(slot)}`);
-        button.addEventListener("click", () => selectSlot(slot));
-        cell.append(button);
-      });
+      if (daySlots.length) {
+        cell.setAttribute("aria-label", `${daySlots.length} available ${daySlots.length === 1 ? "time" : "times"} on ${day} ${monthNames[monthIndex]}`);
+        cell.addEventListener("click", () => {
+          grid.querySelectorAll(".is-selected").forEach((node) => node.classList.remove("is-selected"));
+          cell.classList.add("is-selected");
+          if (!times) return;
+          times.replaceChildren();
+          times.append(createElement("h3", "calendar-times-title", `${day} ${monthNames[monthIndex]} — available hours`));
+          const list = createElement("div", "calendar-time-list");
+          daySlots.forEach((slot) => {
+            const button = createElement("button", "slot-time-button", timeFormatter.format(new Date(slot.starts_at)));
+            button.type = "button";
+            button.dataset.slotId = slot.id;
+            button.setAttribute("aria-label", `Choose ${formatSlot(slot)}`);
+            button.addEventListener("click", () => selectSlot(slot));
+            list.append(button);
+          });
+          times.append(list);
+        });
+      }
       grid.append(cell);
     }
 
@@ -706,6 +726,30 @@
     });
   }
 
+  function initializeServicePicker() {
+    serviceButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        state.selectedService = button.dataset.serviceChoice || "consultation";
+        serviceButtons.forEach((candidate) => {
+          const selected = candidate === button;
+          candidate.classList.toggle("is-selected", selected);
+          candidate.setAttribute("aria-pressed", String(selected));
+        });
+      });
+    });
+
+    if (availabilityButton) {
+      availabilityButton.addEventListener("click", async () => {
+        const calendarElement = calendarElements[0];
+        if (!calendarElement) return;
+        calendarElement.dataset.slotType = state.selectedService;
+        calendarElement.hidden = false;
+        await loadCalendar(calendarElement);
+        calendarElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }
+
   if (!client) {
     calendarElements.forEach((calendarElement) => {
       calendarElement.querySelector("[data-calendar-status]").textContent = "The calendar is temporarily unavailable.";
@@ -714,14 +758,15 @@
   }
 
   initializeCalendars();
+  initializeServicePicker();
   initializeVoiceRecognition();
-  bookingForm.addEventListener("submit", submitBooking);
-  bookingForm.querySelector('select[name="preferred_contact"]').addEventListener("change", (event) => {
+  if (bookingForm) bookingForm.addEventListener("submit", submitBooking);
+  bookingForm?.querySelector('select[name="preferred_contact"]')?.addEventListener("change", (event) => {
     const metadata = (state.user && state.user.user_metadata) || {};
     const accountPhone = (state.user && state.user.phone) || metadata.phone || "";
     bookingPhoneField.hidden = event.target.value !== "phone" || Boolean(accountPhone);
   });
-  document.querySelector("[data-cancel-selection]").addEventListener("click", () => {
+  document.querySelector("[data-cancel-selection]")?.addEventListener("click", () => {
     state.selectedSlot = null;
     bookingPanel.hidden = true;
   });

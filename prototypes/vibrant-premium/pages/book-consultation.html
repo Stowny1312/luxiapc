@@ -42,9 +42,14 @@
         <blockquote>“You don't need to know today exactly where you want to go. You only need to be willing to take the first step.”</blockquote>
       </section>
 
-      <section class="booking-calendar-section" aria-labelledby="free-calendar-title">
-        <div class="calendar-intro"><p class="eyebrow">Free introduction</p><h2 id="free-calendar-title">Available 20-minute consultation slots</h2><p>Choose an available date and time for your free online consultation.</p></div>
-        <div class="live-slot-calendar" data-slot-calendar data-slot-type="consultation" aria-label="20-minute consultation availability">
+      <section class="booking-calendar-section booking-service-flow" aria-labelledby="availability-title">
+        <div class="calendar-intro"><p class="eyebrow">Online booking</p><h2 id="availability-title">Choose your session</h2><p>Pick the conversation you need, then check every free hour in one connected calendar.</p></div>
+        <div class="booking-service-options" role="group" aria-label="Choose a session type">
+          <button class="booking-service-card is-selected" type="button" data-service-choice="consultation" aria-pressed="true"><span>Free introduction</span><strong>20-minute consultation</strong><small>A short, no-obligation first conversation.</small></button>
+          <button class="booking-service-card" type="button" data-service-choice="coaching" aria-pressed="false"><span>Individual coaching</span><strong>1-hour session</strong><small>A focused online coaching session dedicated to you.</small></button>
+        </div>
+        <button class="check-availability-button" type="button" data-check-availability>Check available hours</button>
+        <div class="live-slot-calendar" data-slot-calendar data-slot-type="consultation" aria-label="Available consultation and coaching hours" hidden>
           <div class="slot-calendar-toolbar">
             <button type="button" data-calendar-previous aria-label="Previous month">&#8592;</button>
             <strong data-calendar-title>Loading calendar...</strong>
@@ -52,6 +57,7 @@
           </div>
           <div class="slot-calendar-weekdays" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
           <div class="slot-calendar-grid" data-calendar-grid></div>
+          <div class="calendar-times-panel" data-calendar-times><p class="calendar-times-empty">Select a date to see its free hours.</p></div>
           <p class="calendar-live-status" data-calendar-status aria-live="polite">Loading available times...</p>
         </div>
       </section>
@@ -102,22 +108,9 @@
         </div>
         <p class="package-note">If you choose a coaching package, you only need to book your first online session. The dates for future sessions will be scheduled together afterwards, ensuring they fit your needs, pace, and personal development journey.</p>
         <blockquote class="journey-quote">“Your first step can begin today. We will plan together for the rest of the journey.”</blockquote>
-        <div class="booking-calendar-section embedded-calendar" aria-labelledby="hour-calendar-title">
-          <div class="calendar-intro"><p class="eyebrow">Individual coaching</p><h2 id="hour-calendar-title">Available one-hour consultation slots</h2><p>Choose a date and time for your first full coaching session.</p></div>
-          <div class="live-slot-calendar" data-slot-calendar data-slot-type="coaching" aria-label="One-hour coaching availability">
-            <div class="slot-calendar-toolbar">
-              <button type="button" data-calendar-previous aria-label="Previous month">&#8592;</button>
-              <strong data-calendar-title>Loading calendar...</strong>
-              <button type="button" data-calendar-next aria-label="Next month">&#8594;</button>
-            </div>
-            <div class="slot-calendar-weekdays" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
-            <div class="slot-calendar-grid" data-calendar-grid></div>
-            <p class="calendar-live-status" data-calendar-status aria-live="polite">Loading available times...</p>
-          </div>
-        </div>
       </section>
 
-      <section class="owner-calendar-panel" data-owner-calendar hidden aria-labelledby="owner-calendar-title">
+      <section class="owner-calendar-panel" data-owner-calendar-legacy hidden aria-labelledby="owner-calendar-title">
         <div class="owner-calendar-intro">
           <p class="eyebrow">Owner calendar</p>
           <h2 id="owner-calendar-title">Manage free slots with your voice.</h2>
