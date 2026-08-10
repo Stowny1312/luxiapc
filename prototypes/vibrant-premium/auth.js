@@ -82,11 +82,12 @@
       let ownerLink = drawer.querySelector("[data-owner-link]");
       if (isOwner && !ownerLink) {
         ownerLink = document.createElement("a");
-        ownerLink.href = "administration.html";
+        const isPagesDirectory = window.location.pathname.includes("/pages/");
+        ownerLink.href = isPagesDirectory ? "administration.html" : "pages/administration.html";
         ownerLink.textContent = "Administration";
         ownerLink.dataset.ownerLink = "";
         ownerLink.dataset.page = "administration";
-        const aboutLink = drawer.querySelector('[data-page="aboutme"]');
+        const aboutLink = drawer.querySelector('[data-page="aboutme"], a[href$="aboutme.html"]');
         drawer.insertBefore(ownerLink, aboutLink || null);
       }
       if (ownerLink) ownerLink.hidden = !isOwner;
