@@ -94,7 +94,8 @@
     });
 
     if (document.body.matches("[data-owner-page]") && !isOwner) {
-      window.location.replace(user ? "client-space.html" : "client-space.html?next=administration");
+      const destination = `${window.location.pathname.split("/").pop()}${window.location.search}`;
+      window.location.replace(user ? "client-space.html" : `client-space.html?next=${encodeURIComponent(destination)}`);
     }
   }
 
@@ -286,6 +287,11 @@
 
       showStatus("You are logged in.", "success");
       await refreshHeaderClientLinks();
+      const nextPage = new URLSearchParams(window.location.search).get("next");
+      if (nextPage && /^administration\.html(?:\?booking=[0-9a-f-]{36})?$/i.test(nextPage)) {
+        window.location.replace(nextPage);
+        return;
+      }
       await refreshClientSummary();
       await loadBookings();
     }

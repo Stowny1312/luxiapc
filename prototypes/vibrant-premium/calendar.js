@@ -37,6 +37,10 @@
   const googleCalendarSync = document.querySelector("[data-google-calendar-sync]");
   const googleCalendarDisconnect = document.querySelector("[data-google-calendar-disconnect]");
   const googleCalendarStatus = document.querySelector("[data-google-calendar-status]");
+  const confirmationCard = document.querySelector("[data-booking-confirmation]");
+  const confirmationForm = document.querySelector("[data-booking-confirmation-form]");
+  const confirmationSummary = document.querySelector("[data-confirmation-summary]");
+  const confirmationStatus = document.querySelector("[data-booking-confirmation-status]");
   const timeZone = "Europe/Brussels";
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const monthLookup = Object.fromEntries(monthNames.map((name, index) => [name.toLowerCase(), index]));
@@ -496,7 +500,7 @@
     if (ownerPanel) ownerPanel.hidden = !state.isOwner;
     renderBookingIdentity();
     if (state.isOwner) {
-      await Promise.all([loadOwnerAgenda(), loadGoogleCalendarStatus()]);
+      await Promise.all([loadOwnerAgenda(), loadGoogleCalendarStatus(), loadBookingConfirmation()]);
     }
   }
 
@@ -586,6 +590,66 @@
       return;
     }
     slots.forEach((slot) => ownerAgendaList.append(agendaEntry(slot, bookingBySlot.get(slot.id))));
+  }
+
+  async function loadBookingConfirmation() {
+    if (!state.isOwner || !confirmationCard || !confirmationForm) return;
+    const bookingId = new URLSearchParams(window.location.search).get("booking");
+    if (!bookingId || !/^[0-9a-f-]{36}$/i.test(bookingId)) return;
+
+    confirmationCard.hidden = false;
+    const { data: booking, error } = await client
+      .from("bookings")
+      .select("id, session_type, starts_at, ends_at, client_name, client_email, meeting_url")
+      .eq("id", bookingId)
+      .single();
+
+    if (error || !booking) {
+      confirmationForm.hidden = true;
+      setStatus(confirmationStatus, "This booking could not be found or is no longer available.", "error");
+      return;
+    }
+
+    const label = booking.session_type === "coaching" ? "1 hour coaching" : "20 minute consultation";
+    confirmationSummary.textContent = `${label} with ${booking.client_name || booking.client_email || "the client"} on ${longDateFormatter.format(new Date(booking.starts_at))}.`;
+    confirmationForm.elements.meeting_url.value = booking.meeting_url || "";
+    if (booking.meeting_url) {
+      setStatus(confirmationStatus, "This booking is confirmed. You can replace its private link below.", "success");
+      confirmationForm.querySelector('button[type="submit"]').textContent = "Update private link";
+    }
+    confirmationForm.dataset.bookingId = booking.id;
+  }
+
+  async function confirmBooking(event) {
+    event.preventDefault();
+    if (!state.isOwner || !confirmationForm) return;
+    const meetingUrl = String(new FormData(confirmationForm).get("meeting_url") || "").trim();
+    try {
+      const parsedUrl = new URL(meetingUrl);
+      if (!/^https?:$/.test(parsedUrl.protocol)) throw new Error();
+    } catch (error) {
+      setStatus(confirmationStatus, "Enter a valid https:// private session link.", "error");
+      return;
+    }
+
+    const submitButton = confirmationForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    setStatus(confirmationStatus, "Confirming the booking...", "info");
+    const { data, error } = await client
+      .from("bookings")
+      .update({ meeting_url: meetingUrl })
+      .eq("id", confirmationForm.dataset.bookingId)
+      .select("id, meeting_url")
+      .single();
+    submitButton.disabled = false;
+
+    if (error || !data) {
+      setStatus(confirmationStatus, (error && error.message) || "The booking could not be confirmed.", "error");
+      return;
+    }
+    submitButton.textContent = "Update private link";
+    setStatus(confirmationStatus, "Booking confirmed. The personalized private link is now visible in the client's space.", "success");
+    await loadOwnerAgenda();
   }
 
   function addCalendarDays(parts, amount) {
@@ -790,6 +854,7 @@
   initializeServicePicker();
   initializeVoiceRecognition();
   if (bookingForm) bookingForm.addEventListener("submit", submitBooking);
+  if (confirmationForm) confirmationForm.addEventListener("submit", confirmBooking);
   bookingForm?.querySelector('select[name="preferred_contact"]')?.addEventListener("change", (event) => {
     const metadata = (state.user && state.user.user_metadata) || {};
     const accountPhone = (state.user && state.user.phone) || metadata.phone || "";

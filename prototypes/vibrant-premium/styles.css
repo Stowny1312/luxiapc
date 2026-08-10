@@ -2264,6 +2264,26 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
     linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(224, 248, 252, 0.72));
   box-shadow: 0 18px 46px rgba(58, 82, 86, 0.08);
 }
+.booking-confirmation-card {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 18px;
+  padding: clamp(22px, 4vw, 34px);
+  border: 2px solid rgba(193, 53, 53, 0.35);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 225, 214, 0.6));
+  box-shadow: 0 18px 46px rgba(58, 82, 86, 0.08);
+}
+.booking-confirmation-card h2,
+.booking-confirmation-card p { margin: 0; }
+.booking-confirmation-card form,
+.booking-confirmation-card label { display: grid; gap: 10px; }
+.booking-confirmation-card form { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+.booking-confirmation-card input { min-width: 0; }
+.booking-confirmation-card .auth-status { grid-column: 1 / -1; }
+@media (max-width: 720px) {
+  .booking-confirmation-card form { grid-template-columns: 1fr; }
+}
 .assistant-setup-card h3,
 .assistant-setup-card p {
   margin: 0;

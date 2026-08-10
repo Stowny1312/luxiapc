@@ -31,6 +31,14 @@
           <h1 id="owner-calendar-title">Administration</h1>
           <p>Manage Luxia availability, connected calendars, and upcoming bookings from one private page.</p>
         </div>
+        <div class="booking-confirmation-card" data-booking-confirmation hidden>
+          <div><p class="eyebrow">Booking confirmation</p><h2>Confirm the private session</h2><p data-confirmation-summary>Loading booking details...</p></div>
+          <form data-booking-confirmation-form>
+            <label>Personalized private session link<input type="url" name="meeting_url" placeholder="https://meet.google.com/..." autocomplete="url" required></label>
+            <button type="submit">Confirm booking</button>
+          </form>
+          <p class="auth-status" data-booking-confirmation-status hidden aria-live="polite"></p>
+        </div>
         <div class="voice-command-card">
           <button class="voice-command-button" type="button" data-voice-start><span aria-hidden="true">&#127908;</span> Speak a command</button>
           <label>Recognized command<textarea data-owner-command rows="3" placeholder="For example: Add a 20 minute consultation tomorrow at 10 AM"></textarea></label>
