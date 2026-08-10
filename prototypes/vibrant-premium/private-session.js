@@ -4,6 +4,7 @@
   const loginLink = document.querySelector("[data-session-login]");
   const meetingShell = document.querySelector("[data-meeting-shell]");
   const meetingRoot = document.getElementById("meetingSDKElement");
+  const roomNote = document.querySelector("[data-room-note]");
   const bookingId = new URLSearchParams(window.location.search).get("booking");
   const config = window.LUXIA_SUPABASE;
   const client = window.LUXIA_SUPABASE_CLIENT || (config && window.supabase ? window.supabase.createClient(config.url, config.publishableKey) : null);
@@ -46,11 +47,33 @@
       if (!window.ZoomMtgEmbedded) throw new Error("The secure video room could not be loaded. Please refresh the page.");
       setStatus("Opening the secure video room...", "info");
       meetingShell.hidden = false;
+      document.body.classList.toggle("is-session-owner", Boolean(access.isOwner));
+      document.body.classList.toggle("is-session-client", !access.isOwner);
+      if (roomNote) roomNote.textContent = access.isOwner
+        ? "Clients enter a private waiting room first. Open Participants in Zoom and select Admit when you are ready."
+        : "Your coach controls entry. If the session has started, please wait here until you are admitted.";
+      const availableWidth = Math.max(720, Math.min(1440, window.innerWidth - 48));
+      const stageHeight = Math.round(availableWidth * 9 / 16);
       const zoomClient = window.ZoomMtgEmbedded.createClient();
-      await zoomClient.init({ zoomAppRoot: meetingRoot, language: "en-US", patchJsMedia: true, leaveOnPageUnload: true });
+      await zoomClient.init({
+        zoomAppRoot: meetingRoot,
+        language: "en-US",
+        patchJsMedia: true,
+        leaveOnPageUnload: true,
+        customize: {
+          video: {
+            isResizable: false,
+            viewSizes: {
+              default: { width: availableWidth, height: stageHeight },
+              ribbon: { width: 260, height: 292 }
+            }
+          }
+        }
+      });
       const joinOptions = { signature: access.signature, meetingNumber: access.meetingNumber, password: access.password, userName: access.userName };
       if (access.zak) joinOptions.zak = access.zak;
       await zoomClient.join(joinOptions);
+      document.body.classList.add("session-connected");
       statusNode.hidden = true;
       leaveAtSessionEnd(zoomClient, access.endsAt);
     } catch (error) {
