@@ -26,7 +26,14 @@ module.exports = async function handler(request, response) {
       const hostEmail = process.env.ZOOM_HOST_EMAIL || "tonkata.stoev@gmail.com";
       const zakResponse = await fetch(`https://api.zoom.us/v2/users/${encodeURIComponent(hostEmail)}/token?type=zak`, { headers: { Authorization: `Bearer ${zoomToken}` } });
       const zakData = await readJson(zakResponse);
-      if (!zakResponse.ok || !zakData.token) throw new Error("Zoom could not authorize the host.");
+      if (!zakResponse.ok || !zakData.token) {
+        console.error("Zoom host ZAK request failed.", {
+          status: zakResponse.status,
+          code: zakData && zakData.code,
+          message: zakData && zakData.message
+        });
+        throw new Error("Zoom could not authorize the host.");
+      }
       zak = zakData.token;
     }
     const metadata = user.user_metadata || {};
@@ -42,6 +49,7 @@ module.exports = async function handler(request, response) {
       isOwner: Boolean(access.is_owner)
     });
   } catch (error) {
+    console.error("Private Zoom session access failed.", error.message);
     const message = error.message || "This private session is unavailable.";
     const expected = /opens 10 minutes|expired|waiting for owner|not found|not active|Authentication/i.test(message);
     sendJson(response, expected ? 403 : 502, { error: message });
