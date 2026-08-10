@@ -565,6 +565,18 @@
     if (booking) {
       article.append(createElement("p", "owner-booking-client", `${booking.client_name || "Client"} · ${booking.client_email || "No email"}`));
       if (booking.client_phone) article.append(createElement("p", "", booking.client_phone));
+      if (!booking.meeting_url) {
+        const confirmButton = createElement("button", "owner-confirm-booking", "Confirm");
+        confirmButton.type = "button";
+        confirmButton.addEventListener("click", async () => {
+          const url = new URL(window.location.href);
+          url.searchParams.set("booking", booking.id);
+          window.history.replaceState({}, "", url);
+          await loadBookingConfirmation();
+          confirmationCard?.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+        article.append(confirmButton);
+      }
     }
     return article;
   }
@@ -575,7 +587,7 @@
     const nowIso = new Date().toISOString();
     const [{ data: slots, error: slotError }, { data: bookings, error: bookingError }] = await Promise.all([
       client.from("consultation_slots").select("id, slot_type, duration_minutes, starts_at, ends_at, status").gte("starts_at", nowIso).order("starts_at", { ascending: true }).limit(80),
-      client.from("bookings").select("slot_id, client_name, client_email, client_phone, preferred_contact, status").gte("starts_at", nowIso).order("starts_at", { ascending: true }).limit(80)
+      client.from("bookings").select("id, slot_id, client_name, client_email, client_phone, preferred_contact, status, meeting_url").gte("starts_at", nowIso).order("starts_at", { ascending: true }).limit(80)
     ]);
 
     if (slotError || bookingError) {

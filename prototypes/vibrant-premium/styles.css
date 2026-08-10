@@ -2250,6 +2250,14 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   color: var(--ink);
   font-weight: 850;
 }
+.owner-confirm-booking {
+  justify-self: start;
+  margin-top: 4px;
+  padding: 9px 18px;
+  color: #fff;
+  background: #c13535;
+  box-shadow: 0 8px 20px rgba(193, 53, 53, 0.2);
+}
 .assistant-setup-card {
   grid-column: 1 / -1;
   display: grid;
