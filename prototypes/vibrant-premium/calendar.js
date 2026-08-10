@@ -576,6 +576,12 @@
           confirmationCard?.scrollIntoView({ behavior: "smooth", block: "center" });
         });
         article.append(confirmButton);
+      } else {
+        const enterLink = createElement("a", "owner-enter-session", "Enter private session");
+        enterLink.href = booking.meeting_url;
+        enterLink.target = "_blank";
+        enterLink.rel = "noreferrer";
+        article.append(enterLink);
       }
     }
     return article;
@@ -586,8 +592,8 @@
     ownerAgendaList.replaceChildren(createElement("p", "", "Loading your calendar..."));
     const nowIso = new Date().toISOString();
     const [{ data: slots, error: slotError }, { data: bookings, error: bookingError }] = await Promise.all([
-      client.from("consultation_slots").select("id, slot_type, duration_minutes, starts_at, ends_at, status").gte("starts_at", nowIso).order("starts_at", { ascending: true }).limit(80),
-      client.from("bookings").select("id, slot_id, client_name, client_email, client_phone, preferred_contact, status, meeting_url").gte("starts_at", nowIso).order("starts_at", { ascending: true }).limit(80)
+      client.from("consultation_slots").select("id, slot_type, duration_minutes, starts_at, ends_at, status").gt("ends_at", nowIso).order("starts_at", { ascending: true }).limit(80),
+      client.from("bookings").select("id, slot_id, client_name, client_email, client_phone, preferred_contact, status, meeting_url").gt("ends_at", nowIso).order("starts_at", { ascending: true }).limit(80)
     ]);
 
     if (slotError || bookingError) {
@@ -610,6 +616,8 @@
     if (!bookingId || !/^[0-9a-f-]{36}$/i.test(bookingId)) return;
 
     confirmationCard.hidden = false;
+    confirmationForm.hidden = false;
+    clearStatus(confirmationStatus);
     const { data: booking, error } = await client
       .from("bookings")
       .select("id, session_type, starts_at, ends_at, client_name, client_email, meeting_url")
@@ -624,10 +632,9 @@
 
     const label = booking.session_type === "coaching" ? "1 hour coaching" : "20 minute consultation";
     confirmationSummary.textContent = `${label} with ${booking.client_name || booking.client_email || "the client"} on ${longDateFormatter.format(new Date(booking.starts_at))}.`;
-    confirmationForm.elements.meeting_url.value = booking.meeting_url || "";
     if (booking.meeting_url) {
-      setStatus(confirmationStatus, "This booking is confirmed. You can replace its private link below.", "success");
-      confirmationForm.querySelector('button[type="submit"]').textContent = "Update private link";
+      setStatus(confirmationStatus, "This booking already has a private Zoom session.", "success");
+      confirmationForm.hidden = true;
     }
     confirmationForm.dataset.bookingId = booking.id;
   }
@@ -635,32 +642,31 @@
   async function confirmBooking(event) {
     event.preventDefault();
     if (!state.isOwner || !confirmationForm) return;
-    const meetingUrl = String(new FormData(confirmationForm).get("meeting_url") || "").trim();
-    try {
-      const parsedUrl = new URL(meetingUrl);
-      if (!/^https?:$/.test(parsedUrl.protocol)) throw new Error();
-    } catch (error) {
-      setStatus(confirmationStatus, "Enter a valid https:// private session link.", "error");
-      return;
-    }
-
     const submitButton = confirmationForm.querySelector('button[type="submit"]');
     submitButton.disabled = true;
-    setStatus(confirmationStatus, "Confirming the booking...", "info");
-    const { data, error } = await client
-      .from("bookings")
-      .update({ meeting_url: meetingUrl })
-      .eq("id", confirmationForm.dataset.bookingId)
-      .select("id, meeting_url")
-      .single();
+    setStatus(confirmationStatus, "Creating the private Zoom meeting...", "info");
+    const { data: sessionData } = await client.auth.getSession();
+    let result;
+    let error;
+    try {
+      const response = await fetch("/api/confirm-booking", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${sessionData.session && sessionData.session.access_token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ bookingId: confirmationForm.dataset.bookingId })
+      });
+      result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || "The Zoom meeting could not be created.");
+    } catch (requestError) {
+      error = requestError;
+    }
     submitButton.disabled = false;
 
-    if (error || !data) {
+    if (error || !result) {
       setStatus(confirmationStatus, (error && error.message) || "The booking could not be confirmed.", "error");
       return;
     }
-    submitButton.textContent = "Update private link";
-    setStatus(confirmationStatus, "Booking confirmed. The personalized private link is now visible in the client's space.", "success");
+    confirmationForm.hidden = true;
+    setStatus(confirmationStatus, "Booking confirmed. The private Zoom session is now visible in the client's space.", "success");
     await loadOwnerAgenda();
   }
 

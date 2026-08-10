@@ -169,9 +169,9 @@ module.exports = async function handler(request, response) {
           "Client message:",
           booking.client_message || "No message provided.",
           "",
-          `Confirm booking and add the private session link: ${confirmUrl}`
+          `Confirm booking and create the private Zoom session: ${confirmUrl}`
         ].join("\n"),
-        html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#243236;max-width:620px;margin:auto"><h1 style="font-size:24px">New Luxia booking</h1><p>A new booking was made on the Luxia P&amp;C website.</p><div style="padding:18px;border-radius:14px;background:#f0fafb">${detailsText.map((detail) => `<div>${escapeHtml(detail)}</div>`).join("")}<div style="margin-top:12px"><strong>Client message:</strong><br>${escapeHtml(booking.client_message || "No message provided.")}</div></div><p style="margin:28px 0"><a href="${escapeHtml(confirmUrl)}" style="display:inline-block;padding:13px 22px;border-radius:999px;background:#243236;color:#fff;text-decoration:none;font-weight:700">Confirm booking</a></p><p style="font-size:13px;color:#647276">Owner login is required. Add the personalized private session link on the confirmation page; it will then appear in the client’s private space.</p></div>`
+        html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#243236;max-width:620px;margin:auto"><h1 style="font-size:24px">New Luxia booking</h1><p>A new booking was made on the Luxia P&amp;C website.</p><div style="padding:18px;border-radius:14px;background:#f0fafb">${detailsText.map((detail) => `<div>${escapeHtml(detail)}</div>`).join("")}<div style="margin-top:12px"><strong>Client message:</strong><br>${escapeHtml(booking.client_message || "No message provided.")}</div></div><p style="margin:28px 0"><a href="${escapeHtml(confirmUrl)}" style="display:inline-block;padding:13px 22px;border-radius:999px;background:#243236;color:#fff;text-decoration:none;font-weight:700">Confirm booking</a></p><p style="font-size:13px;color:#647276">Owner login is required. Confirmation creates the protected Zoom room automatically and publishes it in the client’s private space.</p></div>`
       })
     });
   } catch (error) {

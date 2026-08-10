@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Private session - Luxia P&amp;C</title>
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body class="subpage private-session-page" data-page="private-session">
+    <header class="sub-header">
+      <a class="brand" href="../" aria-label="Luxia Prevention and Coaching home"><img class="brand-logo" src="../assets/luxia-header-logo.png" alt="Luxia P&C - Prevention & Coaching"></a>
+      <div class="header-actions"><a class="client-link login-link" hidden href="client-space.html">Login</a><div class="user-menu" data-user-menu hidden><a class="client-link user-name-link" data-user-name href="client-space.html">Hi</a><button class="user-menu-toggle" type="button" data-user-menu-toggle aria-label="Open account menu">&#9662;</button><div class="user-menu-popover" data-user-menu-popover hidden><button class="logout-link" type="button" data-header-sign-out>Logout</button></div></div></div>
+    </header>
+    <main class="private-session-main">
+      <section class="private-session-intro">
+        <p class="eyebrow">Secure Luxia room</p>
+        <h1>Your private session</h1>
+        <p>This room is available only to the booked client and the Luxia owner, from 10 minutes before the appointment until its scheduled end.</p>
+        <p class="auth-status" data-session-status aria-live="polite">Checking your secure access...</p>
+        <a class="client-link" data-session-login hidden href="client-space.html">Log in to enter</a>
+      </section>
+      <section class="zoom-meeting-shell" data-meeting-shell hidden aria-label="Private Zoom meeting"><div id="meetingSDKElement"></div></section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-config.js"></script>
+    <script src="../auth.js"></script>
+    <script src="https://source.zoom.us/6.2.0/lib/vendor/react.min.js"></script>
+    <script src="https://source.zoom.us/6.2.0/lib/vendor/react-dom.min.js"></script>
+    <script src="https://source.zoom.us/6.2.0/lib/vendor/redux.min.js"></script>
+    <script src="https://source.zoom.us/6.2.0/lib/vendor/redux-thunk.min.js"></script>
+    <script src="https://source.zoom.us/6.2.0/lib/vendor/lodash.min.js"></script>
+    <script src="https://source.zoom.us/zoom-meeting-embedded-6.2.0.min.js"></script>
+    <script src="../private-session.js"></script>
+  </body>
+</html>

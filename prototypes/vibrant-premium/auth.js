@@ -181,11 +181,14 @@
     const now = new Date();
     list.innerHTML = data.map((booking) => {
       const start = new Date(booking.starts_at);
-      const isPast = start < now || booking.status === "completed";
+      const end = new Date(booking.ends_at);
+      const isPast = end <= now || booking.status === "completed";
       const when = start.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
-      const link = booking.meeting_url
-        ? `<a href="${booking.meeting_url}" target="_blank" rel="noreferrer">Private session link</a>`
-        : "<span>Private link appears after confirmation.</span>";
+      const link = booking.meeting_url && !isPast
+        ? `<a href="${booking.meeting_url}" target="_blank" rel="noreferrer">Enter private session</a>`
+        : booking.meeting_url
+          ? "<span>Private session expired.</span>"
+          : "<span>Private link appears after confirmation.</span>";
 
       const sessionLabel = booking.session_type === "coaching"
         ? "1 hour coaching"
@@ -288,7 +291,7 @@
       showStatus("You are logged in.", "success");
       await refreshHeaderClientLinks();
       const nextPage = new URLSearchParams(window.location.search).get("next");
-      if (nextPage && /^administration\.html(?:\?booking=[0-9a-f-]{36})?$/i.test(nextPage)) {
+      if (nextPage && /^(?:administration|private-session)\.html(?:\?booking=[0-9a-f-]{36})?$/i.test(nextPage)) {
         window.location.replace(nextPage);
         return;
       }
