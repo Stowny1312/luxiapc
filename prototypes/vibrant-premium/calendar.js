@@ -508,26 +508,44 @@
     submitButton.disabled = true;
     setStatus(bookingStatus, "Confirming your booking...", "info");
 
-    const { error } = await client.rpc("book_consultation_slot", {
-      p_slot_id: state.selectedSlot.id,
-      p_preferred_contact: String(formData.get("preferred_contact") || "email"),
-      p_phone: String(formData.get("phone") || "").trim() || null,
-      p_message: String(formData.get("message") || "").trim() || null
-    });
+    const { data: sessionData } = await client.auth.getSession();
+    const accessToken = sessionData.session && sessionData.session.access_token;
+    let result;
 
-    submitButton.disabled = false;
-    if (error) {
+    try {
+      const bookingResponse = await fetch("/api/book-consultation", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${accessToken || ""}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          slotId: state.selectedSlot.id,
+          preferredContact: String(formData.get("preferred_contact") || "email"),
+          phone: String(formData.get("phone") || "").trim() || null,
+          message: String(formData.get("message") || "").trim() || null
+        })
+      });
+      result = await bookingResponse.json().catch(() => ({}));
+      if (!bookingResponse.ok) throw new Error(result.error || "This booking could not be completed.");
+    } catch (error) {
+      submitButton.disabled = false;
       setStatus(bookingStatus, error.message || "This booking could not be completed.", "error");
       await loadAllCalendars();
       return;
     }
+
+    submitButton.disabled = false;
 
     const confirmed = state.selectedSlot;
     state.selectedSlot = null;
     selectedSlotTitle.textContent = `Confirmed: ${formatSlot(confirmed)}`;
     bookingForm.hidden = true;
     bookingLoggedOut.hidden = true;
-    setStatus(bookingStatus, "Your booking is confirmed and has been added to your Client space.", "success");
+    const confirmationMessage = result.notificationSent === false
+      ? "Your booking is confirmed and has been added to your Client space. The owner email could not be sent automatically."
+      : "Your booking is confirmed, has been added to your Client space, and the owner has been notified.";
+    setStatus(bookingStatus, confirmationMessage, result.notificationSent === false ? "error" : "success");
     await loadAllCalendars();
     if (state.isOwner) await loadOwnerAgenda();
   }

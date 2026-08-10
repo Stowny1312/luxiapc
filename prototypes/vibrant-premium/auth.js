@@ -186,7 +186,13 @@
         ? `<a href="${booking.meeting_url}" target="_blank" rel="noreferrer">Private session link</a>`
         : "<span>Private link appears after confirmation.</span>";
 
-      return `<article class="${isPast ? "past-booking" : "upcoming-booking"}"><small>${isPast ? "Past session" : "Upcoming session"}</small><strong>${booking.session_type}</strong><span>${when}</span><span>Status: ${booking.status}</span>${link}</article>`;
+      const sessionLabel = booking.session_type === "coaching"
+        ? "1 hour coaching"
+        : booking.session_type === "consultation"
+          ? "20 minute consultation"
+          : booking.session_type || "Coaching session";
+
+      return `<article class="${isPast ? "past-booking" : "upcoming-booking"}"><small>${isPast ? "Past session" : "Upcoming session"}</small><strong>${sessionLabel}</strong><span>${when}</span><span>Status: ${booking.status}</span>${link}</article>`;
     }).join("");
   }
 
