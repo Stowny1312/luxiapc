@@ -5,6 +5,7 @@
     { "source": "/loader.js", "destination": "/prototypes/vibrant-premium/loader.js" },
     { "source": "/auth.js", "destination": "/prototypes/vibrant-premium/auth.js" },
     { "source": "/calendar.js", "destination": "/prototypes/vibrant-premium/calendar.js" },
+    { "source": "/private-session.js", "destination": "/prototypes/vibrant-premium/private-session.js" },
     { "source": "/supabase-config.js", "destination": "/prototypes/vibrant-premium/supabase-config.js" },
     { "source": "/assets/:path*", "destination": "/prototypes/vibrant-premium/assets/:path*" },
     { "source": "/pages/:path*", "destination": "/prototypes/vibrant-premium/pages/:path*" }
