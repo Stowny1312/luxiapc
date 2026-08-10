@@ -102,6 +102,11 @@
   async function initializeMobileMeeting(access) {
     loadStyleOnce("https://source.zoom.us/6.2.0/css/bootstrap.css");
     loadStyleOnce("https://source.zoom.us/6.2.0/css/react-select.css");
+    await loadScriptOnce("https://source.zoom.us/6.2.0/lib/vendor/react.min.js");
+    await loadScriptOnce("https://source.zoom.us/6.2.0/lib/vendor/react-dom.min.js");
+    await loadScriptOnce("https://source.zoom.us/6.2.0/lib/vendor/redux.min.js");
+    await loadScriptOnce("https://source.zoom.us/6.2.0/lib/vendor/redux-thunk.min.js");
+    await loadScriptOnce("https://source.zoom.us/6.2.0/lib/vendor/lodash.min.js");
     await loadScriptOnce("https://source.zoom.us/zoom-meeting-6.2.0.min.js");
     return new Promise((resolve, reject) => {
       if (!window.ZoomMtg) return reject(new Error("The mobile video room could not be loaded. Please refresh the page."));
