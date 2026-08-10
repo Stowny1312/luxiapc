@@ -25,6 +25,36 @@
     }, Math.min(delay, 2147483647));
   }
 
+  function isMobileMeeting() {
+    return window.matchMedia("(max-width: 820px), (pointer: coarse)").matches;
+  }
+
+  function initializeMobileMeeting(access) {
+    return new Promise((resolve, reject) => {
+      if (!window.ZoomMtg) return reject(new Error("The mobile video room could not be loaded. Please refresh the page."));
+      document.body.classList.add("zoom-client-view");
+      window.ZoomMtg.preLoadWasm();
+      window.ZoomMtg.prepareWebSDK();
+      window.ZoomMtg.init({
+        leaveUrl: `${window.location.origin}/prototypes/vibrant-premium/pages/client-space.html`,
+        patchJsMedia: true,
+        leaveOnPageUnload: true,
+        defaultView: "speaker",
+        isLockBottom: true,
+        success: () => window.ZoomMtg.join({
+          signature: access.signature,
+          meetingNumber: access.meetingNumber,
+          passWord: access.password,
+          userName: access.userName,
+          zak: access.zak || "",
+          success: resolve,
+          error: (error) => reject(new Error((error && error.reason) || "The mobile meeting could not be joined."))
+        }),
+        error: (error) => reject(new Error((error && error.reason) || "The mobile meeting could not be opened."))
+      });
+    });
+  }
+
   async function initializeSession() {
     if (!client || !bookingId || !/^[0-9a-f-]{36}$/i.test(bookingId)) return setStatus("This private session link is invalid.", "error");
     const { data } = await client.auth.getSession();
@@ -44,14 +74,22 @@
       });
       const access = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(access.error || "This private session is unavailable.");
-      if (!window.ZoomMtgEmbedded) throw new Error("The secure video room could not be loaded. Please refresh the page.");
       setStatus("Opening the secure video room...", "info");
       meetingShell.hidden = false;
       document.body.classList.toggle("is-session-owner", Boolean(access.isOwner));
       document.body.classList.toggle("is-session-client", !access.isOwner);
-      if (roomNote) roomNote.textContent = access.isOwner
-        ? "Clients enter a private waiting room first. Open Participants in Zoom and select Admit when you are ready."
-        : "Your coach controls entry. If the session has started, please wait here until you are admitted.";
+      if (roomNote) roomNote.textContent = "The room is open during the reserved time. Either participant may enter first.";
+      if (isMobileMeeting()) {
+        await initializeMobileMeeting(access);
+        document.body.classList.add("session-connected");
+        statusNode.hidden = true;
+        const mobileEndDelay = new Date(access.endsAt).getTime() - Date.now();
+        if (mobileEndDelay > 0) window.setTimeout(() => {
+          window.location.replace(`${window.location.origin}/prototypes/vibrant-premium/pages/client-space.html`);
+        }, Math.min(mobileEndDelay, 2147483647));
+        return;
+      }
+      if (!window.ZoomMtgEmbedded) throw new Error("The secure video room could not be loaded. Please refresh the page.");
       const availableWidth = Math.max(720, Math.min(1440, window.innerWidth - 48));
       const stageHeight = Math.round(availableWidth * 9 / 16);
       const zoomClient = window.ZoomMtgEmbedded.createClient();
@@ -62,6 +100,7 @@
         leaveOnPageUnload: true,
         customize: {
           video: {
+            defaultViewType: "speaker",
             isResizable: false,
             viewSizes: {
               default: { width: availableWidth, height: stageHeight },
@@ -73,6 +112,7 @@
       const joinOptions = { signature: access.signature, meetingNumber: access.meetingNumber, password: access.password, userName: access.userName };
       if (access.zak) joinOptions.zak = access.zak;
       await zoomClient.join(joinOptions);
+      try { await zoomClient.setViewType("speaker"); } catch (error) { /* Speaker view is already selected at init. */ }
       document.body.classList.add("session-connected");
       statusNode.hidden = true;
       leaveAtSessionEnd(zoomClient, access.endsAt);

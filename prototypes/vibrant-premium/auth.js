@@ -183,6 +183,7 @@
       const start = new Date(booking.starts_at);
       const end = new Date(booking.ends_at);
       const isPast = end <= now || booking.status === "completed";
+      const isActive = !isPast && start <= now && now < end;
       const when = start.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
       const link = booking.meeting_url && !isPast
         ? `<a href="${booking.meeting_url}" target="_blank" rel="noreferrer">Enter private session</a>`
@@ -196,7 +197,9 @@
           ? "20 minute consultation"
           : booking.session_type || "Coaching session";
 
-      return `<article class="${isPast ? "past-booking" : "upcoming-booking"}"><small>${isPast ? "Past session" : "Upcoming session"}</small><strong>${sessionLabel}</strong><span>${when}</span><span>Status: ${booking.status}</span>${link}</article>`;
+      const timingLabel = isPast ? "Past session" : isActive ? "Currently active" : "Upcoming session";
+      const timingClass = isPast ? "past-booking" : isActive ? "active-booking" : "upcoming-booking";
+      return `<article class="${timingClass}"><small>${timingLabel}</small><strong>${sessionLabel}</strong><span>${when}</span><span>Status: ${booking.status}</span>${link}</article>`;
     }).join("");
   }
 

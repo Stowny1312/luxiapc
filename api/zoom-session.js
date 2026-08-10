@@ -21,8 +21,17 @@ module.exports = async function handler(request, response) {
     const role = access.is_owner ? 1 : 0;
     const sdk = meetingSdkJwt(access.meeting_number, role);
     let zak;
+    const zoomToken = await zoomAccessToken();
+    const meetingUpdateResponse = await fetch(`https://api.zoom.us/v2/meetings/${encodeURIComponent(access.meeting_number)}`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${zoomToken}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ settings: { join_before_host: true, jbh_time: 0, waiting_room: false } })
+    });
+    if (!meetingUpdateResponse.ok && meetingUpdateResponse.status !== 204) {
+      const updateError = await readJson(meetingUpdateResponse);
+      console.error("Zoom meeting access settings could not be refreshed.", updateError);
+    }
     if (access.is_owner) {
-      const zoomToken = await zoomAccessToken();
       const hostEmail = process.env.ZOOM_HOST_EMAIL || "tonkata.stoev@gmail.com";
       const zakResponse = await fetch(`https://api.zoom.us/v2/users/${encodeURIComponent(hostEmail)}/token?type=zak`, { headers: { Authorization: `Bearer ${zoomToken}` } });
       const zakData = await readJson(zakResponse);

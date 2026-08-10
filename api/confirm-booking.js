@@ -97,9 +97,9 @@ module.exports = async function handler(request, response) {
         timezone: "Europe/Brussels",
         agenda: `Private Luxia session with ${booking.client_name || booking.client_email || "client"}`,
         settings: {
-          join_before_host: false,
-          waiting_room: true,
-          waiting_room_options: { mode: "custom", who_goes_to_waiting_room: "everyone" },
+          join_before_host: true,
+          jbh_time: 0,
+          waiting_room: false,
           approval_type: 2,
           host_video: true,
           participant_video: true,

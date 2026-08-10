@@ -2309,13 +2309,30 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 .private-session-intro h1 { margin: 4px 0 10px; }
 .zoom-meeting-shell {
   min-height: 680px;
-  padding: 12px;
-  border-radius: 28px;
-  background: #172024;
+  padding: 0;
+  border-radius: 24px;
+  background: #101719;
   box-shadow: 0 22px 55px rgba(24, 34, 38, 0.24);
-  overflow: hidden;
+  overflow: visible;
 }
-#meetingSDKElement { width: 100%; min-height: 656px; }
+.meeting-room-bar { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 12px 18px; color: #f7fbfb; background: #1b292d; border-radius: 24px 24px 0 0; }
+.meeting-room-bar span { color: rgba(247, 251, 251, 0.72); font-size: 0.86rem; text-align: right; }
+#meetingSDKElement { width: 100%; min-height: 656px; display: grid; place-items: center; }
+body.session-connected:not(.zoom-client-view) { overflow: hidden; background: #101719; }
+body.session-connected:not(.zoom-client-view) .sub-header,
+body.session-connected:not(.zoom-client-view) .private-session-intro { display: none; }
+body.session-connected:not(.zoom-client-view) .private-session-main { width: 100vw; max-width: none; padding: 0; }
+body.session-connected:not(.zoom-client-view) .zoom-meeting-shell { min-height: 100dvh; border-radius: 0; box-shadow: none; }
+body.session-connected:not(.zoom-client-view) .meeting-room-bar { border-radius: 0; }
+body.session-connected:not(.zoom-client-view) #meetingSDKElement { min-height: calc(100dvh - 48px); }
+@media (max-width: 820px), (pointer: coarse) {
+  body.zoom-client-view .sub-header,
+  body.zoom-client-view .private-session-main { display: none !important; }
+  body.zoom-client-view { margin: 0; overflow: hidden; background: #000; }
+  body.zoom-client-view #zmmtg-root { display: block !important; width: 100vw !important; height: 100dvh !important; min-width: 0 !important; }
+  body.zoom-client-view .meeting-app { width: 100vw !important; height: 100dvh !important; min-width: 0 !important; }
+  body.zoom-client-view .meeting-client { width: 100vw !important; height: 100dvh !important; }
+}
 .assistant-setup-card h3,
 .assistant-setup-card p {
   margin: 0;
