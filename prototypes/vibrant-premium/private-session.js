@@ -118,9 +118,9 @@
         return;
       }
       if (!window.ZoomMtgEmbedded) throw new Error("The secure video room could not be loaded. Please refresh the page.");
-      const heightLimitedWidth = Math.floor(Math.max(405, window.innerHeight - 48) * 16 / 9);
-      const availableWidth = Math.max(720, Math.min(1440, document.documentElement.clientWidth, heightLimitedWidth));
-      const stageHeight = Math.min(810, Math.round(availableWidth * 9 / 16));
+      const pageGutter = 48;
+      const availableWidth = Math.max(720, Math.min(1180, document.documentElement.clientWidth - pageGutter));
+      const stageHeight = Math.max(600, Math.min(720, Math.round(availableWidth * 0.61)));
       meetingRoot.style.width = `${availableWidth}px`;
       meetingRoot.style.height = `${stageHeight}px`;
       meetingShell.style.setProperty("--meeting-width", `${availableWidth}px`);
