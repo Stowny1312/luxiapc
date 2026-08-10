@@ -23,18 +23,16 @@
       </section>
       <section class="zoom-meeting-shell" data-meeting-shell hidden aria-label="Private Zoom meeting">
         <div class="meeting-room-bar"><strong>Private coaching room</strong><span data-room-note>The room is open during the reserved time.</span></div>
-        <div id="meetingSDKElement"></div>
+        <div id="meetingSDKElement"><iframe class="desktop-zoom-frame" data-desktop-zoom-frame title="Luxia private Zoom meeting" src="zoom-room.html" allow="camera; microphone; display-capture; fullscreen" hidden></iframe></div>
+        <div class="meeting-controls" data-desktop-meeting-controls hidden>
+          <span>Camera and microphone controls are available inside the meeting.</span>
+          <button class="meeting-fullscreen-button" type="button" data-meeting-fullscreen aria-pressed="false">Full screen</button>
+        </div>
       </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase-config.js"></script>
     <script src="../auth.js"></script>
-    <script src="https://source.zoom.us/6.2.0/lib/vendor/react.min.js"></script>
-    <script src="https://source.zoom.us/6.2.0/lib/vendor/react-dom.min.js"></script>
-    <script src="https://source.zoom.us/6.2.0/lib/vendor/redux.min.js"></script>
-    <script src="https://source.zoom.us/6.2.0/lib/vendor/redux-thunk.min.js"></script>
-    <script src="https://source.zoom.us/6.2.0/lib/vendor/lodash.min.js"></script>
-    <script src="https://source.zoom.us/zoom-meeting-embedded-6.2.0.min.js"></script>
     <script src="../private-session.js"></script>
   </body>
 </html>

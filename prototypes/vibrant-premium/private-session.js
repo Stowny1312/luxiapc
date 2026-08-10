@@ -4,6 +4,9 @@
   const loginLink = document.querySelector("[data-session-login]");
   const meetingShell = document.querySelector("[data-meeting-shell]");
   const meetingRoot = document.getElementById("meetingSDKElement");
+  const desktopFrame = document.querySelector("[data-desktop-zoom-frame]");
+  const desktopControls = document.querySelector("[data-desktop-meeting-controls]");
+  const fullscreenButton = document.querySelector("[data-meeting-fullscreen]");
   const roomNote = document.querySelector("[data-room-note]");
   const bookingId = new URLSearchParams(window.location.search).get("booking");
   const config = window.LUXIA_SUPABASE;
@@ -27,6 +30,48 @@
 
   function isMobileMeeting() {
     return window.matchMedia("(max-width: 820px), (pointer: coarse)").matches;
+  }
+
+  function setFullscreenLabel() {
+    if (!fullscreenButton) return;
+    const active = document.fullscreenElement === meetingShell;
+    fullscreenButton.textContent = active ? "Exit full screen" : "Full screen";
+    fullscreenButton.setAttribute("aria-pressed", String(active));
+  }
+
+  if (fullscreenButton) fullscreenButton.addEventListener("click", async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen();
+      else await meetingShell.requestFullscreen();
+    } catch (error) {
+      setStatus("Full screen could not be opened by this browser.", "error");
+    }
+  });
+  document.addEventListener("fullscreenchange", setFullscreenLabel);
+
+  function initializeDesktopMeeting(access) {
+    return new Promise((resolve, reject) => {
+      const origin = window.location.origin;
+      const timeout = window.setTimeout(() => reject(new Error("The desktop Zoom room took too long to load. Please refresh the page.")), 20000);
+      const handleMessage = (event) => {
+        if (event.origin !== origin || event.source !== desktopFrame.contentWindow || !event.data) return;
+        if (event.data.type === "luxia-zoom-ready") {
+          desktopFrame.contentWindow.postMessage({ type: "luxia-zoom-join", access }, origin);
+        } else if (event.data.type === "luxia-zoom-joined") {
+          window.clearTimeout(timeout);
+          window.removeEventListener("message", handleMessage);
+          resolve();
+        } else if (event.data.type === "luxia-zoom-error") {
+          window.clearTimeout(timeout);
+          window.removeEventListener("message", handleMessage);
+          reject(new Error(event.data.message || "The desktop Zoom room could not be opened."));
+        }
+      };
+      window.addEventListener("message", handleMessage);
+      desktopFrame.hidden = false;
+      desktopControls.hidden = false;
+      if (desktopFrame.contentWindow) desktopFrame.contentWindow.postMessage({ type: "luxia-zoom-ping" }, origin);
+    });
   }
 
   function loadStyleOnce(href) {
@@ -117,7 +162,6 @@
         }, Math.min(mobileEndDelay, 2147483647));
         return;
       }
-      if (!window.ZoomMtgEmbedded) throw new Error("The secure video room could not be loaded. Please refresh the page.");
       const pageGutter = 48;
       const availableWidth = Math.max(720, Math.min(1180, document.documentElement.clientWidth - pageGutter));
       const stageHeight = Math.max(600, Math.min(720, Math.round(availableWidth * 0.61)));
@@ -125,30 +169,10 @@
       meetingRoot.style.height = `${stageHeight}px`;
       meetingShell.style.setProperty("--meeting-width", `${availableWidth}px`);
       meetingShell.style.setProperty("--meeting-height", `${stageHeight}px`);
-      const zoomClient = window.ZoomMtgEmbedded.createClient();
-      await zoomClient.init({
-        zoomAppRoot: meetingRoot,
-        language: "en-US",
-        patchJsMedia: true,
-        leaveOnPageUnload: true,
-        customize: {
-          video: {
-            defaultViewType: "speaker",
-            isResizable: false,
-            viewSizes: {
-              default: { width: availableWidth, height: stageHeight },
-              ribbon: { width: 260, height: 292 }
-            }
-          }
-        }
-      });
-      const joinOptions = { signature: access.signature, meetingNumber: access.meetingNumber, password: access.password, userName: access.userName };
-      if (access.zak) joinOptions.zak = access.zak;
-      await zoomClient.join(joinOptions);
-      try { await zoomClient.setViewType("speaker"); } catch (error) { /* Speaker view is already selected at init. */ }
+      await initializeDesktopMeeting(access);
       document.body.classList.add("session-connected");
       statusNode.hidden = true;
-      leaveAtSessionEnd(zoomClient, access.endsAt);
+      leaveAtSessionEnd({ leaveMeeting: () => desktopFrame.contentWindow.postMessage({ type: "luxia-zoom-leave" }, window.location.origin) }, access.endsAt);
     } catch (error) {
       meetingShell.hidden = true;
       setStatus(error.message || "This private session is unavailable.", "error");
