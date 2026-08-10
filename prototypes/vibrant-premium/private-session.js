@@ -29,7 +29,35 @@
     return window.matchMedia("(max-width: 820px), (pointer: coarse)").matches;
   }
 
-  function initializeMobileMeeting(access) {
+  function loadStyleOnce(href) {
+    if (document.querySelector(`link[href="${href}"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.appendChild(link);
+  }
+
+  function loadScriptOnce(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[src="${src}"]`);
+      if (existing) {
+        if (window.ZoomMtg) return resolve();
+        existing.addEventListener("load", resolve, { once: true });
+        existing.addEventListener("error", reject, { once: true });
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = resolve;
+      script.onerror = () => reject(new Error("The mobile Zoom client could not be loaded."));
+      document.body.appendChild(script);
+    });
+  }
+
+  async function initializeMobileMeeting(access) {
+    loadStyleOnce("https://source.zoom.us/6.2.0/css/bootstrap.css");
+    loadStyleOnce("https://source.zoom.us/6.2.0/css/react-select.css");
+    await loadScriptOnce("https://source.zoom.us/zoom-meeting-6.2.0.min.js");
     return new Promise((resolve, reject) => {
       if (!window.ZoomMtg) return reject(new Error("The mobile video room could not be loaded. Please refresh the page."));
       document.body.classList.add("zoom-client-view");
@@ -90,8 +118,13 @@
         return;
       }
       if (!window.ZoomMtgEmbedded) throw new Error("The secure video room could not be loaded. Please refresh the page.");
-      const availableWidth = Math.max(720, Math.min(1440, window.innerWidth - 48));
-      const stageHeight = Math.round(availableWidth * 9 / 16);
+      const heightLimitedWidth = Math.floor(Math.max(405, window.innerHeight - 48) * 16 / 9);
+      const availableWidth = Math.max(720, Math.min(1440, document.documentElement.clientWidth, heightLimitedWidth));
+      const stageHeight = Math.min(810, Math.round(availableWidth * 9 / 16));
+      meetingRoot.style.width = `${availableWidth}px`;
+      meetingRoot.style.height = `${stageHeight}px`;
+      meetingShell.style.setProperty("--meeting-width", `${availableWidth}px`);
+      meetingShell.style.setProperty("--meeting-height", `${stageHeight}px`);
       const zoomClient = window.ZoomMtgEmbedded.createClient();
       await zoomClient.init({
         zoomAppRoot: meetingRoot,
