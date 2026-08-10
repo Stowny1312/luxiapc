@@ -2095,12 +2095,23 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 .calendar-times-empty { margin: 0; color: var(--muted); text-align: center; }
 .calendar-time-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 10px;
 }
-.calendar-time-list .slot-time-button { min-height: 44px; font-size: 0.9rem; }
+.calendar-time-list .slot-time-button { min-height: 48px; font-size: 0.9rem; line-height: 1.35; }
 .administration-main { max-width: 1180px; }
 .administration-page .owner-calendar-panel { margin-top: 20px; }
+.drawer [data-owner-link] {
+  color: #b4232f;
+  border-color: rgba(180, 35, 47, 0.28);
+  background: rgba(180, 35, 47, 0.08);
+}
+.drawer [data-owner-link]:hover,
+.drawer [data-owner-link]:focus-visible,
+.drawer [data-owner-link].active {
+  color: #8f1621;
+  background: rgba(180, 35, 47, 0.16);
+}
 .booking-selection-panel,
 .owner-calendar-panel {
   padding: clamp(28px, 5vw, 54px);

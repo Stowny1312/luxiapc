@@ -327,8 +327,15 @@
   }
 
   function formatSlot(slot) {
-    const duration = slot.duration_minutes === 20 ? "20-minute consultation" : "60-minute coaching session";
+    const duration = slot.duration_minutes === 20 ? "20-minute consultation" : "1-hour session";
     return `${longDateFormatter.format(new Date(slot.starts_at))} · ${duration}`;
+  }
+
+  function formatSlotTimeRange(slot) {
+    const sessionLabel = slot.duration_minutes === 20 ? "20-minute consultation" : "1-hour session";
+    const startTime = timeFormatter.format(new Date(slot.starts_at));
+    const endTime = timeFormatter.format(new Date(slot.ends_at));
+    return `${startTime} - ${endTime} · ${sessionLabel}`;
   }
 
   function createElement(tag, className, text) {
@@ -349,7 +356,10 @@
     const viewedSerial = monthSerial(year, monthIndex);
     const slotMap = new Map();
 
-    slots.forEach((slot) => {
+    const now = new Date();
+    const futureSlots = slots.filter((slot) => new Date(slot.starts_at) > now);
+
+    futureSlots.forEach((slot) => {
       state.slots.set(slot.id, slot);
       const key = dateKeyForInstant(slot.starts_at);
       if (!slotMap.has(key)) slotMap.set(key, []);
@@ -391,7 +401,7 @@
           times.append(createElement("h3", "calendar-times-title", `${day} ${monthNames[monthIndex]} — available hours`));
           const list = createElement("div", "calendar-time-list");
           daySlots.forEach((slot) => {
-            const button = createElement("button", "slot-time-button", timeFormatter.format(new Date(slot.starts_at)));
+            const button = createElement("button", "slot-time-button", formatSlotTimeRange(slot));
             button.type = "button";
             button.dataset.slotId = slot.id;
             button.setAttribute("aria-label", `Choose ${formatSlot(slot)}`);
@@ -410,8 +420,8 @@
       grid.append(spacer);
     }
 
-    status.textContent = slots.length
-      ? `${slots.length} available ${slots.length === 1 ? "time" : "times"} in ${monthNames[monthIndex]}.`
+    status.textContent = futureSlots.length
+      ? `${futureSlots.length} available ${futureSlots.length === 1 ? "time" : "times"} in ${monthNames[monthIndex]}.`
       : `No available times have been published for ${monthNames[monthIndex]} yet.`;
   }
 
@@ -428,6 +438,7 @@
       .select("id, slot_type, duration_minutes, starts_at, ends_at, status")
       .eq("slot_type", calendarElement.dataset.slotType)
       .eq("status", "available")
+      .gt("starts_at", new Date().toISOString())
       .gte("starts_at", start.toISOString())
       .lt("starts_at", end.toISOString())
       .order("starts_at", { ascending: true });
