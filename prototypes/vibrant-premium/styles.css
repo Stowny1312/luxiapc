@@ -911,6 +911,28 @@ input, select, textarea { width: 100%; border: 1px solid var(--line); border-rad
   color: var(--muted);
   line-height: 1.45;
 }
+.registration-accuracy-note {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 16px;
+  border: 1px solid rgba(230, 184, 92, 0.38);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 225, 214, 0.48), rgba(255, 255, 255, 0.76));
+}
+.registration-accuracy-note > span {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(230, 184, 92, 0.24);
+  color: #785f30;
+  font-weight: 950;
+}
+.registration-accuracy-note strong { color: var(--ink); line-height: 1.3; }
+.registration-accuracy-note p { margin: 5px 0 0; font-size: 0.9rem; line-height: 1.55; }
 button {
   min-height: 46px;
   border: 0;

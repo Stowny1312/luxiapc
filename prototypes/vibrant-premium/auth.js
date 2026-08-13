@@ -360,7 +360,7 @@
       showStatus(
         data && data.session
           ? "Account created. You are now logged in."
-          : "Account created. You can now log in.",
+          : "Account created. Please check your email and use the confirmation link before logging in.",
         "success"
       );
       form.reset();
