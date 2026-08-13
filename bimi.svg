@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny-ps" viewBox="0 0 512 512">
+  <title>Luxia P&amp;C</title>
+  <rect width="512" height="512" fill="#18343b"/>
+  <path fill="#7bd6d2" d="M218 72c-75 2-126 49-130 122 70 2 122-42 130-122z"/>
+  <path fill="#d9ef64" d="M294 72c75 2 126 49 130 122-70 2-122-42-130-122z"/>
+  <path fill="#ffc8b8" d="M218 440c-75-2-126-49-130-122 70-2 122 42 130 122z"/>
+  <path fill="#f4bd37" d="M294 440c75-2 126-49 130-122-70-2-122 42-130 122z"/>
+  <path fill="#ffffff" d="M220 176h30v146h82v28H220z"/>
+</svg>
