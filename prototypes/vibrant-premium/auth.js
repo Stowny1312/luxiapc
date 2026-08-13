@@ -373,7 +373,7 @@
         return;
       }
 
-      showStatus("Password recovery email sent. Please check your inbox.", "success");
+      showStatus("If an account exists for this email, a password recovery link has been sent.", "success");
     }
 
     if (form.matches("[data-update-password-form]")) {
