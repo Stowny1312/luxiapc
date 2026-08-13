@@ -4,120 +4,70 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <title>Luxia P&amp;C - where clarity meets</title>
-    <meta name="description" content="Vibrant premium prototype for a life coaching website.">
-    <link rel="stylesheet" href="styles.css">
+    <title>Coming soon! | Luxia P&amp;C</title>
+    <meta name="description" content="Luxia P&C is coming soon.">
+    <style>
+      :root { color-scheme: light; }
+      * { box-sizing: border-box; }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 12% 12%, rgba(123, 214, 210, .28), transparent 34%),
+          radial-gradient(circle at 88% 18%, rgba(217, 239, 157, .3), transparent 30%),
+          linear-gradient(145deg, #f7fbfb 0%, #eef7f6 55%, #fffaf0 100%);
+        color: #18343b;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      main {
+        width: min(680px, calc(100% - 32px));
+        padding: clamp(42px, 8vw, 76px) clamp(26px, 7vw, 64px);
+        border: 1px solid rgba(137, 183, 180, .4);
+        border-radius: 28px;
+        background: rgba(255, 255, 255, .82);
+        box-shadow: 0 28px 80px rgba(32, 76, 80, .14);
+        text-align: center;
+        backdrop-filter: blur(12px);
+      }
+      .brand {
+        margin: 0 0 28px;
+        color: #b58a27;
+        font-size: .78rem;
+        font-weight: 800;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(3rem, 11vw, 6.5rem);
+        line-height: .96;
+        letter-spacing: -.055em;
+      }
+      p:last-child {
+        max-width: 470px;
+        margin: 26px auto 0;
+        color: #587078;
+        font-size: clamp(1rem, 2.7vw, 1.18rem);
+        line-height: 1.65;
+      }
+      .accent {
+        width: 82px;
+        height: 6px;
+        margin: 30px auto 0;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #d9b34c, #7bd6d2, #d9ef9d);
+      }
+    </style>
   </head>
   <body>
-    <input id="menu-toggle" class="menu-toggle" type="checkbox" aria-label="Toggle navigation">
-    <label class="menu-button" for="menu-toggle"><span></span><span></span><span></span></label>
-    <div class="scrim"></div>
-    <nav class="drawer" aria-label="Main navigation">
-      <a class="active home-link" data-page="home" href="#home">Home</a>
-      <a href="pages/why-luxia.html">Why Luxia Prevention &amp; Coaching?</a>
-      <a href="pages/services.html">Our Services</a>
-      <a href="pages/client-space.html">Client space</a>
-      <a href="pages/book-consultation.html">Book your consultation</a>
-      <a href="pages/aboutme.html">About me</a>
-      <a href="pages/contact.html">Contact</a>
-      <a href="pages/payment.html">Payments *</a>
-      <a href="pages/session.html">Online session *</a>
-      <a href="pages/reviews.html">Reviews *</a>
-      <a href="pages/coach-schedule.html">Coach schedule *</a>
-    </nav>
-
-    <header class="topbar">
-      <a class="brand" href="./" aria-label="Luxia Prevention and Coaching home">
-        <img class="brand-logo" src="assets/luxia-header-logo.png" alt="Luxia P&C - Prevention & Coaching">
-      </a>
-      <div class="header-actions">
-        <a class="client-link login-link" hidden href="pages/client-space.html">Login</a>
-        <a class="create-link" hidden href="pages/create-account.html">Create account</a>
-        <div class="user-menu" data-user-menu hidden><a class="client-link user-name-link" data-user-name href="pages/client-space.html">Hi</a><button class="user-menu-toggle" type="button" data-user-menu-toggle aria-label="Open account menu">&#9662;</button><div class="user-menu-popover" data-user-menu-popover hidden><button class="logout-link" type="button" data-header-sign-out>Logout</button></div></div>
-        <div class="language language-menu" data-language-menu aria-label="Language selector">
-          <button class="language-toggle" type="button" data-language-toggle aria-haspopup="true" aria-expanded="false"><span data-language-current>EN</span><span class="language-arrow" aria-hidden="true">&#9662;</span></button>
-          <div class="language-options" data-language-options hidden>
-            <button type="button" data-language-option="NL">NL</button>
-            <button type="button" data-language-option="PL">PL</button>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <main class="home-main">
-      <section id="home" class="welcome-section" aria-labelledby="welcome-title">
-        <div class="welcome-heading">
-          <p class="eyebrow">A place for people and businesses</p>
-          <h2 id="welcome-title">Welcome to Luxia Prevention &amp; Coaching</h2>
-          <p class="welcome-lead">I’m glad you’re here, whether you’re looking for support for yourself or solutions for your business.</p>
-          <p>Perhaps it’s a coincidence, or perhaps it’s the right moment to pause and focus on what truly matters: growth, safety, and conscious action.</p>
-        </div>
-
-        <div class="welcome-paths">
-          <article class="welcome-card personal-support">
-            <span class="welcome-card-number" aria-hidden="true">01</span>
-            <p class="eyebrow">For you</p>
-            <h3>A clearer direction, with someone listening attentively.</h3>
-            <p>If you need a space where someone will listen to you attentively, help you organize your thoughts, and find a clear direction, you’ll find it here.</p>
-            <p>In individual coaching, I focus on mindfulness, clarity, and practical results that lead to greater balance and effectiveness in everyday life.</p>
-          </article>
-
-          <article class="welcome-card business-support">
-            <span class="welcome-card-number" aria-hidden="true">02</span>
-            <p class="eyebrow">For your business</p>
-            <h3>Professional prevention and workplace safety support.</h3>
-            <p>If you represent a company, Luxia offers professional support in the areas of prevention and workplace safety (for companies in Group C and D*), building a culture of responsibility, and creating a work environment that promotes both efficiency and employee well-being.</p>
-            <p>I help organizations operate safely, efficiently, and consciously, from audits and training programs to team coaching.</p>
-          </article>
-        </div>
-
-        <section class="hero welcome-hero" aria-label="Private online life coaching">
-          <div class="hero-copy">
-            <p class="eyebrow">Private online life coaching</p>
-            <h1>Get unstuck with a clear coaching plan.</h1>
-            <p class="hero-lead">Luxia P&C is a one-to-one coaching space for people who need clarity, confidence, and practical next steps during career, relationship, wellbeing, or life-transition moments.</p>
-            <div class="actions">
-              <a class="primary-cta" href="pages/book-consultation.html">See consultation options</a>
-              <a class="login-link" href="pages/client-space.html" hidden>Login</a>
-              <a class="create-link" hidden href="pages/create-account.html">Create account</a>
-            </div>
-            <div class="trust-row" aria-label="Luxia coaching highlights">
-              <span>Private 1:1 sessions</span>
-              <span>Clear preparation questions</span>
-              <span>English, Dutch, Polish</span>
-            </div>
-          </div>
-          <div class="hero-card" aria-label="Coaching journey preview">
-            <div class="hero-card-header">
-              <span>First steps</span>
-              <strong>Coaching journey</strong>
-            </div>
-            <ol class="journey-list">
-              <li><span>1</span><strong>Tell us what feels unclear</strong><small>Short introduction and expectations.</small></li>
-              <li><span>2</span><strong>Choose the right session</strong><small>Booking with a few preparation questions.</small></li>
-              <li><span>3</span><strong>Meet privately online</strong><small>Client and coach access only during booked time.</small></li>
-              <li><span>4</span><strong>Leave with next actions</strong><small>Simple plan, calmer follow-through.</small></li>
-            </ol>
-            <div class="tree-note">Every paid session includes a tree planted as appreciation.</div>
-            <a class="hero-book-now" href="pages/book-consultation.html">Book now</a>
-          </div>
-        </section>
-
-        <div class="welcome-closing">
-          <div class="welcome-invitation">
-            <p>This is a place created for people and businesses that want to do better.</p>
-            <strong>Make yourself at home. You’re in the right place.</strong>
-          </div>
-          <blockquote>“Safe to grow, ready to thrive”</blockquote>
-        </div>
-
-        <p class="welcome-legal"><span>*</span> In accordance with Belgian legislation as defined in the Codex on Well-being at Work, Luxia specializes in supporting low-risk organizations with fewer than 200 employees, including Group C companies (20 to 200 employees) and Group D companies (fewer than 20 employees).</p>
-      </section>
+    <main>
+      <p class="brand">Luxia P&amp;C · Prevention &amp; Coaching</p>
+      <h1>Coming soon!</h1>
+      <div class="accent" aria-hidden="true"></div>
+      <p>We are preparing a thoughtful new space for clarity, growth, and conscious action. See you very soon.</p>
     </main>
-      <script src="loader.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-config.js"></script>
-    <script src="auth.js"></script>
   </body>
 </html>
-
