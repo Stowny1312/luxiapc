@@ -141,8 +141,10 @@
     ].filter(Boolean).join(" ");
     const birthDate = user.user_metadata && user.user_metadata.date_of_birth;
     const gender = user.user_metadata && user.user_metadata.gender;
+    const phone = (user.user_metadata && user.user_metadata.phone) || user.phone;
     const details = [
       user.email,
+      phone ? `Phone: ${phone}` : "",
       birthDate ? `Date of birth: ${birthDate}` : "",
       gender ? `Gender: ${gender}` : ""
     ].filter(Boolean);
@@ -480,6 +482,16 @@
     const startsWithPlus = input.value.startsWith("+");
     const digits = input.value.replace(/\D/g, "");
     input.value = `${startsWithPlus ? "+" : ""}${digits}`.slice(0, 18);
+  });
+
+  document.querySelectorAll("[data-phone-country]").forEach((select) => {
+    if (!(select instanceof HTMLSelectElement)) return;
+    const selectedValue = select.value;
+    const options = Array.from(select.options).sort((a, b) =>
+      a.textContent.replace(/^\S+\s*/, "").localeCompare(b.textContent.replace(/^\S+\s*/, ""), undefined, { sensitivity: "base" })
+    );
+    select.replaceChildren(...options);
+    select.value = selectedValue;
   });
 
   document.addEventListener("click", async (event) => {
