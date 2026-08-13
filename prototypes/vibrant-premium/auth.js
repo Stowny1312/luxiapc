@@ -324,10 +324,16 @@
       const phoneDigits = phoneInput.replace(/\D/g, "").replace(/^0+/, "");
       const phone = phoneInput.startsWith("+") ? `+${phoneInput.replace(/\D/g, "")}` : `+${phoneCountry}${phoneDigits}`;
       const password = String(formData.get("password") || "");
+      const confirmPassword = String(formData.get("confirm_password") || "");
 
-      if (!form.checkValidity() || !firstName || !lastName || !dateOfBirth || !gender || !email || !phone || !password) {
+      if (!form.checkValidity() || !firstName || !lastName || !dateOfBirth || !gender || !email || !phone || !password || !confirmPassword) {
         form.reportValidity();
         showStatus("Please fill in all required fields before creating your account.", "error");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showStatus("The two passwords do not match. Please check them and try again.", "error");
         return;
       }
 

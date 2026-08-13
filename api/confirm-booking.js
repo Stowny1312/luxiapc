@@ -1,16 +1,8 @@
 const { SUPABASE_URL, bearerToken, getSupabaseUser, readJson, sendJson, siteOrigin, supabaseHeaders, supabaseRpc, zoomAccessToken } = require("../lib/zoom-common");
+const { actionButton, detailsCard, luxiaEmail, paragraph } = require("../lib/luxia-email");
 
 function bookingLabel(sessionType) {
   return sessionType === "coaching" ? "1 hour coaching" : "20 minute consultation";
-}
-
-function escapeHtml(value) {
-  return String(value || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
 }
 
 function formatBrusselsDate(value) {
@@ -50,7 +42,13 @@ async function notifyClient(booking, meetingUrl) {
         "",
         "The room opens 10 minutes before the appointment. Please sign in with the email used for the booking. You will remain in Zoom's private waiting room until the coach admits you."
       ].join("\n"),
-      html: `<div style="font-family:Arial,sans-serif;line-height:1.65;color:#243236;max-width:620px;margin:auto"><p style="color:#42777e;font-weight:700;letter-spacing:.08em;text-transform:uppercase">Luxia P&amp;C</p><h1 style="font-size:26px;margin-bottom:8px">Your booking is confirmed</h1><p>Hello ${escapeHtml(clientName)},</p><p>Your <strong>${escapeHtml(label)}</strong> has been confirmed.</p><div style="padding:18px;border-radius:16px;background:#f0fafb"><div><strong>Starts:</strong> ${escapeHtml(start)}</div><div><strong>Ends:</strong> ${escapeHtml(end)}</div></div><p style="margin:28px 0"><a href="${escapeHtml(meetingUrl)}" style="display:inline-block;padding:14px 22px;border-radius:999px;background:#243236;color:#fff;text-decoration:none;font-weight:700">Open private session</a></p><p style="font-size:14px;color:#647276">The room opens 10 minutes before the appointment. Sign in with the email used for this booking. You will stay in Zoom's private waiting room until your coach admits you.</p></div>`
+      html: luxiaEmail({
+        eyebrow: "Booking confirmed",
+        title: "Your private Luxia session is ready",
+        intro: `Hello ${clientName}, your ${label} has been confirmed.`,
+        content: detailsCard([["Session", label], ["Starts", start], ["Ends", end]]) + actionButton(meetingUrl, "Open private session") + paragraph("The room opens 10 minutes before the appointment. Sign in with the email used for this booking. You will stay in the private waiting room until your coach admits you."),
+        footer: "Keep this email private because it contains your session access link."
+      })
     })
   });
   if (!emailResponse.ok) {

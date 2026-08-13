@@ -1,4 +1,5 @@
 const CONTACT_TO_EMAIL = "tonkata.stoev@gmail.com";
+const { detailsCard, escapeHtml, luxiaEmail, paragraph } = require("../lib/luxia-email");
 
 function sendJson(response, statusCode, payload) {
   response.statusCode = statusCode;
@@ -93,7 +94,20 @@ module.exports = async function handler(request, response) {
         "",
         "Message:",
         message
-      ].join("\n")
+      ].join("\n"),
+      html: luxiaEmail({
+        eyebrow: "Website enquiry",
+        title: "A new Luxia contact message",
+        intro: "Someone has contacted Luxia P&C through the website.",
+        content: detailsCard([
+          ["Full name", fullName],
+          ["Email", email],
+          ["Phone", phone],
+          ["Preferred contact", preferredContact],
+          ["Client account", clientAccount]
+        ]) + paragraph("Message") + `<div style="padding:16px 18px;background:#f5faf8;border-radius:12px;font-size:15px;line-height:1.7;color:#587078;white-space:pre-wrap">${escapeHtml(message)}</div>`,
+        footer: "Reply directly to this email to answer the sender."
+      })
     })
   });
 
