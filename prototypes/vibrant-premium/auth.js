@@ -352,7 +352,12 @@
         return;
       }
 
-      showStatus("Account created. Please check your email to activate it, then log in.", "success");
+      showStatus(
+        data && data.session
+          ? "Account created. You are now logged in."
+          : "Account created. You can now log in.",
+        "success"
+      );
       form.reset();
     }
 
