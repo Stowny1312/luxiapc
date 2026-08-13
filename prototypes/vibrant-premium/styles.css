@@ -2123,6 +2123,77 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   border-color: rgba(180, 35, 47, 0.28);
   background: rgba(180, 35, 47, 0.08);
 }
+.about-official { display: grid; gap: 18px; }
+.about-introduction {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+  gap: 18px;
+  align-items: stretch;
+}
+.about-title-block,
+.about-lead-quote,
+.about-chapter,
+.about-personal-note,
+.about-luxia-name,
+.about-qualifications,
+.about-final-cta {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 24px 76px rgba(58, 82, 86, 0.09);
+}
+.about-title-block {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  min-height: 480px;
+  padding: clamp(30px, 6vw, 72px);
+  background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(235,246,221,.68));
+}
+.about-title-block h1 { max-width: 760px; font-size: clamp(3rem, 7vw, 6.8rem); }
+.about-deck { max-width: 700px; margin: 0; font-size: clamp(1.08rem, 1.8vw, 1.35rem); }
+.about-language-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.about-language-row span { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.74); font-weight: 900; }
+.about-lead-quote {
+  display: flex;
+  align-items: flex-end;
+  margin: 0;
+  padding: clamp(28px, 5vw, 56px);
+  color: #fff;
+  background: linear-gradient(145deg, rgba(36,50,54,.96), rgba(61,116,122,.9));
+  font-size: clamp(1.75rem, 3.4vw, 3.3rem);
+  font-weight: 950;
+  line-height: 1.08;
+}
+.about-narrative { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+.about-chapter { position: relative; overflow: hidden; display: grid; align-content: start; gap: 14px; padding: clamp(26px, 4vw, 44px); background: rgba(255,255,255,.68); }
+.about-chapter-featured { grid-row: span 2; background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(220,243,246,.55)); }
+.about-chapter h2 { max-width: 630px; color: var(--ink); font-size: clamp(1.8rem, 3vw, 3rem); }
+.about-chapter p { position: relative; margin: 0; }
+.about-chapter-number { position: absolute; top: 18px; right: 24px; color: rgba(36,50,54,.09); font-size: clamp(4rem, 8vw, 7rem); font-weight: 950; line-height: 1; }
+.about-mission { background: linear-gradient(145deg, rgba(255,255,255,.78), rgba(247,255,239,.78)); }
+.about-mission strong { color: #3d747a; font-size: 1.18rem; }
+.about-personal-note { padding: clamp(24px, 4vw, 38px); background: linear-gradient(135deg, rgba(255,225,214,.42), rgba(100,221,235,.12)); }
+.about-personal-note p:last-child { margin-bottom: 0; color: var(--ink); font-size: 1.08rem; }
+.about-luxia-name { display: grid; grid-template-columns: minmax(280px,.8fr) minmax(0,1.2fr); gap: clamp(28px,5vw,70px); padding: clamp(32px,6vw,72px); background: linear-gradient(135deg, rgba(36,50,54,.97), rgba(61,116,122,.91)); color: #fff; }
+.about-luxia-name h2 { color: #fff; font-size: clamp(2.4rem, 5vw, 5rem); }
+.about-name-copy { display: grid; gap: 14px; }
+.about-name-copy p { margin: 0; color: rgba(255,255,255,.78); }
+.about-name-copy strong { color: #fff; font-size: 1.18rem; }
+.about-name-signature { grid-column: 1/-1; margin: 18px 0 0; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.2); color: #fff; font-size: clamp(1.35rem,2.5vw,2.3rem); font-weight: 950; }
+.about-qualifications { display: grid; gap: 28px; padding: clamp(32px,6vw,72px); background: rgba(255,255,255,.66); }
+.about-qualifications-intro { max-width: 820px; }
+.about-qualifications-intro h2 { font-size: clamp(2.2rem,4.5vw,4.5rem); }
+.qualification-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
+.qualification-grid article { align-content: start; padding: 24px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(145deg, rgba(255,255,255,.84), rgba(235,246,221,.55)); }
+.qualification-grid span { color: #3d747a; font-size: .76rem; font-weight: 950; text-transform: uppercase; }
+.qualification-grid h3 { margin: 0; font-size: 1.35rem; line-height: 1.15; }
+.qualification-grid p { margin: 0; }
+.about-learning-copy { max-width: 900px; }
+.about-learning-copy strong { color: var(--ink); font-size: 1.1rem; line-height: 1.55; }
+.about-closing-line { margin: 0; color: #3d747a; font-size: clamp(1.35rem,2.8vw,2.5rem); font-weight: 950; }
+.about-final-cta { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: clamp(26px,4vw,44px); background: linear-gradient(135deg, rgba(220,243,246,.9), rgba(235,246,221,.9)); }
+.about-final-cta p { margin: 0; color: var(--ink); font-size: clamp(1.25rem,2.4vw,2rem); font-weight: 900; }
+.about-final-cta a { flex: 0 0 auto; padding: 14px 18px; border-radius: 999px; background: var(--ink); color: #fff; text-decoration: none; font-weight: 950; }
 .drawer [data-owner-link]:hover,
 .drawer [data-owner-link]:focus-visible,
 .drawer [data-owner-link].active {
@@ -2623,6 +2694,14 @@ body.session-connected:not(.zoom-client-view) .meeting-controls { flex: 0 0 auto
 
 @media (max-width: 860px) {
   .hero, .split, .payment, .contact-layout { grid-template-columns: 1fr; }
+  .about-introduction,
+  .about-narrative,
+  .about-luxia-name,
+  .qualification-grid { grid-template-columns: 1fr; }
+  .about-chapter-featured { grid-row: auto; }
+  .about-name-signature { grid-column: 1; }
+  .about-final-cta { align-items: stretch; flex-direction: column; }
+  .about-final-cta a { text-align: center; }
   .credential-grid, .dashboard, .review-grid, .timeline, .auth-layout, .auth-panels, .form-row, .phone-field { grid-template-columns: 1fr; }
   .booking-selection-panel,
   .owner-calendar-panel {
