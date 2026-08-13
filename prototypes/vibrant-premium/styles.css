@@ -2987,8 +2987,8 @@ body.session-connected:not(.zoom-client-view) .meeting-controls { flex: 0 0 auto
   }
   .language-toggle { min-width: 54px; padding: 0 6px; }
   .language-options button { min-width: 46px; padding: 0 7px; }
-  .client-link,
-  .create-link {
+  .header-actions > .client-link,
+  .header-actions > .create-link {
     max-width: 96px;
     line-height: 1.05;
     text-align: center;
