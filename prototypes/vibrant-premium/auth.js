@@ -317,7 +317,10 @@
       const dateOfBirth = String(formData.get("date_of_birth") || "").trim();
       const gender = String(formData.get("gender") || "").trim();
       const email = String(formData.get("email") || "").trim().toLowerCase();
-      const phone = String(formData.get("phone") || "").trim();
+      const phoneCountry = String(formData.get("phone_country") || "").replace(/\D/g, "");
+      const phoneInput = String(formData.get("phone") || "").trim();
+      const phoneDigits = phoneInput.replace(/\D/g, "").replace(/^0+/, "");
+      const phone = phoneInput.startsWith("+") ? `+${phoneInput.replace(/\D/g, "")}` : `+${phoneCountry}${phoneDigits}`;
       const password = String(formData.get("password") || "");
 
       if (!form.checkValidity() || !firstName || !lastName || !dateOfBirth || !gender || !email || !phone || !password) {
@@ -468,6 +471,15 @@
         }
       }
     }
+  });
+
+  document.addEventListener("input", (event) => {
+    const input = event.target;
+    if (!(input instanceof HTMLInputElement) || !input.matches("[data-phone-number]")) return;
+
+    const startsWithPlus = input.value.startsWith("+");
+    const digits = input.value.replace(/\D/g, "");
+    input.value = `${startsWithPlus ? "+" : ""}${digits}`.slice(0, 18);
   });
 
   document.addEventListener("click", async (event) => {

@@ -900,6 +900,17 @@ article span, .calendar-card span, .session-card p { color: var(--muted); }
 .mock-form { display: grid; gap: 14px; }
 label { display: grid; gap: 7px; color: var(--muted); font-weight: 800; }
 input, select, textarea { width: 100%; border: 1px solid var(--line); border-radius: 8px; background: rgba(255,255,255,0.82); color: var(--ink); padding: 12px; font: inherit; }
+.phone-field {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.9fr) minmax(220px, 1.1fr);
+  gap: 12px;
+}
+.field-help {
+  display: block;
+  margin-top: -6px;
+  color: var(--muted);
+  line-height: 1.45;
+}
 button {
   min-height: 46px;
   border: 0;
@@ -2612,7 +2623,7 @@ body.session-connected:not(.zoom-client-view) .meeting-controls { flex: 0 0 auto
 
 @media (max-width: 860px) {
   .hero, .split, .payment, .contact-layout { grid-template-columns: 1fr; }
-  .credential-grid, .dashboard, .review-grid, .timeline, .auth-layout, .auth-panels, .form-row { grid-template-columns: 1fr; }
+  .credential-grid, .dashboard, .review-grid, .timeline, .auth-layout, .auth-panels, .form-row, .phone-field { grid-template-columns: 1fr; }
   .booking-selection-panel,
   .owner-calendar-panel {
     grid-template-columns: 1fr;
