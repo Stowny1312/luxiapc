@@ -359,6 +359,14 @@ body {
 .menu-toggle:checked ~ .drawer { transform: translateX(0); }
 
 main { padding-top: 92px; }
+.home-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-main .welcome-section { order: 1; }
+.home-main .hero { order: 2; }
+
 .hero {
   min-height: auto;
   display: grid;
