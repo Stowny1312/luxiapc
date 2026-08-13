@@ -359,14 +359,6 @@ body {
 .menu-toggle:checked ~ .drawer { transform: translateX(0); }
 
 main { padding-top: 92px; }
-.home-main {
-  display: flex;
-  flex-direction: column;
-}
-
-.home-main .welcome-section { order: 1; }
-.home-main .hero { order: 2; }
-
 .hero {
   min-height: auto;
   display: grid;
@@ -374,6 +366,12 @@ main { padding-top: 92px; }
   gap: clamp(28px, 5vw, 64px);
   align-items: center;
   padding: clamp(46px, 6vw, 86px) clamp(18px, 5vw, 72px) 34px;
+}
+.welcome-hero {
+  margin-top: 16px;
+  padding: clamp(34px, 5vw, 64px) clamp(24px, 4vw, 44px);
+  border-top: 3px solid transparent;
+  border-image: linear-gradient(90deg, var(--gold), var(--kiwi), var(--aqua), transparent 88%) 1;
 }
 .hero-copy { display: grid; gap: 18px; }
 .eyebrow { margin: 0; color: var(--gold); font-size: 0.78rem; font-weight: 950; text-transform: uppercase; }
