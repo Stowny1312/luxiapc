@@ -17,6 +17,7 @@
   const bookingLoggedOut = document.querySelector("[data-booking-logged-out]");
   const bookingStatus = document.querySelector("[data-booking-status]");
   const selectedSlotTitle = document.querySelector("[data-selected-slot]");
+  const bookingConfirmationNote = document.querySelector("[data-booking-confirmation-note]");
   const bookingAccount = document.querySelector("[data-booking-account]");
   const serviceButtons = Array.from(document.querySelectorAll("[data-service-choice]"));
   const availabilityButton = document.querySelector("[data-check-availability]");
@@ -465,6 +466,11 @@
     if (!bookingPanel || !state.selectedSlot) return;
     bookingPanel.hidden = false;
     selectedSlotTitle.textContent = formatSlot(state.selectedSlot);
+    if (bookingConfirmationNote) {
+      bookingConfirmationNote.textContent = state.selectedSlot.slot_type === "coaching"
+        ? "Your 1-hour session is confirmed after you press the confirmation button and successfully complete the payment."
+        : "Your reservation is confirmed after you press the confirmation button and the owner explicitly approves your request through the confirmation email.";
+    }
     bookingLoggedOut.hidden = Boolean(state.user);
     bookingForm.hidden = !state.user;
 
@@ -544,12 +550,15 @@
 
     const confirmed = state.selectedSlot;
     state.selectedSlot = null;
-    selectedSlotTitle.textContent = `Confirmed: ${formatSlot(confirmed)}`;
+    selectedSlotTitle.textContent = `Request submitted: ${formatSlot(confirmed)}`;
+    if (bookingConfirmationNote) {
+      bookingConfirmationNote.textContent = "Your request has been sent. The reservation will be confirmed after the owner explicitly approves it through the confirmation email.";
+    }
     bookingForm.hidden = true;
     bookingLoggedOut.hidden = true;
     const confirmationMessage = result.notificationSent === false
-      ? "Your booking is confirmed and has been added to your Client space. The owner email could not be sent automatically."
-      : "Your booking is confirmed, has been added to your Client space, and the owner has been notified.";
+      ? "Your booking request has been added to your Client space, but the owner email could not be sent automatically. Please contact Luxia before considering the reservation confirmed."
+      : "Your booking request has been added to your Client space. The owner has been notified and must explicitly confirm it.";
     setStatus(bookingStatus, confirmationMessage, result.notificationSent === false ? "error" : "success");
     await loadAllCalendars();
     if (state.isOwner) await loadOwnerAgenda();
@@ -874,11 +883,6 @@
   initializeVoiceRecognition();
   if (bookingForm) bookingForm.addEventListener("submit", submitBooking);
   if (confirmationForm) confirmationForm.addEventListener("submit", confirmBooking);
-  bookingForm?.querySelector('select[name="preferred_contact"]')?.addEventListener("change", (event) => {
-    const metadata = (state.user && state.user.user_metadata) || {};
-    const accountPhone = (state.user && state.user.phone) || metadata.phone || "";
-    bookingPhoneField.hidden = event.target.value !== "phone" || Boolean(accountPhone);
-  });
   document.querySelector("[data-cancel-selection]")?.addEventListener("click", () => {
     state.selectedSlot = null;
     bookingPanel.hidden = true;
