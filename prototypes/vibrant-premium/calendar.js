@@ -18,7 +18,6 @@
   const bookingStatus = document.querySelector("[data-booking-status]");
   const selectedSlotTitle = document.querySelector("[data-selected-slot]");
   const bookingAccount = document.querySelector("[data-booking-account]");
-  const bookingPhoneField = document.querySelector("[data-booking-phone-field]");
   const serviceButtons = Array.from(document.querySelectorAll("[data-service-choice]"));
   const availabilityButton = document.querySelector("[data-check-availability]");
   const ownerAgendaList = document.querySelector("[data-owner-agenda-list]");
@@ -473,10 +472,7 @@
     const metadata = state.user.user_metadata || {};
     const fullName = [metadata.first_name, metadata.last_name].filter(Boolean).join(" ") || "Luxia client";
     const phone = state.user.phone || metadata.phone || "";
-    bookingAccount.textContent = `Booking as ${fullName} · ${state.user.email || "verified account"}`;
-    const phoneInput = bookingForm.querySelector('input[name="phone"]');
-    if (phoneInput) phoneInput.value = phone;
-    bookingPhoneField.hidden = Boolean(phone);
+    bookingAccount.textContent = `Booking as ${fullName} · ${state.user.email || "verified account"} · ${phone || "Phone number unavailable"}`;
     clearStatus(bookingStatus);
   }
 
@@ -526,7 +522,6 @@
         body: JSON.stringify({
           slotId: state.selectedSlot.id,
           preferredContact: String(formData.get("preferred_contact") || "email"),
-          phone: String(formData.get("phone") || "").trim() || null,
           message: String(formData.get("message") || "").trim() || null
         })
       });
