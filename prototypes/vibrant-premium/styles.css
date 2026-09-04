@@ -1573,6 +1573,19 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
+.coaching-promotion {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 22px;
+  border: 1px solid rgba(217, 179, 76, .35);
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(255,225,214,.72), rgba(235,246,221,.82), rgba(220,243,246,.72));
+  box-shadow: 0 14px 34px rgba(58,82,86,.07);
+}
+.coaching-promotion > span { flex: 0 0 auto; padding: 8px 12px; border-radius: 999px; background: var(--ink); color: #fff; font-size: .76rem; font-weight: 950; letter-spacing: .05em; text-transform: uppercase; }
+.coaching-promotion strong { display: block; color: var(--ink); font-size: 1.12rem; }
+.coaching-promotion p { margin: 4px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.5; }
 .pricing-grid article {
   min-height: 230px;
   align-content: space-between;
@@ -2147,6 +2160,10 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   border-color: rgba(180, 35, 47, 0.28);
   background: rgba(180, 35, 47, 0.08);
 }
+.pricing-offer { display: grid; grid-template-columns: auto 1fr; align-items: end; gap: 5px 12px; }
+.pricing-offer del { color: #7f8f92; font-size: 1.15rem; font-weight: 800; text-decoration-color: #c76f68; text-decoration-thickness: 2px; }
+.pricing-offer strong { grid-row: span 2; }
+.pricing-grid .price-saving { justify-self: start; padding: 5px 9px; border-radius: 999px; background: rgba(168,217,87,.23); color: #365f55; font-size: .72rem; font-weight: 950; letter-spacing: .04em; text-transform: uppercase; }
 .about-official { display: grid; gap: 20px; max-width: 1320px; }
 .about-official p { line-height: 1.72; }
 .about-introduction {
@@ -3074,6 +3091,7 @@ body.session-connected:not(.zoom-client-view) .meeting-controls { flex: 0 0 auto
   .pricing-grid .featured-price {
     transform: none;
   }
+  .coaching-promotion { align-items: flex-start; flex-direction: column; gap: 12px; }
   .consultation-hero > blockquote,
   .journey-quote {
     padding: 24px 20px;
