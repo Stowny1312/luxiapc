@@ -134,7 +134,6 @@ module.exports = async function handler(request, response) {
       if (!Number.isInteger(amount) || amount < 50) throw new Error("Payment is not configured yet.");
       const session = await stripeRequest("/checkout/sessions", { method: "POST", body: {
         mode: "payment",
-        "automatic_payment_methods[enabled]": "true",
         "line_items[0][quantity]": "1",
         "line_items[0][price_data][currency]": "eur",
         "line_items[0][price_data][unit_amount]": String(amount),
