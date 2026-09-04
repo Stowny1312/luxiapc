@@ -2156,6 +2156,7 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   align-items: stretch;
 }
 .about-title-block,
+.about-introduction-photo,
 .about-lead-quote,
 .about-chapter,
 .about-personal-note,
@@ -2176,7 +2177,10 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 }
 .about-title-block h1 { max-width: 680px; font-size: clamp(2.25rem, 4.6vw, 4.35rem); line-height: .98; letter-spacing: -.045em; }
 .about-deck { max-width: 650px; margin: 0; font-size: clamp(.98rem, 1.35vw, 1.16rem); }
+.about-introduction-photo { min-height: 460px; margin: 0; overflow: hidden; background: rgba(220,243,246,.45); }
+.about-introduction-photo img { display: block; width: 100%; height: 100%; min-height: 460px; object-fit: cover; object-position: center 58%; }
 .about-lead-quote {
+  grid-column: 1 / -1;
   display: flex;
   align-items: flex-end;
   margin: 0;
@@ -2195,6 +2199,9 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 .about-chapter-number { position: absolute; top: 16px; right: 22px; color: rgba(36,50,54,.075); font-size: clamp(3.5rem, 6vw, 5.6rem); font-weight: 950; line-height: 1; }
 .about-mission { background: linear-gradient(145deg, rgba(255,255,255,.78), rgba(247,255,239,.78)); }
 .about-mission strong { color: #3d747a; font-size: 1.18rem; }
+.about-client-photo { position: relative; margin: 12px 0 0; overflow: hidden; border: 1px solid rgba(61,116,122,.16); border-radius: 18px; background: rgba(255,255,255,.72); }
+.about-client-photo img { display: block; width: 100%; aspect-ratio: 16 / 7.6; object-fit: cover; object-position: center 48%; }
+.about-client-photo figcaption { padding: 11px 15px; color: #587078; font-size: .82rem; font-weight: 750; }
 .about-personal-note { padding: clamp(24px, 4vw, 38px); background: linear-gradient(135deg, rgba(255,225,214,.42), rgba(100,221,235,.12)); }
 .about-personal-note p:last-child { margin-bottom: 0; color: var(--ink); font-size: 1rem; }
 .about-luxia-name { display: grid; grid-template-columns: minmax(280px,.8fr) minmax(0,1.2fr); gap: clamp(28px,4vw,56px); padding: clamp(30px,5vw,58px); background: radial-gradient(circle at 92% 5%, rgba(255,225,214,.16), transparent 18rem), linear-gradient(135deg, rgba(36,50,54,.97), rgba(61,116,122,.91)); color: #fff; }
@@ -2723,6 +2730,10 @@ body.session-connected:not(.zoom-client-view) .meeting-controls { flex: 0 0 auto
   .qualification-grid { grid-template-columns: 1fr; }
   .about-chapter-featured { grid-row: auto; }
   .about-name-signature { grid-column: 1; }
+  .about-lead-quote { grid-column: 1; }
+  .about-introduction-photo,
+  .about-introduction-photo img { min-height: 0; }
+  .about-introduction-photo img { aspect-ratio: 4 / 5; }
   .about-final-cta { align-items: stretch; flex-direction: column; }
   .about-final-cta a { text-align: center; }
   .credential-grid, .dashboard, .review-grid, .timeline, .auth-layout, .auth-panels, .form-row, .phone-field { grid-template-columns: 1fr; }
