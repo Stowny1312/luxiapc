@@ -126,7 +126,7 @@ module.exports = async function handler(request, response) {
       sendJson(response, 503, { error: "Secure payment is not configured yet." });
       return;
     }
-    const serviceHeaders = { apikey: serviceKey, "Content-Type": "application/json" };
+    const serviceHeaders = { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" };
     const amount = Number(process.env.COACHING_PRICE_CENTS || 100);
     const origin = String(process.env.PUBLIC_SITE_URL || `https://${request.headers["x-forwarded-host"] || request.headers.host || "dev.luxiapc.com"}`).replace(/\/$/, "");
     const expiresAt = Math.floor(Date.now() / 1000) + 30 * 60;

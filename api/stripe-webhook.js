@@ -22,7 +22,7 @@ async function serviceRpc(name, body) {
   if (!key) throw new Error("Supabase server credentials are missing.");
   const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`, {
     method: "POST",
-    headers: { apikey: key, "Content-Type": "application/json" },
+    headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify(body)
   });
   if (!response.ok) throw new Error(`Database payment update failed (${response.status}).`);
@@ -34,7 +34,7 @@ async function notifyOwner(bookingId) {
   const resendKey = String(process.env.RESEND_API_KEY || "");
   if (!key || !resendKey) return;
   const result = await fetch(`${SUPABASE_URL}/rest/v1/bookings?id=eq.${encodeURIComponent(bookingId)}&select=id,starts_at,client_name,client_email,client_phone,preferred_contact,client_message,payment_amount_cents,payment_currency`, {
-    headers: { apikey: key }
+    headers: { apikey: key, Authorization: `Bearer ${key}` }
   });
   const booking = (await result.json())[0];
   if (!result.ok || !booking) return;
