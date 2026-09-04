@@ -166,7 +166,7 @@
 
     const { data, error } = await client
       .from("bookings")
-      .select("id, session_type, starts_at, ends_at, status, meeting_url, notes")
+      .select("id, session_type, starts_at, ends_at, status, payment_status, meeting_url, notes")
       .eq("user_id", user.id)
       .order("starts_at", { ascending: false });
 
@@ -184,14 +184,26 @@
     list.innerHTML = data.map((booking) => {
       const start = new Date(booking.starts_at);
       const end = new Date(booking.ends_at);
-      const isPast = end <= now || booking.status === "completed";
+      const hasEnded = end <= now;
+      const isPast = hasEnded || booking.status === "completed";
       const isActive = !isPast && start <= now && now < end;
       const when = start.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
-      const link = booking.meeting_url && !isPast
-        ? `<a href="${booking.meeting_url}" target="_blank" rel="noreferrer">Enter private session</a>`
+      const link = isPast
+        ? "<span>Private session expired.</span>"
         : booking.meeting_url
-          ? "<span>Private session expired.</span>"
+          ? `<a href="${booking.meeting_url}" target="_blank" rel="noreferrer">Enter private session</a>`
           : "<span>Private link appears after confirmation.</span>";
+
+      const visibleStatus = hasEnded && booking.status === "upcoming"
+        ? "completed"
+        : booking.status;
+      const paymentLabel = ({
+        paid: "Approved",
+        failed: "Declined",
+        refunded: "Refunded",
+        pending: "Pending",
+        not_required: "Not required"
+      })[booking.payment_status] || "Not recorded";
 
       const sessionLabel = booking.session_type === "coaching"
         ? "1 hour coaching"
@@ -201,7 +213,7 @@
 
       const timingLabel = isPast ? "Past session" : isActive ? "Currently active" : "Upcoming session";
       const timingClass = isPast ? "past-booking" : isActive ? "active-booking" : "upcoming-booking";
-      return `<article class="${timingClass}"><small>${timingLabel}</small><strong>${sessionLabel}</strong><span>${when}</span><span>Status: ${booking.status}</span>${link}</article>`;
+      return `<article class="${timingClass}"><small>${timingLabel}</small><strong>${sessionLabel}</strong><span>${when}</span><span>Status: ${visibleStatus}</span><span>Payment: ${paymentLabel}</span>${link}</article>`;
     }).join("");
   }
 
