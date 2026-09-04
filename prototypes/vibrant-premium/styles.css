@@ -2176,8 +2176,6 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
 }
 .about-title-block h1 { max-width: 680px; font-size: clamp(2.25rem, 4.6vw, 4.35rem); line-height: .98; letter-spacing: -.045em; }
 .about-deck { max-width: 650px; margin: 0; font-size: clamp(.98rem, 1.35vw, 1.16rem); }
-.about-language-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.about-language-row span { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.74); font-weight: 900; }
 .about-lead-quote {
   display: flex;
   align-items: flex-end;

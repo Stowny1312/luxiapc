@@ -1,5 +1,5 @@
 const { verifyWebhook } = require("../lib/stripe");
-const { detailsCard, luxiaEmail, paragraph } = require("../lib/luxia-email");
+const { actionButton, detailsCard, luxiaEmail, paragraph } = require("../lib/luxia-email");
 
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://tapvkveybfotgskqjeof.supabase.co";
 
@@ -29,6 +29,11 @@ async function serviceRpc(name, body) {
   return response.json();
 }
 
+function confirmationUrl(bookingId) {
+  const origin = String(process.env.PUBLIC_SITE_URL || "https://dev.luxiapc.com").replace(/\/$/, "");
+  return `${origin}/prototypes/vibrant-premium/pages/administration.html?booking=${encodeURIComponent(bookingId)}`;
+}
+
 async function notifyOwner(bookingId) {
   const key = String(process.env.SUPABASE_SERVICE_ROLE_KEY || "");
   const resendKey = String(process.env.RESEND_API_KEY || "");
@@ -38,6 +43,7 @@ async function notifyOwner(bookingId) {
   });
   const booking = (await result.json())[0];
   if (!result.ok || !booking) return;
+  const confirmUrl = confirmationUrl(booking.id);
   await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": `paid-booking-owner/${booking.id}` },
@@ -46,12 +52,13 @@ async function notifyOwner(bookingId) {
       to: "tonkata.stoev@gmail.com",
       reply_to: booking.client_email,
       subject: "New paid Luxia coaching booking",
-      text: `A coaching payment was received.\nClient: ${booking.client_name}\nEmail: ${booking.client_email}\nStarts: ${booking.starts_at}\nBooking: ${booking.id}`,
+      text: `A coaching payment was received.\nClient: ${booking.client_name}\nEmail: ${booking.client_email}\nStarts: ${booking.starts_at}\nBooking: ${booking.id}\n\nConfirm booking and create the private Zoom session: ${confirmUrl}`,
       html: luxiaEmail({
         eyebrow: "Paid booking",
         title: "A coaching payment was received",
         intro: "The payment was verified by Stripe and the booking is now confirmed.",
-        content: detailsCard([["Client", booking.client_name], ["Email", booking.client_email], ["Phone", booking.client_phone], ["Starts", new Date(booking.starts_at).toLocaleString("en-GB", { timeZone: "Europe/Brussels" })], ["Amount", `€${(booking.payment_amount_cents / 100).toFixed(2)}`], ["Booking ID", booking.id]]) + paragraph("The booking is ready for the normal confirmation and private-session workflow.")
+        content: detailsCard([["Client", booking.client_name], ["Email", booking.client_email], ["Phone", booking.client_phone], ["Starts", new Date(booking.starts_at).toLocaleString("en-GB", { timeZone: "Europe/Brussels" })], ["Amount", `€${(booking.payment_amount_cents / 100).toFixed(2)}`], ["Booking ID", booking.id]]) + paragraph("The payment is approved. Confirm the booking below to create the private Zoom session.") + actionButton(confirmUrl, "Review and confirm booking"),
+        footer: "Owner login is required before a booking can be confirmed."
       })
     })
   });
