@@ -947,6 +947,8 @@ button {
 textarea { min-height: 96px; resize: vertical; }
 .payment { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: center; }
 .checkout strong { font-size: 2.5rem; }
+.payment-action { display:inline-flex; justify-content:center; padding:13px 22px; border:1px solid #aad8ce; border-radius:999px; background:linear-gradient(135deg,#dff4ef,#eef7d8); color:#18343b; font-weight:800; text-decoration:none; }
+.checkout small { color:#72878b; line-height:1.5; }
 code { overflow-wrap: anywhere; color: var(--cyan); }
 .contact-layout {
   display: grid;

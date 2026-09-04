@@ -539,6 +539,12 @@
       return;
     }
 
+    if (result.paymentRequired && result.checkoutUrl) {
+      setStatus(bookingStatus, "Your time is reserved for 30 minutes. Opening secure payment…", "info");
+      window.location.assign(result.checkoutUrl);
+      return;
+    }
+
     submitButton.disabled = false;
 
     const confirmed = state.selectedSlot;

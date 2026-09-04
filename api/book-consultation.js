@@ -2,6 +2,7 @@ const OWNER_EMAIL = "tonkata.stoev@gmail.com";
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://tapvkveybfotgskqjeof.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || "sb_publishable__BsA8Xl7RTgowZRkw5cjSQ_K-2FaQt5";
 const { actionButton, detailsCard, escapeHtml, luxiaEmail, paragraph } = require("../lib/luxia-email");
+const { stripeRequest } = require("../lib/stripe");
 
 function sendJson(response, statusCode, payload) {
   response.statusCode = statusCode;
@@ -109,7 +110,7 @@ module.exports = async function handler(request, response) {
   let bookings;
   try {
     bookingResponse = await fetch(
-      `${SUPABASE_URL}/rest/v1/bookings?id=eq.${encodeURIComponent(bookingId)}&select=id,session_type,starts_at,ends_at,client_name,client_email,client_phone,preferred_contact,client_message`,
+      `${SUPABASE_URL}/rest/v1/bookings?id=eq.${encodeURIComponent(bookingId)}&select=id,session_type,starts_at,ends_at,client_name,client_email,client_phone,preferred_contact,client_message,status`,
       { headers: supabaseHeaders }
     );
     bookings = await readJson(bookingResponse);
@@ -119,6 +120,49 @@ module.exports = async function handler(request, response) {
     return;
   }
   const booking = Array.isArray(bookings) ? bookings[0] : null;
+  if (bookingResponse.ok && booking && booking.session_type === "coaching") {
+    const serviceKey = String(process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
+    if (!serviceKey) {
+      sendJson(response, 503, { error: "Secure payment is not configured yet." });
+      return;
+    }
+    const serviceHeaders = { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" };
+    const amount = Number(process.env.COACHING_PRICE_CENTS || 100);
+    const origin = String(process.env.PUBLIC_SITE_URL || `https://${request.headers["x-forwarded-host"] || request.headers.host || "dev.luxiapc.com"}`).replace(/\/$/, "");
+    const expiresAt = Math.floor(Date.now() / 1000) + 30 * 60;
+    try {
+      if (!Number.isInteger(amount) || amount < 50) throw new Error("Payment is not configured yet.");
+      const session = await stripeRequest("/checkout/sessions", { method: "POST", body: {
+        mode: "payment",
+        "automatic_payment_methods[enabled]": "true",
+        "line_items[0][quantity]": "1",
+        "line_items[0][price_data][currency]": "eur",
+        "line_items[0][price_data][unit_amount]": String(amount),
+        "line_items[0][price_data][product_data][name]": "Luxia P&C — 1-hour coaching session",
+        customer_email: booking.client_email,
+        client_reference_id: bookingId,
+        "metadata[booking_id]": bookingId,
+        "payment_intent_data[metadata][booking_id]": bookingId,
+        expires_at: String(expiresAt),
+        success_url: `${origin}/prototypes/vibrant-premium/pages/payment.html?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/prototypes/vibrant-premium/pages/payment.html?cancelled=1&booking=${encodeURIComponent(bookingId)}`
+      }});
+      const attachResponse = await fetch(`${SUPABASE_URL}/rest/v1/rpc/attach_booking_checkout`, {
+        method: "POST", headers: serviceHeaders,
+        body: JSON.stringify({ p_booking_id: bookingId, p_checkout_session_id: session.id, p_amount_cents: amount, p_currency: "eur", p_expires_at: new Date(expiresAt * 1000).toISOString() })
+      });
+      const attached = await readJson(attachResponse);
+      if (!attachResponse.ok || attached !== true) throw new Error("The payment could not be attached to the booking.");
+      sendJson(response, 201, { ok: true, bookingId, paymentRequired: true, checkoutUrl: session.url });
+      return;
+    } catch (error) {
+      await fetch(`${SUPABASE_URL}/rest/v1/rpc/cancel_own_pending_booking`, {
+        method: "POST", headers: serviceHeaders, body: JSON.stringify({ p_booking_id: bookingId })
+      }).catch(() => null);
+      sendJson(response, 502, { error: error.message || "Secure payment is temporarily unavailable." });
+      return;
+    }
+  }
   const apiKey = process.env.RESEND_API_KEY;
 
   if (!bookingResponse.ok || !booking || !apiKey) {
@@ -194,5 +238,5 @@ module.exports = async function handler(request, response) {
     return;
   }
 
-  sendJson(response, 201, { ok: true, bookingId, notificationSent: true });
+  sendJson(response, 201, { ok: true, bookingId, paymentRequired: false, notificationSent: true });
 };
