@@ -1,4 +1,4 @@
-const { verifyWebhook } = require("../lib/stripe");
+const { stripeSiteOrigin, verifyWebhook } = require("../lib/stripe");
 const { actionButton, detailsCard, luxiaEmail, paragraph } = require("../lib/luxia-email");
 
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://tapvkveybfotgskqjeof.supabase.co";
@@ -30,7 +30,7 @@ async function serviceRpc(name, body) {
 }
 
 function confirmationUrl(bookingId) {
-  const origin = String(process.env.PUBLIC_SITE_URL || "https://dev.luxiapc.com").replace(/\/$/, "");
+  const origin = stripeSiteOrigin("https://dev.luxiapc.com");
   return `${origin}/prototypes/vibrant-premium/pages/administration.html?booking=${encodeURIComponent(bookingId)}`;
 }
 
