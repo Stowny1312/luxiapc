@@ -568,6 +568,7 @@
     const article = createElement("article", "owner-agenda-item");
     const heading = createElement("div", "owner-agenda-item-heading");
     const title = createElement("strong", "", shortDateFormatter.format(new Date(slot.starts_at)));
+    title.setAttribute('data-luxia-date', new Date(slot.starts_at).toISOString());
     const badge = createElement("span", `slot-status slot-status-${slot.status}`, slot.status);
     heading.append(title, badge);
     article.append(heading);
@@ -686,6 +687,10 @@
   }
 
   function parseVoiceCommand(rawCommand) {
+    if (window.LuxiaI18n?.language === 'nl') {
+      const words = {'voeg':'add','toevoegen':'add','verwijder':'remove','verwijderen':'remove','morgen':'tomorrow','vandaag':'today','om':'at','een uur':'one hour','1 uur':'1 hour','januari':'January','februari':'February','maart':'March','april':'April','mei':'May','juni':'June','juli':'July','augustus':'August','september':'September','oktober':'October','november':'November','december':'December'};
+      rawCommand = rawCommand.toLowerCase().replace(/\b(een uur|1 uur|toevoegen|verwijderen|voeg|verwijder|morgen|vandaag|om|januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)\b/g, word => words[word]);
+    }
     const command = rawCommand
       .toLowerCase()
       .replace(/(\d)(st|nd|rd|th)\b/g, "$1")
@@ -815,7 +820,10 @@
     recognition.lang = "en-GB";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
-    voiceButton.addEventListener("click", () => recognition.start());
+    voiceButton.addEventListener("click", () => {
+      recognition.lang = window.LuxiaI18n?.locale || 'en-GB';
+      recognition.start();
+    });
     recognition.onstart = () => {
       voiceButton.disabled = true;
       setStatus(commandStatus, "Listening...", "info");

@@ -213,7 +213,7 @@
 
       const timingLabel = isPast ? "Past session" : isActive ? "Currently active" : "Upcoming session";
       const timingClass = isPast ? "past-booking" : isActive ? "active-booking" : "upcoming-booking";
-      return `<article class="${timingClass}"><small>${timingLabel}</small><strong>${sessionLabel}</strong><span>${when}</span><span>Status: ${visibleStatus}</span><span>Payment: ${paymentLabel}</span>${link}</article>`;
+      return `<article class="${timingClass}"><small>${timingLabel}</small><strong>${sessionLabel}</strong><span data-luxia-date="${start.toISOString()}">${when}</span><span>Status: ${visibleStatus}</span><span>Payment: ${paymentLabel}</span>${link}</article>`;
     }).join("");
   }
 
