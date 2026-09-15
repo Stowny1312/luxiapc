@@ -1,4 +1,9 @@
 (function () {
+  const analytics = document.createElement("script");
+  analytics.defer = true;
+  analytics.src = "/api/umami";
+  document.head.append(analytics);
+
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isPagePreview = window.location.search.includes("no-loader");
   if (isPagePreview) return;
