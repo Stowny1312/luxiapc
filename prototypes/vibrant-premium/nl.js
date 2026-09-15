@@ -660,4 +660,33 @@ Website credits|||Websitecredits
 Website thoughtfully developed by|||Website met zorg ontwikkeld door
 Siri:|||Siri:
 this private Shortcut provides hands-free calendar access.|||deze privéopdracht biedt handenvrije toegang tot de agenda.
+Client experiences|||Ervaringen van cliënten
+Real change often begins with one honest conversation.|||Echte verandering begint vaak met één eerlijk gesprek.
+Discover how a calm, practical and personal approach can help create clarity, confidence and meaningful next steps.|||Ontdek hoe een rustige, praktische en persoonlijke aanpak helderheid, vertrouwen en betekenisvolle volgende stappen kan brengen.
+Review highlights|||Kernpunten van de ervaringen
+Private attention|||Persoonlijke aandacht
+Coaching languages|||Coachingtalen
+Personal approach|||Persoonlijke aanpak
+Warm, direct and practical. I felt heard, but I also left with a clear plan I could actually follow.|||Warm, direct en praktisch. Ik voelde me gehoord en vertrok bovendien met een duidelijk plan dat ik echt kon volgen.
+Individual coaching|||Individuele coaching
+In their words|||In hun woorden
+Stories of clarity, courage and progress|||Verhalen over helderheid, moed en vooruitgang
+Every coaching journey is personal. These examples show the kind of support and progress clients may experience with Luxia.|||Elk coachingtraject is persoonlijk. Deze voorbeelden tonen welke ondersteuning en vooruitgang cliënten bij Luxia kunnen ervaren.
+5 out of 5 stars|||5 van de 5 sterren
+“The sessions helped me separate what I could control from what was only creating anxiety. I now make decisions with much more confidence.”|||“De sessies hielpen me onderscheiden wat ik kon beïnvloeden en wat alleen maar onrust veroorzaakte. Ik neem nu met veel meer vertrouwen beslissingen.”
+Career clarity|||Loopbaanhelderheid
+“I appreciated the balance between empathy and honest questions. Nothing felt forced, yet every conversation moved me forward.”|||“Ik waardeerde het evenwicht tussen empathie en eerlijke vragen. Niets voelde geforceerd, maar elk gesprek bracht me vooruit.”
+Personal development|||Persoonlijke ontwikkeling
+“After feeling stuck for months, I finally had a simple plan and the motivation to begin. The practical follow-up made all the difference.”|||“Nadat ik maandenlang vastzat, had ik eindelijk een eenvoudig plan en de motivatie om te beginnen. De praktische opvolging maakte het verschil.”
+Life transition|||Levensverandering
+“The preparation questions helped us use every minute well. I felt listened to and understood from the very first meeting.”|||“Dankzij de voorbereidingsvragen benutten we elke minuut goed. Vanaf het eerste gesprek voelde ik me gehoord en begrepen.”
+Wellbeing coaching|||Welzijnscoaching
+“Luxia created a safe space to look at a difficult workplace situation without judgment. I left calmer and better prepared.”|||“Luxia bood een veilige plek om zonder oordeel naar een moeilijke werksituatie te kijken. Ik vertrok rustiger en beter voorbereid.”
+Workplace support|||Ondersteuning op het werk
+“Clear, thoughtful and genuinely personal. The conversation gave me a fresh perspective and concrete actions for the week ahead.”|||“Helder, doordacht en oprecht persoonlijk. Het gesprek gaf me een nieuw perspectief en concrete acties voor de komende week.”
+Decision support|||Ondersteuning bij beslissingen
+These testimonials are illustrative examples. Verified client reviews will be published here with permission.|||Deze getuigenissen zijn illustratieve voorbeelden. Geverifieerde cliëntenbeoordelingen worden hier met toestemming gepubliceerd.
+Your next chapter|||Jouw volgende hoofdstuk
+Ready to create your own positive change?|||Klaar om je eigen positieve verandering te creëren?
+Start with a private consultation and discover which support suits you best.|||Begin met een persoonlijk gesprek en ontdek welke ondersteuning het beste bij je past.
 `.trim().split('\n').map(line => line.split('|||')));

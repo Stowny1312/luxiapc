@@ -120,7 +120,7 @@ const mime = {'.js':'application/javascript; charset=utf-8','.html':'text/html; 
    await page.screenshot({path:path.join(output,language+'-client-desktop.png'),fullPage:true});
    await page.evaluate(()=>sessionStorage.removeItem('testUser'));
    await page.setViewportSize({width:390,height:844});
-   for(const file of ['index.html','pages/aboutme.html','pages/book-consultation.html','pages/create-account.html']) {
+   for(const file of ['index.html','pages/aboutme.html','pages/book-consultation.html','pages/create-account.html','pages/reviews.html']) {
      await page.goto(origin+base+file);
      await page.locator('.luxia-loader').waitFor({state:'detached'});
      await page.screenshot({path:path.join(output,language+'-'+path.basename(file,'.html')+'-mobile.png'),fullPage:true});

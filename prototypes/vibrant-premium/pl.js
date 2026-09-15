@@ -660,6 +660,35 @@ Website credits|||Informacje o autorze strony
 Website thoughtfully developed by|||Strona starannie zaprojektowana i wykonana przez
 Siri:|||Siri:
 this private Shortcut provides hands-free calendar access.|||ten prywatny skrót zapewnia obsługę kalendarza bez użycia rąk.
+Client experiences|||Doświadczenia klientów
+Real change often begins with one honest conversation.|||Prawdziwa zmiana często zaczyna się od jednej szczerej rozmowy.
+Discover how a calm, practical and personal approach can help create clarity, confidence and meaningful next steps.|||Odkryj, jak spokojne, praktyczne i osobiste podejście pomaga zyskać jasność, pewność siebie i określić kolejne ważne kroki.
+Review highlights|||Najważniejsze cechy
+Private attention|||Indywidualna uwaga
+Coaching languages|||Języki coachingu
+Personal approach|||Osobiste podejście
+Warm, direct and practical. I felt heard, but I also left with a clear plan I could actually follow.|||Ciepło, bezpośrednio i praktycznie. Poczułam się wysłuchana, a także wyszłam z jasnym planem, który naprawdę mogłam zrealizować.
+Individual coaching|||Coaching indywidualny
+In their words|||Ich własnymi słowami
+Stories of clarity, courage and progress|||Historie jasności, odwagi i postępu
+Every coaching journey is personal. These examples show the kind of support and progress clients may experience with Luxia.|||Każdy proces coachingowy jest osobisty. Te przykłady pokazują, jakiego wsparcia i postępów mogą doświadczyć klienci Luxia.
+5 out of 5 stars|||5 na 5 gwiazdek
+“The sessions helped me separate what I could control from what was only creating anxiety. I now make decisions with much more confidence.”|||„Sesje pomogły mi oddzielić to, na co mam wpływ, od tego, co jedynie wywoływało niepokój. Teraz podejmuję decyzje ze znacznie większą pewnością siebie.”
+Career clarity|||Jasność ścieżki zawodowej
+“I appreciated the balance between empathy and honest questions. Nothing felt forced, yet every conversation moved me forward.”|||„Doceniłem równowagę między empatią a szczerymi pytaniami. Nic nie było wymuszone, a jednak każda rozmowa pomagała mi iść naprzód.”
+Personal development|||Rozwój osobisty
+“After feeling stuck for months, I finally had a simple plan and the motivation to begin. The practical follow-up made all the difference.”|||„Po wielu miesiącach poczucia utknięcia wreszcie miałam prosty plan i motywację, by zacząć. Praktyczna kontynuacja zrobiła ogromną różnicę.”
+Life transition|||Zmiana życiowa
+“The preparation questions helped us use every minute well. I felt listened to and understood from the very first meeting.”|||„Pytania przygotowawcze pomogły dobrze wykorzystać każdą minutę. Od pierwszego spotkania czułam się wysłuchana i zrozumiana.”
+Wellbeing coaching|||Coaching dobrostanu
+“Luxia created a safe space to look at a difficult workplace situation without judgment. I left calmer and better prepared.”|||„Luxia stworzyła bezpieczną przestrzeń, by bez oceniania przyjrzeć się trudnej sytuacji w pracy. Wyszłam spokojniejsza i lepiej przygotowana.”
+Workplace support|||Wsparcie w miejscu pracy
+“Clear, thoughtful and genuinely personal. The conversation gave me a fresh perspective and concrete actions for the week ahead.”|||„Jasno, uważnie i naprawdę osobiście. Rozmowa dała mi świeże spojrzenie i konkretne działania na nadchodzący tydzień.”
+Decision support|||Wsparcie w podejmowaniu decyzji
+These testimonials are illustrative examples. Verified client reviews will be published here with permission.|||Te opinie są przykładami poglądowymi. Zweryfikowane opinie klientów będą publikowane tutaj za ich zgodą.
+Your next chapter|||Twój kolejny rozdział
+Ready to create your own positive change?|||Gotowi na własną pozytywną zmianę?
+Start with a private consultation and discover which support suits you best.|||Zacznij od prywatnej konsultacji i odkryj, jaka forma wsparcia najlepiej Ci odpowiada.
 `.trim().split('\n').map(line => line.split('|||')));
 
 /* Parameterized messages keep client identities and stored values unchanged. */
