@@ -685,7 +685,7 @@ Wellbeing coaching|||Welzijnscoaching
 Workplace support|||Ondersteuning op het werk
 “Clear, thoughtful and genuinely personal. The conversation gave me a fresh perspective and concrete actions for the week ahead.”|||“Helder, doordacht en oprecht persoonlijk. Het gesprek gaf me een nieuw perspectief en concrete acties voor de komende week.”
 Decision support|||Ondersteuning bij beslissingen
-These testimonials are illustrative examples. Verified client reviews will be published here with permission.|||Deze getuigenissen zijn illustratieve voorbeelden. Geverifieerde cliëntenbeoordelingen worden hier met toestemming gepubliceerd.
+Verified client reviews will be published here with permission.|||Geverifieerde cliëntenbeoordelingen worden hier met toestemming gepubliceerd.
 Your next chapter|||Jouw volgende hoofdstuk
 Ready to create your own positive change?|||Klaar om je eigen positieve verandering te creëren?
 Start with a private consultation and discover which support suits you best.|||Begin met een persoonlijk gesprek en ontdek welke ondersteuning het beste bij je past.

@@ -685,7 +685,7 @@ Wellbeing coaching|||Coaching dobrostanu
 Workplace support|||Wsparcie w miejscu pracy
 “Clear, thoughtful and genuinely personal. The conversation gave me a fresh perspective and concrete actions for the week ahead.”|||„Jasno, uważnie i naprawdę osobiście. Rozmowa dała mi świeże spojrzenie i konkretne działania na nadchodzący tydzień.”
 Decision support|||Wsparcie w podejmowaniu decyzji
-These testimonials are illustrative examples. Verified client reviews will be published here with permission.|||Te opinie są przykładami poglądowymi. Zweryfikowane opinie klientów będą publikowane tutaj za ich zgodą.
+Verified client reviews will be published here with permission.|||Zweryfikowane opinie klientów będą publikowane tutaj za ich zgodą.
 Your next chapter|||Twój kolejny rozdział
 Ready to create your own positive change?|||Gotowi na własną pozytywną zmianę?
 Start with a private consultation and discover which support suits you best.|||Zacznij od prywatnej konsultacji i odkryj, jaka forma wsparcia najlepiej Ci odpowiada.
