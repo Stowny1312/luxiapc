@@ -1,4 +1,4 @@
-const CONTACT_TO_EMAIL = "tonkata.stoev@gmail.com";
+const CONTACT_TO_EMAIL = process.env.OWNER_NOTIFICATION_EMAIL || "luxiapc@outlook.com";
 const { detailsCard, escapeHtml, luxiaEmail, paragraph } = require("../lib/luxia-email");
 
 function sendJson(response, statusCode, payload) {

@@ -28,6 +28,8 @@ Also set:
 
 - `ZOOM_HOST_EMAIL=tonkata.stoev@gmail.com`
 
+This is only the Zoom account user that hosts meetings; it is not the destination for website notifications. Owner-facing booking, payment, and contact emails use `OWNER_NOTIFICATION_EMAIL=luxiapc@outlook.com`.
+
 All five credential values are server-only. Never put the secrets in browser JavaScript or commit them to Git.
 
 ## Runtime behavior

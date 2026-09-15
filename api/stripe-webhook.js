@@ -49,7 +49,7 @@ async function notifyOwner(bookingId) {
     headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": `paid-booking-owner/${booking.id}` },
     body: JSON.stringify({
       from: process.env.CONTACT_FROM_EMAIL || "Luxia P&C <onboarding@resend.dev>",
-      to: "tonkata.stoev@gmail.com",
+      to: process.env.OWNER_NOTIFICATION_EMAIL || "luxiapc@outlook.com",
       reply_to: booking.client_email,
       subject: "New paid Luxia coaching booking",
       text: `A coaching payment was received.\nClient: ${booking.client_name}\nEmail: ${booking.client_email}\nStarts: ${booking.starts_at}\nBooking: ${booking.id}\n\nConfirm booking and create the private Zoom session: ${confirmUrl}`,

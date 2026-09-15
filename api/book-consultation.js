@@ -1,4 +1,4 @@
-const OWNER_EMAIL = "tonkata.stoev@gmail.com";
+const OWNER_EMAIL = process.env.OWNER_NOTIFICATION_EMAIL || "luxiapc@outlook.com";
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://tapvkveybfotgskqjeof.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || "sb_publishable__BsA8Xl7RTgowZRkw5cjSQ_K-2FaQt5";
 const { actionButton, detailsCard, escapeHtml, luxiaEmail, paragraph } = require("../lib/luxia-email");
