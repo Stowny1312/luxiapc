@@ -87,8 +87,8 @@
         ownerLink.textContent = "Administration";
         ownerLink.dataset.ownerLink = "";
         ownerLink.dataset.page = "administration";
-        const aboutLink = drawer.querySelector('[data-page="aboutme"], a[href$="aboutme.html"]');
-        drawer.insertBefore(ownerLink, aboutLink || null);
+        const contactLink = drawer.querySelector('[data-page="contact"], a[href$="contact.html"]');
+        drawer.insertBefore(ownerLink, contactLink || null);
       }
       if (ownerLink) ownerLink.hidden = !isOwner;
     });

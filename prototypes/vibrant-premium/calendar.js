@@ -130,7 +130,7 @@
     const tokenHash = await sha256Hex(rawToken);
     const { error } = await client.rpc("register_voice_calendar_token", {
       p_token_hash: tokenHash,
-      p_label: "Siri and Gemini"
+      p_label: "Siri"
     });
     assistantKeyButton.disabled = false;
 

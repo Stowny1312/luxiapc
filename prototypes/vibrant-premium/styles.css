@@ -1573,6 +1573,41 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
+.business-identity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 8px;
+  padding: 15px 18px;
+  border: 1px solid rgba(36, 50, 54, 0.1);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 225, 214, 0.5), rgba(220, 243, 246, 0.7), rgba(235, 246, 221, 0.6));
+  color: var(--muted);
+}
+.business-identity strong { color: var(--ink); letter-spacing: 0.04em; }
+.site-credits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: min(1180px, calc(100% - 32px));
+  margin: 24px auto 18px;
+  padding: 18px 24px;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(36, 50, 54, 0.12);
+  color: #687d82;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+.site-credits strong { color: var(--ink); font-weight: 900; }
+.site-credits-separator { color: var(--gold); }
+@media (max-width: 560px) {
+  .business-identity { align-items: flex-start; flex-direction: column; gap: 5px; }
+  .site-credits { flex-direction: column; gap: 4px; padding-inline: 12px; }
+  .site-credits-separator { display: none; }
+}
 .coaching-promotion {
   display: flex;
   align-items: center;

@@ -83,6 +83,20 @@
       }));
     });
   }
+  function organizeLayout() {
+    document.querySelectorAll('.drawer').forEach(drawer => {
+      const why = drawer.querySelector('[data-page="why-luxia"], a[href$="why-luxia.html"]');
+      const about = drawer.querySelector('[data-page="aboutme"], a[href$="aboutme.html"]');
+      if (why && about && why.nextElementSibling !== about) why.after(about);
+    });
+    if (!document.querySelector('.site-credits')) {
+      const footer = document.createElement('footer');
+      footer.className = 'site-credits';
+      footer.setAttribute('aria-label', 'Website credits');
+      footer.innerHTML = '<span>Luxia Prevention &amp; Coaching</span><span class="site-credits-separator" aria-hidden="true">•</span><span>Website thoughtfully developed by <strong>Antonio Stoev</strong></span>';
+      document.body.append(footer);
+    }
+  }
   function sortCountries() {
     document.querySelectorAll('select').forEach(select => {
       if (!Array.from(select.options).some(option => /Belgium|België|Belgia/.test(option.textContent))) return;
@@ -130,7 +144,7 @@
     if (event.target.dataset?.luxiaValidation) { event.target.setCustomValidity(''); delete event.target.dataset.luxiaValidation; }
   });
   document.addEventListener('DOMContentLoaded', () => {
-    menus(); render(); sortCountries();
+    organizeLayout(); menus(); render(); sortCountries();
     new MutationObserver(records => {
       for (const record of records) {
         if (record.type === 'characterData') render(record.target);

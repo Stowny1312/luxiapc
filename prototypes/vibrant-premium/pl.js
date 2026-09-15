@@ -564,7 +564,6 @@ Upcoming calendar|||Nadchodzące terminy
 Refresh|||Odśwież
 Loading your calendar...|||Ładowanie Twojego kalendarza...
 Connected availability|||Połączona dostępność
-Google Calendar and Gemini|||Kalendarz Google i Gemini
 Connect the private Luxia Availability calendar so 20-minute and 60-minute events feed the public booking calendar.|||Połącz prywatny kalendarz Luxia Availability, aby wydarzenia trwające 20 i 60 minut pojawiały się w publicznym kalendarzu rezerwacji.
 Secret Google Calendar iCal address|||Tajny adres iCal Kalendarza Google
 Connect calendar|||Połącz kalendarz
@@ -583,10 +582,6 @@ Copy private key|||Kopiuj prywatny klucz
 Owner calendar|||Kalendarz właścicielki
 Manage free slots with your voice.|||Zarządzaj wolnymi terminami głosowo.
 On your phone, tap the microphone and speak one command. Review what was heard, then apply it.|||Na telefonie dotknij mikrofonu i wypowiedz jedno polecenie. Sprawdź rozpoznaną treść, a następnie je wykonaj.
-Gemini hands-free calendar|||Kalendarz obsługiwany głosowo przez Gemini
-Use Gemini without opening Luxia.|||Korzystaj z Gemini bez otwierania Luxia.
-Connect a dedicated Google Calendar once. After that, Gemini can add or remove Luxia availability by voice and the booking calendar will synchronize automatically.|||Jednorazowo połącz osobny Kalendarz Google. Następnie Gemini będzie dodawać lub usuwać dostępność Luxia głosowo, a kalendarz rezerwacji zsynchronizuje się automatycznie.
-One-time Google Calendar and Gemini setup|||Jednorazowa konfiguracja Kalendarza Google i Gemini
 In Google Calendar, create a separate calendar named|||W Kalendarzu Google utwórz osobny kalendarz o nazwie
 Open that calendar's|||Otwórz dla tego kalendarza
 Settings and sharing|||Ustawienia i udostępnianie
@@ -595,7 +590,6 @@ Integrate calendar|||Integrowanie kalendarza
 Copy the|||Skopiuj
 Secret address in iCal format|||Tajny adres w formacie iCal
 and paste it above. Keep this address private.|||i wklej go powyżej. Nie udostępniaj tego adresu innym.
-In Gemini, make sure the Google Workspace connection is enabled and Google Calendar is selected.|||W Gemini upewnij się, że połączenie z Google Workspace jest włączone i wybrano Kalendarz Google.
 Say:|||Powiedz:
 “Add an event called Luxia Consultation to my Luxia Availability calendar tomorrow from 10:00 to 10:20.”|||„Dodaj do mojego kalendarza Luxia Availability wydarzenie o nazwie Luxia Consultation na jutro od 10:00 do 10:20.”
 For coaching, create a 60-minute event containing|||Dla coachingu utwórz wydarzenie trwające 60 minut, zawierające
@@ -622,7 +616,6 @@ for|||dla
 , then add|||, a następnie dodaj
 Speak Text|||Mów tekst
 Siri:|||Siri:
-this private Shortcut remains available as an alternative to the Gemini calendar connection above.|||ten prywatny skrót pozostaje dostępny jako alternatywa dla powyższego połączenia kalendarza z Gemini.
 No free slot was found at that date and time.|||Nie znaleziono wolnego terminu na tę datę i godzinę.
 That time overlaps another published or booked slot.|||Ten termin pokrywa się z innym opublikowanym lub zarezerwowanym terminem.
 The calendar could not be changed.|||Nie udało się zmienić kalendarza.
@@ -661,6 +654,12 @@ Owner login is required.|||Wymagane jest zalogowanie właścicielki.
 Invalid booking.|||Nieprawidłowa rezerwacja.
 This booking cannot be confirmed.|||Nie można potwierdzić tej rezerwacji.
 Zoom could not create the meeting.|||Zoom nie mógł utworzyć spotkania.
+BTW / VAT number|||Numer VAT
+Business information|||Dane firmy
+Website credits|||Informacje o autorze strony
+Website thoughtfully developed by|||Strona starannie zaprojektowana i wykonana przez
+Siri:|||Siri:
+this private Shortcut provides hands-free calendar access.|||ten prywatny skrót zapewnia obsługę kalendarza bez użycia rąk.
 `.trim().split('\n').map(line => line.split('|||')));
 
 /* Parameterized messages keep client identities and stored values unchanged. */

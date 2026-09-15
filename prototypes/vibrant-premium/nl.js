@@ -564,7 +564,6 @@ Upcoming calendar|||Toekomstige beschikbaarheid
 Refresh|||Vernieuwen
 Loading your calendar...|||Je agenda laden...
 Connected availability|||Gekoppelde beschikbaarheid
-Google Calendar and Gemini|||Google Agenda en Gemini
 Connect the private Luxia Availability calendar so 20-minute and 60-minute events feed the public booking calendar.|||Koppel de privéagenda Luxia Availability, zodat afspraken van 20 en 60 minuten in de openbare boekingsagenda verschijnen.
 Secret Google Calendar iCal address|||Geheim iCal-adres van Google Agenda
 Connect calendar|||Agenda koppelen
@@ -583,10 +582,6 @@ Copy private key|||Privésleutel kopiëren
 Owner calendar|||Agenda van de eigenaar
 Manage free slots with your voice.|||Beheer vrije tijdstippen met je stem.
 On your phone, tap the microphone and speak one command. Review what was heard, then apply it.|||Tik op je telefoon op de microfoon en spreek één opdracht in. Controleer de herkende tekst en voer de opdracht uit.
-Gemini hands-free calendar|||Handenvrije agenda met Gemini
-Use Gemini without opening Luxia.|||Gebruik Gemini zonder Luxia te openen.
-Connect a dedicated Google Calendar once. After that, Gemini can add or remove Luxia availability by voice and the booking calendar will synchronize automatically.|||Koppel eenmalig een aparte Google Agenda. Daarna kan Gemini de beschikbaarheid van Luxia met spraakopdrachten toevoegen of verwijderen en wordt de boekingsagenda automatisch gesynchroniseerd.
-One-time Google Calendar and Gemini setup|||Eenmalige instelling van Google Agenda en Gemini
 In Google Calendar, create a separate calendar named|||Maak in Google Agenda een aparte agenda met de naam
 Open that calendar's|||Open voor die agenda
 Settings and sharing|||Instellingen en delen
@@ -595,7 +590,6 @@ Integrate calendar|||Agenda integreren
 Copy the|||Kopieer het
 Secret address in iCal format|||Geheime adres in iCal-indeling
 and paste it above. Keep this address private.|||en plak het hierboven. Houd dit adres privé.
-In Gemini, make sure the Google Workspace connection is enabled and Google Calendar is selected.|||Zorg ervoor dat in Gemini de Google Workspace-koppeling is ingeschakeld en Google Agenda is geselecteerd.
 Say:|||Zeg:
 “Add an event called Luxia Consultation to my Luxia Availability calendar tomorrow from 10:00 to 10:20.”|||“Voeg morgen van 10:00 tot 10:20 een afspraak met de naam Luxia Consultation toe aan mijn agenda Luxia Availability.”
 For coaching, create a 60-minute event containing|||Maak voor coaching een afspraak van 60 minuten met
@@ -622,7 +616,6 @@ for|||voor
 , then add|||en voeg daarna toe:
 Speak Text|||Spreek tekst uit
 Siri:|||Siri:
-this private Shortcut remains available as an alternative to the Gemini calendar connection above.|||deze privéopdracht blijft beschikbaar als alternatief voor de Gemini-agendakoppeling hierboven.
 No free slot was found at that date and time.|||Er is geen vrij tijdstip gevonden op die datum en dat uur.
 That time overlaps another published or booked slot.|||Dat tijdstip overlapt met een ander gepubliceerd of geboekt tijdstip.
 The calendar could not be changed.|||De agenda kon niet worden gewijzigd.
@@ -661,4 +654,10 @@ Owner login is required.|||De eigenaar moet ingelogd zijn.
 Invalid booking.|||Ongeldige boeking.
 This booking cannot be confirmed.|||Deze boeking kan niet worden bevestigd.
 Zoom could not create the meeting.|||Zoom kon de vergadering niet aanmaken.
+BTW / VAT number|||Btw-nummer
+Business information|||Bedrijfsgegevens
+Website credits|||Websitecredits
+Website thoughtfully developed by|||Website met zorg ontwikkeld door
+Siri:|||Siri:
+this private Shortcut provides hands-free calendar access.|||deze privéopdracht biedt handenvrije toegang tot de agenda.
 `.trim().split('\n').map(line => line.split('|||')));

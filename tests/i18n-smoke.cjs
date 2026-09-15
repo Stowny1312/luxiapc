@@ -50,6 +50,20 @@ const mime = {'.js':'application/javascript; charset=utf-8','.html':'text/html; 
      await page.goto(origin+base+file);
      await page.locator('.luxia-loader').waitFor({state:'detached'});
      await page.waitForFunction(lang=>document.documentElement.lang===lang,language);
+     assert.equal(await page.locator('.site-credits').count(),1,file+' credits');
+     assert.ok((await page.locator('.site-credits').innerText()).includes('Antonio Stoev'),file+' developer credit');
+     const drawerOrder = await page.locator('.drawer a').evaluateAll(nodes=>nodes.map(node=>node.getAttribute('data-page') || node.getAttribute('href')));
+     const whyIndex = drawerOrder.findIndex(value=>value === 'why-luxia' || value?.endsWith('why-luxia.html'));
+     const aboutIndex = drawerOrder.findIndex(value=>value === 'aboutme' || value?.endsWith('aboutme.html'));
+     if (whyIndex >= 0 || aboutIndex >= 0) {
+       assert.ok(whyIndex >= 0 && aboutIndex >= 0,file+' complete drawer navigation');
+       assert.equal(aboutIndex,whyIndex+1,file+' About me order');
+     }
+     if (file === 'pages/contact.html') assert.ok((await page.locator('.business-identity').innerText()).includes('BE1032.415.045'),'VAT number');
+     if (file === 'pages/administration.html') {
+       assert.equal(await page.locator('[data-google-calendar-setup]').count(),0,'Gemini card removed');
+       assert.ok(!(await page.locator('body').innerText()).includes('Gemini'),'Gemini text removed');
+     }
      const result = await page.evaluate(()=> {
        const walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT); let n; const untranslated=[];
        while(n=walk.nextNode()) {
@@ -114,6 +128,6 @@ const mime = {'.js':'application/javascript; charset=utf-8','.html':'text/html; 
      assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1),file+' mobile overflow');
    }
    assert.deepEqual(errors,[],'Browser errors');
-   console.log(JSON.stringify({passed:true,language,pages:report,checks:['language button','persistence','roundtrip','form values','country names and sorting','dynamic status','booking status','mobile overflow']},null,2));
+   console.log(JSON.stringify({passed:true,language,pages:report,checks:['language button','persistence','roundtrip','form values','country names and sorting','dynamic status','booking status','navigation order','VAT number','credits','Gemini removal','mobile overflow']},null,2));
  } finally { await browser.close(); }
 })().catch(error=>{console.error(error);process.exitCode=1});
