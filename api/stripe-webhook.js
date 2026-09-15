@@ -73,14 +73,14 @@ module.exports = async function handler(request, response) {
   const session = event.data?.object || {};
   const bookingId = String(session.metadata?.booking_id || session.client_reference_id || "");
   try {
-    if (event.type === "checkout.session.completed" && session.payment_status === "paid" && bookingId) {
+    if (["checkout.session.completed", "checkout.session.async_payment_succeeded"].includes(event.type) && session.payment_status !== "unpaid" && bookingId) {
       await serviceRpc("complete_booking_payment", {
         p_booking_id: bookingId, p_checkout_session_id: session.id,
         p_payment_intent_id: String(session.payment_intent || ""),
         p_amount_cents: Number(session.amount_total), p_currency: String(session.currency || "eur")
       });
       await notifyOwner(bookingId);
-    } else if (event.type === "checkout.session.expired" && bookingId) {
+    } else if (["checkout.session.expired", "checkout.session.async_payment_failed"].includes(event.type) && bookingId) {
       await serviceRpc("expire_booking_payment", { p_booking_id: bookingId, p_checkout_session_id: session.id });
     }
   } catch (error) {

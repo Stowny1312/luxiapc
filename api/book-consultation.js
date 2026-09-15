@@ -132,7 +132,7 @@ module.exports = async function handler(request, response) {
     const expiresAt = Math.floor(Date.now() / 1000) + 30 * 60;
     try {
       if (!Number.isInteger(amount) || amount < 50) throw new Error("Payment is not configured yet.");
-      const session = await stripeRequest("/checkout/sessions", { method: "POST", body: {
+      const checkoutBody = {
         mode: "payment",
         "line_items[0][quantity]": "1",
         "line_items[0][price_data][currency]": "eur",
@@ -145,7 +145,20 @@ module.exports = async function handler(request, response) {
         expires_at: String(expiresAt),
         success_url: `${origin}/prototypes/vibrant-premium/pages/payment.html?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/prototypes/vibrant-premium/pages/payment.html?cancelled=1&booking=${encodeURIComponent(bookingId)}`
-      }});
+      };
+      if (String(process.env.STRIPE_INVOICE_CREATION_ENABLED || "false").toLowerCase() === "true") {
+        checkoutBody["invoice_creation[enabled]"] = "true";
+      }
+      if (String(process.env.STRIPE_TAX_ENABLED || "false").toLowerCase() === "true") {
+        checkoutBody["automatic_tax[enabled]"] = "true";
+      }
+      const taxCode = String(process.env.STRIPE_COACHING_TAX_CODE || "").trim();
+      if (taxCode) checkoutBody["line_items[0][price_data][product_data][tax_code]"] = taxCode;
+      const session = await stripeRequest("/checkout/sessions", {
+        method: "POST",
+        headers: { "Idempotency-Key": `luxia-booking-${bookingId}` },
+        body: checkoutBody
+      });
       const attachResponse = await fetch(`${SUPABASE_URL}/rest/v1/rpc/attach_booking_checkout`, {
         method: "POST", headers: serviceHeaders,
         body: JSON.stringify({ p_booking_id: bookingId, p_checkout_session_id: session.id, p_amount_cents: amount, p_currency: "eur", p_expires_at: new Date(expiresAt * 1000).toISOString() })
