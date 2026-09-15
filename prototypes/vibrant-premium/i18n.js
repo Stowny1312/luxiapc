@@ -10,9 +10,10 @@
   function dateText(value) { return value.replace(/\b(January|February|March|April|May|June|July|August|September|October|November|December|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/g, word => dateWords[word]); }
   let language = 'en';
   try { language = new URLSearchParams(location.search).get('lang') || localStorage.getItem('luxia-language') || 'en'; } catch (_) {}
-  language = language.toLowerCase() === 'nl' ? 'nl' : 'en';
+  language = ['en', 'nl', 'pl'].includes(language.toLowerCase()) ? language.toLowerCase() : 'en';
   try { localStorage.setItem('luxia-language', language); } catch (_) {}
   function translate(source) {
+    if (language === 'pl') return window.LuxiaPolish.translate(source);
     const key = normalize(source);
     const translated = dictionary.get(key);
     if (translated !== undefined) return source.replace(/\S[\s\S]*\S|\S/, translated);
@@ -48,7 +49,7 @@
     let record = records[property];
     if (!record || sourceValue !== record.rendered) record = records[property] = {source: sourceValue};
     const dateValue = property === 'text' && node.parentElement?.getAttribute('data-luxia-date');
-    const result = language === 'nl' ? (dateValue ? new Intl.DateTimeFormat('nl-BE', {dateStyle: 'medium', timeStyle: 'short'}).format(new Date(dateValue)) : translate(record.source)) : record.source;
+    const result = language !== 'en' ? (dateValue ? new Intl.DateTimeFormat(language === 'pl' ? 'pl-PL' : 'nl-BE', {dateStyle: 'medium', timeStyle: 'short'}).format(new Date(dateValue)) : translate(record.source)) : record.source;
     record.rendered = result;
     if (result !== sourceValue) write(result);
   }
@@ -77,23 +78,22 @@
       panel.replaceChildren(...['en', 'nl', 'pl'].map(code => {
         const button = document.createElement('button');
         button.type = 'button'; button.dataset.languageOption = code.toUpperCase(); button.textContent = code.toUpperCase();
-        button.disabled = code === 'pl'; button.setAttribute('aria-pressed', String(code === language));
-        if (code === 'pl') button.title = language === 'nl' ? 'Binnenkort beschikbaar' : 'Coming soon';
+        button.setAttribute('aria-pressed', String(code === language));
         return button;
       }));
     });
   }
   function sortCountries() {
     document.querySelectorAll('select').forEach(select => {
-      if (!Array.from(select.options).some(option => /Belgium|België/.test(option.textContent))) return;
+      if (!Array.from(select.options).some(option => /Belgium|België|Belgia/.test(option.textContent))) return;
       const selected = select.selectedIndex >= 0 ? select.options[select.selectedIndex] : null;
-      const options = Array.from(select.options).sort((a,b)=>a.textContent.replace(/^[^\p{L}]+/u,'').localeCompare(b.textContent.replace(/^[^\p{L}]+/u,''), language === 'nl' ? 'nl-BE' : 'en'));
+      const options = Array.from(select.options).sort((a,b)=>a.textContent.replace(/^[^\p{L}]+/u,'').localeCompare(b.textContent.replace(/^[^\p{L}]+/u,''), language === 'pl' ? 'pl-PL' : language === 'nl' ? 'nl-BE' : 'en'));
       select.replaceChildren(...options);
       if (selected) selected.selected = true;
     });
   }
   function setLanguage(next) {
-    if (!['en', 'nl'].includes(next.toLowerCase())) return;
+    if (!['en', 'nl', 'pl'].includes(next.toLowerCase())) return;
     language = next.toLowerCase();
     try { localStorage.setItem('luxia-language', language); } catch (_) {}
     const url = new URL(location.href);
@@ -102,7 +102,7 @@
     menus(); render(); sortCountries();
     document.dispatchEvent(new CustomEvent('luxia:languagechange', {detail: {language}}));
   }
-  window.LuxiaI18n = {setLanguage, translate: value => language === 'nl' ? translate(value) : value, get language() { return language; }, get locale() { return language === 'nl' ? 'nl-BE' : 'en-GB'; }};
+  window.LuxiaI18n = {setLanguage, translate: value => language !== 'en' ? translate(value) : value, get language() { return language; }, get locale() { return language === 'pl' ? 'pl-PL' : language === 'nl' ? 'nl-BE' : 'en-GB'; }};
   document.documentElement.lang = language;
   document.addEventListener('click', event => {
     const toggle = event.target.closest?.('[data-language-toggle]');
@@ -121,10 +121,10 @@
   }, true);
   document.addEventListener('invalid', event => {
     const input = event.target;
-    if (language !== 'nl' || !input.validity || input.validity.customError) return;
+    if (language === 'en' || !input.validity || input.validity.customError) return;
     const validity = input.validity;
     const message = validity.valueMissing ? 'Vul dit verplichte veld in.' : validity.typeMismatch ? (input.type === 'email' ? 'Vul een geldig e-mailadres in.' : 'Vul een geldige waarde in.') : validity.tooShort ? `Gebruik minstens ${input.minLength} tekens.` : validity.patternMismatch ? 'Gebruik het gevraagde formaat.' : validity.rangeUnderflow || validity.rangeOverflow ? 'Kies een waarde binnen het toegestane bereik.' : 'Controleer de ingevulde waarde.';
-    input.setCustomValidity(message); input.dataset.luxiaValidation = 'true';
+    input.setCustomValidity(language === 'pl' ? window.LuxiaPolish.validation(input) : message); input.dataset.luxiaValidation = 'true';
   }, true);
   document.addEventListener('input', event => {
     if (event.target.dataset?.luxiaValidation) { event.target.setCustomValidity(''); delete event.target.dataset.luxiaValidation; }

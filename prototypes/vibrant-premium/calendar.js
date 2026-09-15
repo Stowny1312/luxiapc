@@ -687,6 +687,10 @@
   }
 
   function parseVoiceCommand(rawCommand) {
+    if (window.LuxiaI18n?.language === 'pl') {
+      const words = {dodaj:'add',usun:'remove',jutro:'tomorrow',dzis:'today',dzisiaj:'today',o:'at',coachingu:'coaching',godzinna:'one hour',godzinny:'one hour',godzinne:'one hour',styczen:'January',stycznia:'January',luty:'February',lutego:'February',marzec:'March',marca:'March',kwiecien:'April',kwietnia:'April',maj:'May',maja:'May',czerwiec:'June',czerwca:'June',lipiec:'July',lipca:'July',sierpien:'August',sierpnia:'August',wrzesien:'September',wrzesnia:'September',pazdziernik:'October',pazdziernika:'October',listopad:'November',listopada:'November',grudzien:'December',grudnia:'December'};
+      rawCommand = rawCommand.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ł/g,'l').replace(/\b(?:1|jedna) godzine?\b/g,'one hour').replace(/\b[a-z]+\b/g, word => words[word] || word);
+    }
     if (window.LuxiaI18n?.language === 'nl') {
       const words = {'voeg':'add','toevoegen':'add','verwijder':'remove','verwijderen':'remove','morgen':'tomorrow','vandaag':'today','om':'at','een uur':'one hour','1 uur':'1 hour','januari':'January','februari':'February','maart':'March','april':'April','mei':'May','juni':'June','juli':'July','augustus':'August','september':'September','oktober':'October','november':'November','december':'December'};
       rawCommand = rawCommand.toLowerCase().replace(/\b(een uur|1 uur|toevoegen|verwijderen|voeg|verwijder|morgen|vandaag|om|januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)\b/g, word => words[word]);
