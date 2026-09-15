@@ -11,7 +11,7 @@ Client space|||Strefa klienta
 Book your consultation|||Umów konsultację
 About me|||O mnie
 Contact|||Kontakt
-Reviews *|||Opinie *
+Reviews|||Opinie
 Luxia Prevention and Coaching home|||Luxia Prevention and Coaching — strona główna
 Luxia P&C - Prevention & Coaching|||Luxia P&C — Prevention & Coaching
 Login|||Zaloguj się

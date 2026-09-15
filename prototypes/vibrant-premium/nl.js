@@ -11,7 +11,7 @@ Client space|||Cliëntenruimte
 Book your consultation|||Boek je kennismakingsgesprek
 About me|||Over mij
 Contact|||Contact
-Reviews *|||Ervaringen *
+Reviews|||Ervaringen
 Luxia Prevention and Coaching home|||Luxia Prevention & Coaching – startpagina
 Luxia P&C - Prevention & Coaching|||Luxia P&C - Prevention & Coaching
 Login|||Inloggen
