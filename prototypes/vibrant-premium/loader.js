@@ -23,7 +23,12 @@
   document.documentElement.classList.add("is-loading");
   document.body.prepend(loader);
 
+  let hideScheduled = false;
+
   function hideLoader() {
+    if (hideScheduled) return;
+    hideScheduled = true;
+
     const minimumDelay = reduceMotion ? 80 : 520;
     window.setTimeout(() => {
       loader.classList.add("is-leaving");
@@ -34,24 +39,4 @@
 
   window.addEventListener("load", hideLoader, { once: true });
   window.setTimeout(hideLoader, 1800);
-
-  document.addEventListener("click", (event) => {
-    const link = event.target.closest("a[href]");
-    if (!link || event.defaultPrevented) return;
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    if (link.target && link.target !== "_self") return;
-
-    const destination = new URL(link.getAttribute("href"), window.location.href);
-    if (destination.origin !== window.location.origin) return;
-    if (destination.pathname === window.location.pathname && destination.hash) return;
-
-    event.preventDefault();
-    document.body.append(loader);
-    loader.classList.remove("is-leaving");
-    loader.classList.add("is-entering");
-    document.documentElement.classList.add("is-loading");
-    window.setTimeout(() => {
-      window.location.href = destination.href;
-    }, reduceMotion ? 80 : 260);
-  });
 })();

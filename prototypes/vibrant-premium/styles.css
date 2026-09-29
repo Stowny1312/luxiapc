@@ -51,7 +51,11 @@ body {
   z-index: 9999;
   display: grid;
   place-items: center;
-  background: #f7fafb;
+  background:
+    radial-gradient(circle at 12% 4%, rgba(112, 203, 215, 0.17), transparent 24rem),
+    radial-gradient(circle at 88% 8%, rgba(216, 177, 93, 0.1), transparent 24rem),
+    radial-gradient(circle at 58% 92%, rgba(121, 184, 135, 0.13), transparent 28rem),
+    linear-gradient(130deg, #f8fbfb, #eef5f6 48%, #f6f8f4 100%);
   opacity: 1;
   visibility: visible;
   transition: opacity 420ms ease, visibility 420ms ease;
@@ -79,7 +83,8 @@ body {
   height: auto;
   display: block;
   border-radius: 0;
-  filter: drop-shadow(0 28px 58px rgba(58, 82, 86, 0.12));
+  -webkit-mask-image: radial-gradient(ellipse 76% 66% at center, #000 58%, rgba(0, 0, 0, 0.9) 72%, transparent 100%);
+  mask-image: radial-gradient(ellipse 76% 66% at center, #000 58%, rgba(0, 0, 0, 0.9) 72%, transparent 100%);
 }
 @keyframes loaderLogoArrive {
   from {
