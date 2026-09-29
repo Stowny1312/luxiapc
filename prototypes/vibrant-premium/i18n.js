@@ -93,7 +93,7 @@
       const footer = document.createElement('footer');
       footer.className = 'site-credits';
       footer.setAttribute('aria-label', 'Website credits');
-      footer.innerHTML = '<span>Luxia Prevention &amp; Coaching</span><span class="site-credits-separator" aria-hidden="true">•</span><span>Website thoughtfully developed by <strong>Antonio Stoev</strong></span>';
+      footer.innerHTML = '<div class="site-business-number"><span>BTW / VAT number</span><strong>BE1032.415.045</strong></div><div class="site-credit-line"><span>Luxia Prevention &amp; Coaching</span><span class="site-credits-separator" aria-hidden="true">•</span><span>Website thoughtfully developed by <strong>Antonio Stoev</strong></span></div>';
       document.body.append(footer);
     }
   }
