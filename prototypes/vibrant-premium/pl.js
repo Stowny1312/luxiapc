@@ -561,6 +561,7 @@ Add a 20 minute consultation tomorrow at 10 AM|||Dodaj jutro o 10:00 konsultacj�
 Add a one hour coaching session on August 18 at 2 PM|||Dodaj 18 sierpnia o 14:00 sesję coachingu na 1 godzinę
 Remove the slot on August 18 at 2 PM|||Usuń termin 18 sierpnia o 14:00
 Remove all 20 minute consultations on September 30|||Usuń wszystkie konsultacje 20-minutowe 30 września
+Remove every one hour coaching session on September 30|||Usuń każdą godzinną sesję coachingową 30 września
 Upcoming calendar|||Nadchodzące terminy
 Refresh|||Odśwież
 Loading your calendar...|||Ładowanie Twojego kalendarza...
