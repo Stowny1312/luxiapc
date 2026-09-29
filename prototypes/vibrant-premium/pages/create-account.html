@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="/prototypes/vibrant-premium/nl.js"></script>
+    <script src="/prototypes/vibrant-premium/pl.js"></script>
+    <script src="/prototypes/vibrant-premium/i18n.js"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Create account - Luxia</title><link rel="stylesheet" href="../styles.css"></head>
+  <body class="subpage" data-page="client-space">
+    <input id="menu-toggle" class="menu-toggle" type="checkbox" aria-label="Toggle navigation">
+<label class="menu-button" for="menu-toggle"><span></span><span></span><span></span></label>
+<nav class="drawer" aria-label="Main navigation">
+      <a class="home-link" data-page="home" href="../">Home</a>
+      <a data-page="why-luxia" href="why-luxia.html">Why Luxia Prevention &amp; Coaching?</a>
+      <a data-page="services" href="services.html">Our Services</a>
+      <a data-page="client-space" href="client-space.html">Client space</a>
+      <a data-page="book-consultation" href="book-consultation.html">Book your consultation</a>
+      <a data-page="aboutme" href="aboutme.html">About me</a>
+      <a data-page="contact" href="contact.html">Contact</a>
+      <a data-page="reviews" href="reviews.html">Reviews</a>
+    </nav>
+    <header class="sub-header"><a class="brand" href="../"><img class="brand-logo" src="../assets/luxia-header-logo.png" alt="Luxia P&C - Prevention & Coaching"></a><div class="header-actions"><a class="client-link login-link" hidden href="client-space.html">Login</a><a class="create-link" hidden href="create-account.html">Create account</a><div class="user-menu" data-user-menu hidden><a class="client-link user-name-link" data-user-name href="client-space.html">Hi</a><button class="user-menu-toggle" type="button" data-user-menu-toggle aria-label="Open account menu">&#9662;</button><div class="user-menu-popover" data-user-menu-popover hidden><button class="logout-link" type="button" data-header-sign-out>Logout</button></div></div><div class="language language-menu" data-language-menu aria-label="Language selector"><button class="language-toggle" type="button" data-language-toggle aria-haspopup="true" aria-expanded="false"><span data-language-current>EN</span><span class="language-arrow" aria-hidden="true">&#9662;</span></button><div class="language-options" data-language-options hidden><button type="button" data-language-option="NL">NL</button><button type="button" data-language-option="PL">PL</button></div></div></div></header>
+    <main class="sub-main">
+      <a class="back-link" href="client-space.html">Back to login</a>
+      <section class="section auth-layout create-account-layout">
+        <div class="auth-intro">
+          <p class="eyebrow">Create account</p>
+          <h1>Start your private Luxia client profile.</h1>
+          <p>Your account connects your coaching bookings, upcoming sessions, and recovery email to one secure profile.</p>
+          <p class="auth-status" data-auth-status hidden></p>
+        </div>
+        <form class="mock-form auth-card create-account-card" data-signup-form hidden>
+          <h2>Your details</h2>
+          <div class="form-row">
+            <label>First name<input name="first_name" autocomplete="given-name" required></label>
+            <label>Last name<input name="last_name" autocomplete="family-name" required></label>
+          </div>
+          <div class="form-row">
+            <label>Date of birth<input type="date" name="date_of_birth" required></label>
+            <label>Gender<select name="gender" required><option value="">Choose</option><option value="female">Female</option><option value="male">Male</option><option value="other">Other</option></select></label>
+          </div>
+          <label>Email<input type="email" name="email" autocomplete="email" required></label>
+          <div class="phone-field">
+            <label>Country code
+              <select name="phone_country" data-phone-country required aria-label="Country calling code">
+                <option value="+32" selected>🇧🇪 Belgium (+32)</option>
+                <option value="+31">🇳🇱 Netherlands (+31)</option>
+                <option value="+48">🇵🇱 Poland (+48)</option>
+                <option value="+33">🇫🇷 France (+33)</option>
+                <option value="+49">🇩🇪 Germany (+49)</option>
+                <option value="+352">🇱🇺 Luxembourg (+352)</option>
+                <option value="+44">🇬🇧 United Kingdom (+44)</option>
+                <option value="+353">🇮🇪 Ireland (+353)</option>
+                <option value="+34">🇪🇸 Spain (+34)</option>
+                <option value="+351">🇵🇹 Portugal (+351)</option>
+                <option value="+39">🇮🇹 Italy (+39)</option>
+                <option value="+41">🇨🇭 Switzerland (+41)</option>
+                <option value="+43">🇦🇹 Austria (+43)</option>
+                <option value="+45">🇩🇰 Denmark (+45)</option>
+                <option value="+46">🇸🇪 Sweden (+46)</option>
+                <option value="+47">🇳🇴 Norway (+47)</option>
+                <option value="+358">🇫🇮 Finland (+358)</option>
+                <option value="+354">🇮🇸 Iceland (+354)</option>
+                <option value="+30">🇬🇷 Greece (+30)</option>
+                <option value="+357">🇨🇾 Cyprus (+357)</option>
+                <option value="+356">🇲🇹 Malta (+356)</option>
+                <option value="+420">🇨🇿 Czechia (+420)</option>
+                <option value="+421">🇸🇰 Slovakia (+421)</option>
+                <option value="+36">🇭🇺 Hungary (+36)</option>
+                <option value="+40">🇷🇴 Romania (+40)</option>
+                <option value="+359">🇧🇬 Bulgaria (+359)</option>
+                <option value="+385">🇭🇷 Croatia (+385)</option>
+                <option value="+386">🇸🇮 Slovenia (+386)</option>
+                <option value="+381">🇷🇸 Serbia (+381)</option>
+                <option value="+387">🇧🇦 Bosnia &amp; Herzegovina (+387)</option>
+                <option value="+382">🇲🇪 Montenegro (+382)</option>
+                <option value="+389">🇲🇰 North Macedonia (+389)</option>
+                <option value="+355">🇦🇱 Albania (+355)</option>
+                <option value="+370">🇱🇹 Lithuania (+370)</option>
+                <option value="+371">🇱🇻 Latvia (+371)</option>
+                <option value="+372">🇪🇪 Estonia (+372)</option>
+                <option value="+380">🇺🇦 Ukraine (+380)</option>
+                <option value="+373">🇲🇩 Moldova (+373)</option>
+                <option value="+90">🇹🇷 Türkiye (+90)</option>
+                <option value="+1">🇺🇸 United States / Canada (+1)</option>
+                <option value="+52">🇲🇽 Mexico (+52)</option>
+                <option value="+55">🇧🇷 Brazil (+55)</option>
+                <option value="+54">🇦🇷 Argentina (+54)</option>
+                <option value="+61">🇦🇺 Australia (+61)</option>
+                <option value="+64">🇳🇿 New Zealand (+64)</option>
+                <option value="+81">🇯🇵 Japan (+81)</option>
+                <option value="+82">🇰🇷 South Korea (+82)</option>
+                <option value="+86">🇨🇳 China (+86)</option>
+                <option value="+91">🇮🇳 India (+91)</option>
+                <option value="+971">🇦🇪 United Arab Emirates (+971)</option>
+                <option value="+972">🇮🇱 Israel (+972)</option>
+                <option value="+27">🇿🇦 South Africa (+27)</option>
+                <option value="+212">🇲🇦 Morocco (+212)</option>
+              </select>
+            </label>
+            <label>Phone number
+              <input type="tel" name="phone" data-phone-number autocomplete="tel-national" inputmode="tel" minlength="6" maxlength="18" pattern="\+?[0-9]{6,17}" required placeholder="470000000" aria-describedby="phone-help">
+            </label>
+          </div>
+          <small id="phone-help" class="field-help">Only numbers are allowed.</small>
+          <aside class="registration-accuracy-note" aria-label="Important registration information">
+            <span aria-hidden="true">!</span>
+            <div>
+              <strong>Please check your details carefully</strong>
+              <p>We use the contact information you provide to confirm bookings and reach you about your sessions. Luxia cannot be responsible for missed communication or sessions caused by incorrect or incomplete details.</p>
+            </div>
+          </aside>
+          <label>Password<input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+          <label>Confirm password<input type="password" name="confirm_password" autocomplete="new-password" minlength="8" required></label>
+          <label class="legal-consent"><input type="checkbox" name="legal_consent" required><span class="legal-consent-copy"><span data-language-content="en">I have read and accept the <a href="terms.html" target="_blank" rel="noopener">Terms and Conditions and Cancellation Policy</a>, and I acknowledge the <a href="terms.html" target="_blank" rel="noopener">Privacy Notice</a>.</span><span data-language-content="nl" hidden>Ik heb de <a href="terms.html" target="_blank" rel="noopener">algemene voorwaarden en het annuleringsbeleid</a> gelezen en aanvaard, en ik bevestig dat ik de <a href="terms.html" target="_blank" rel="noopener">privacyverklaring</a> heb gelezen.</span><span data-language-content="pl" hidden>Przeczytałem(-am) i akceptuję <a href="terms.html" target="_blank" rel="noopener">regulamin i zasady anulowania</a> oraz potwierdzam zapoznanie się z <a href="terms.html" target="_blank" rel="noopener">polityką prywatności</a>.</span></span></label>
+          <button type="submit">Create account</button>
+          <a href="client-space.html">Already have an account? Log in</a>
+        </form>
+      </section>
+    </main>
+    <script src="../loader.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-config.js"></script>
+    <script src="../auth.js"></script>
+  </body>
+</html>

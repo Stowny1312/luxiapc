@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="/prototypes/vibrant-premium/nl.js"></script>
+    <script src="/prototypes/vibrant-premium/pl.js"></script>
+    <script src="/prototypes/vibrant-premium/i18n.js"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Contact - Luxia</title><link rel="stylesheet" href="../styles.css"></head>
+  <body class="subpage" data-page="contact">
+    <input id="menu-toggle" class="menu-toggle" type="checkbox" aria-label="Toggle navigation">
+<label class="menu-button" for="menu-toggle"><span></span><span></span><span></span></label>
+<nav class="drawer" aria-label="Main navigation">
+      <a class="home-link" data-page="home" href="../">Home</a>
+      <a data-page="why-luxia" href="why-luxia.html">Why Luxia Prevention &amp; Coaching?</a>
+      <a data-page="services" href="services.html">Our Services</a>
+      <a data-page="client-space" href="client-space.html">Client space</a>
+      <a data-page="book-consultation" href="book-consultation.html">Book your consultation</a>
+      <a data-page="aboutme" href="aboutme.html">About me</a>
+      <a data-page="contact" href="contact.html">Contact</a>
+      <a data-page="reviews" href="reviews.html">Reviews</a>
+    </nav>
+    <header class="sub-header"><a class="brand" href="../"><img class="brand-logo" src="../assets/luxia-header-logo.png" alt="Luxia P&C - Prevention & Coaching"></a><div class="header-actions"><a class="client-link login-link" hidden href="client-space.html">Login</a><a class="create-link" hidden href="create-account.html">Create account</a><div class="user-menu" data-user-menu hidden><a class="client-link user-name-link" data-user-name href="client-space.html">Hi</a><button class="user-menu-toggle" type="button" data-user-menu-toggle aria-label="Open account menu">&#9662;</button><div class="user-menu-popover" data-user-menu-popover hidden><button class="logout-link" type="button" data-header-sign-out>Logout</button></div></div><div class="language language-menu" data-language-menu aria-label="Language selector"><button class="language-toggle" type="button" data-language-toggle aria-haspopup="true" aria-expanded="false"><span data-language-current>EN</span><span class="language-arrow" aria-hidden="true">&#9662;</span></button><div class="language-options" data-language-options hidden><button type="button" data-language-option="NL">NL</button><button type="button" data-language-option="PL">PL</button></div></div></div></header>
+    <main class="sub-main">
+
+      <section class="section contact contact-layout">
+        <div class="contact-intro">
+          <p class="eyebrow">Contact</p>
+          <h1>Let’s Connect!</h1>
+          <p>Do you have a question, would you like more information, or are you unsure where to begin?</p>
+          <p>Whether you are looking for personal coaching, professional support, or solutions for your organization, I am here to help.</p>
+          <p>Complete the contact form below, and I will get back to you as soon as possible. Together, we will explore your situation, discuss your needs, and identify the most suitable form of support for you.</p>
+          <p>Every journey is unique, and sometimes all it takes is one conversation to gain clarity and discover the next step forward.</p>
+          <strong>I look forward to hearing from you.</strong>
+        </div>
+        <form class="mock-form contact-form" data-contact-form>
+          <h2>Your message</h2>
+          <p class="contact-account-note" data-contact-account-note>Checking your Luxia account details…</p>
+          <label data-contact-name-field>Full name<input name="full_name" autocomplete="name" maxlength="120" required></label>
+          <label data-contact-email-field>Email address<input type="email" name="email" autocomplete="email" required></label>
+          <label data-contact-phone-field>Phone number<input type="tel" name="phone" autocomplete="tel" inputmode="tel" minlength="7" maxlength="30" required placeholder="e.g. +32 470 00 00 00"></label>
+          <fieldset class="contact-preference">
+            <legend>How would you prefer to be contacted?</legend>
+            <label><input type="radio" name="preferred_contact" value="email" required checked><span>Email</span></label>
+            <label><input type="radio" name="preferred_contact" value="phone" required><span>Phone number</span></label>
+          </fieldset>
+          <label>Message<textarea name="message" minlength="2" maxlength="5000" required placeholder="Write your message here..."></textarea></label>
+          <label class="legal-consent"><input type="checkbox" name="legal_consent" required><span class="legal-consent-copy"><span data-language-content="en">I have read the <a href="terms.html" target="_blank" rel="noopener">Privacy Notice</a> and consent to the processing of my data so Luxia can respond to my enquiry.</span><span data-language-content="nl" hidden>Ik heb de <a href="terms.html" target="_blank" rel="noopener">privacyverklaring</a> gelezen en stem in met de verwerking van mijn gegevens zodat Luxia mijn vraag kan beantwoorden.</span><span data-language-content="pl" hidden>Zapoznałem(-am) się z <a href="terms.html" target="_blank" rel="noopener">polityką prywatności</a> i wyrażam zgodę na przetwarzanie moich danych, aby Luxia mogła odpowiedzieć na zapytanie.</span></span></label>
+          <button type="submit">Send message</button>
+          <p class="auth-status" data-contact-status hidden></p>
+        </form>
+      </section>
+    </main>
+      <script src="../loader.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-config.js"></script>
+    <script src="../auth.js"></script>
+  </body>
+</html>

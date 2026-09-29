@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="/prototypes/vibrant-premium/nl.js"></script>
+    <script src="/prototypes/vibrant-premium/pl.js"></script>
+    <script src="/prototypes/vibrant-premium/i18n.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Your Consultation - Luxia</title>
+    <meta name="description" content="Book a free consultation, explore individual coaching packages, or discuss tailored support for your organization.">
+    <link rel="stylesheet" href="../styles.css">
+  </head>
+  <body class="subpage" data-page="book-consultation">
+    <input id="menu-toggle" class="menu-toggle" type="checkbox" aria-label="Toggle navigation">
+    <label class="menu-button" for="menu-toggle"><span></span><span></span><span></span></label>
+    <nav class="drawer" aria-label="Main navigation">
+      <a class="home-link" data-page="home" href="../">Home</a>
+      <a data-page="why-luxia" href="why-luxia.html">Why Luxia Prevention &amp; Coaching?</a>
+      <a data-page="services" href="services.html">Our Services</a>
+      <a data-page="client-space" href="client-space.html">Client space</a>
+      <a data-page="book-consultation" href="book-consultation.html">Book your consultation</a>
+      <a data-page="aboutme" href="aboutme.html">About me</a>
+      <a data-page="contact" href="contact.html">Contact</a>
+      <a data-page="reviews" href="reviews.html">Reviews</a>
+    </nav>
+    <header class="sub-header">
+      <a class="brand" href="../" aria-label="Luxia Prevention and Coaching home"><img class="brand-logo" src="../assets/luxia-header-logo.png" alt="Luxia P&C - Prevention & Coaching"></a>
+      <div class="header-actions"><a class="client-link login-link" hidden href="client-space.html">Login</a><a class="create-link" hidden href="create-account.html">Create account</a><div class="user-menu" data-user-menu hidden><a class="client-link user-name-link" data-user-name href="client-space.html">Hi</a><button class="user-menu-toggle" type="button" data-user-menu-toggle aria-label="Open account menu">&#9662;</button><div class="user-menu-popover" data-user-menu-popover hidden><button class="logout-link" type="button" data-header-sign-out>Logout</button></div></div><div class="language language-menu" data-language-menu aria-label="Language selector"><button class="language-toggle" type="button" data-language-toggle aria-haspopup="true" aria-expanded="false"><span data-language-current>EN</span><span class="language-arrow" aria-hidden="true">&#9662;</span></button><div class="language-options" data-language-options hidden><button type="button" data-language-option="NL">NL</button><button type="button" data-language-option="PL">PL</button></div></div></div>
+    </header>
+    <main class="sub-main consultation-main">
+      <section class="consultation-hero" aria-labelledby="consultation-title">
+        <div class="consultation-copy">
+          <p class="eyebrow">A free 20-minute conversation</p>
+          <h1 id="consultation-title">Ready to Take the First Step?</h1>
+          <p class="consultation-lead">If you are wondering whether coaching or personal development support is right for you, I invite you to schedule a free 20-minute online consultation.</p>
+          <p>This no-obligation conversation is an opportunity for us to get to know each other. I will explain how our work together could look, and you will have the space to explore what may be holding you back, creating uncertainty, or draining your energy.</p>
+          <p>Together, we will gain greater clarity, identify your needs, and discover what the most meaningful next step could be for you.</p>
+          <p>Sometimes, a single conversation is all it takes to open the door to new possibilities and positive change.</p>
+          <p>Whether you are seeking more confidence, navigating a life transition, facing professional challenges, or simply looking for a new perspective, you do not have to figure it all out alone.</p>
+          <strong>Take the first step today. Your future starts with one conversation.</strong>
+        </div>
+        <blockquote>“You don't need to know today exactly where you want to go. You only need to be willing to take the first step.”</blockquote>
+      </section>
+
+      <section class="booking-calendar-section booking-service-flow" aria-labelledby="availability-title">
+        <div class="calendar-intro"><p class="eyebrow">Online booking</p><h2 id="availability-title">Choose your session</h2><p>Pick the conversation you need, then check every free hour in one connected calendar.</p></div>
+        <div class="booking-service-options" role="group" aria-label="Choose a session type">
+          <button class="booking-service-card is-selected" type="button" data-service-choice="consultation" aria-pressed="true"><span>Free introduction</span><strong>20-minute consultation</strong><small>A short, no-obligation first conversation.</small></button>
+          <button class="booking-service-card" type="button" data-service-choice="coaching" aria-pressed="false"><span>Individual coaching</span><strong>1-hour session</strong><small>A focused online coaching session dedicated to you.</small></button>
+        </div>
+        <button class="check-availability-button" type="button" data-check-availability>Check available hours</button>
+        <div class="live-slot-calendar" data-slot-calendar data-slot-type="consultation" aria-label="Available consultation and coaching hours" hidden>
+          <div class="slot-calendar-toolbar">
+            <button type="button" data-calendar-previous aria-label="Previous month">&#8592;</button>
+            <strong data-calendar-title>Loading calendar...</strong>
+            <button type="button" data-calendar-next aria-label="Next month">&#8594;</button>
+          </div>
+          <div class="slot-calendar-weekdays" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+          <div class="slot-calendar-grid" data-calendar-grid></div>
+          <div class="calendar-times-panel" data-calendar-times><p class="calendar-times-empty">Select a date to see its free hours.</p></div>
+          <p class="calendar-live-status" data-calendar-status aria-live="polite">Loading available times...</p>
+        </div>
+      </section>
+
+      <section class="booking-selection-panel" data-booking-panel hidden aria-labelledby="selected-booking-title">
+        <div class="booking-selection-summary">
+          <p class="eyebrow">Your selected time</p>
+          <h2 id="selected-booking-title" data-selected-slot>Choose a time in the calendar.</h2>
+          <p data-booking-confirmation-note>Your reservation is confirmed after you press the confirmation button and the owner explicitly approves your request through the confirmation email.</p>
+        </div>
+        <div class="booking-login-prompt" data-booking-logged-out hidden>
+          <strong>Please log in to reserve this time.</strong>
+          <p>Your account keeps the booking private and adds it to your Client space.</p>
+          <div class="actions"><a href="client-space.html">Log in</a><a href="create-account.html">Create account</a></div>
+        </div>
+        <form class="booking-confirmation-form" data-booking-form hidden>
+          <p class="booking-account-note" data-booking-account></p>
+          <label>Preferred contact method<select name="preferred_contact" required><option value="email">Email</option><option value="phone">Phone</option></select></label>
+          <label>Anything you would like me to know before we meet?<textarea name="message" maxlength="2000" rows="4" placeholder="Optional"></textarea></label>
+          <label class="legal-consent"><input type="checkbox" name="legal_consent" required><span class="legal-consent-copy"><span data-language-content="en">I have read and accept the <a href="terms.html" target="_blank" rel="noopener">Terms and Conditions and Cancellation Policy</a>, and I acknowledge the <a href="terms.html" target="_blank" rel="noopener">Privacy Notice</a>.</span><span data-language-content="nl" hidden>Ik heb de <a href="terms.html" target="_blank" rel="noopener">algemene voorwaarden en het annuleringsbeleid</a> gelezen en aanvaard, en ik bevestig dat ik de <a href="terms.html" target="_blank" rel="noopener">privacyverklaring</a> heb gelezen.</span><span data-language-content="pl" hidden>Przeczytałem(-am) i akceptuję <a href="terms.html" target="_blank" rel="noopener">regulamin i zasady anulowania</a> oraz potwierdzam zapoznanie się z <a href="terms.html" target="_blank" rel="noopener">polityką prywatności</a>.</span></span></label>
+          <div class="booking-form-actions"><button type="submit">Confirm this booking</button><button type="button" class="secondary-button" data-cancel-selection>Choose another time</button></div>
+          <p class="auth-status" data-booking-status hidden aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="investment-section" aria-labelledby="investment-title">
+        <div class="investment-intro">
+          <p class="eyebrow">Individual Coaching Packages &amp; Investment</p>
+          <h2 id="investment-title">Time, commitment, and the right support.</h2>
+          <p>Meaningful change takes time, commitment, and the right support. While many clients notice positive shifts and greater clarity after just 4 to 6 coaching sessions, creating lasting habits or achieving more complex goals often requires a deeper coaching journey.</p>
+          <p>For this reason, I generally recommend a coaching program of 6 to 10 sessions, allowing enough time to explore challenges, develop effective strategies, build confidence, and create sustainable changes in everyday life.</p>
+          <p>The exact number of sessions will always depend on your individual goals and circumstances. During our first conversation, we will discuss what you would like to achieve and determine the most suitable approach for your journey.</p>
+        </div>
+        <div class="coaching-promotion" role="note" aria-label="Temporary coaching promotion">
+          <span>Limited-time offer</span>
+          <div><strong>10% off every coaching option</strong><p>Promotional prices are valid through <time datetime="2026-10-31">31 October 2026</time>. Regular pricing returns from 1 November 2026.</p></div>
+        </div>
+        <div class="pricing-grid" aria-label="Coaching packages">
+          <article><span>Single session</span><div class="pricing-offer"><del aria-label="Regular price 50 euros">€50</del><strong aria-label="Promotional price 45 euros">€45</strong><span class="price-saving">Save 10%</span></div><small>One 60-minute online coaching session</small></article>
+          <article class="featured-price"><span>5-session package</span><div class="pricing-offer"><del aria-label="Regular price 240 euros">€240</del><strong aria-label="Promotional price 216 euros">€216</strong><span class="price-saving">Save 10%</span></div><small>Consistent support for focused progress</small></article>
+          <article><span>10-session package</span><div class="pricing-offer"><del aria-label="Regular price 450 euros">€450</del><strong aria-label="Promotional price 405 euros">€405</strong><span class="price-saving">Save 10%</span></div><small>A deeper journey towards lasting change</small></article>
+        </div>
+        <div class="expectation-panel">
+          <div><p class="eyebrow">What to Expect?</p><h3>Each 60-minute session is dedicated entirely to you.</h3><p>Together, we create a supportive and confidential space focused on your goals and the challenges you are currently facing.</p></div>
+          <ul class="service-list check-list">
+            <li>Gain greater clarity and self-awareness</li>
+            <li>Build confidence and resilience</li>
+            <li>Explore solutions and new perspectives</li>
+            <li>Develop practical strategies for moving forward</li>
+            <li>Take meaningful action towards your goals</li>
+          </ul>
+        </div>
+        <p class="package-note">If you choose a coaching package, you only need to book your first online session. The dates for future sessions will be scheduled together afterwards, ensuring they fit your needs, pace, and personal development journey.</p>
+        <blockquote class="journey-quote">“Your first step can begin today. We will plan together for the rest of the journey.”</blockquote>
+      </section>
+
+      <section class="owner-calendar-panel" data-owner-calendar-legacy hidden aria-labelledby="owner-calendar-title">
+        <div class="owner-calendar-intro">
+          <p class="eyebrow">Owner calendar</p>
+          <h2 id="owner-calendar-title">Manage free slots with your voice.</h2>
+          <p>On your phone, tap the microphone and speak one command. Review what was heard, then apply it.</p>
+        </div>
+        <div class="voice-command-card">
+          <button class="voice-command-button" type="button" data-voice-start><span aria-hidden="true">&#127908;</span> Speak a command</button>
+          <label>Recognized command<textarea data-owner-command rows="3" placeholder="For example: Add a 20 minute consultation tomorrow at 10 AM"></textarea></label>
+          <div class="voice-command-actions"><button type="button" data-command-apply>Apply command</button><button type="button" class="secondary-button" data-command-clear>Clear</button></div>
+          <p class="auth-status" data-owner-command-status hidden aria-live="polite"></p>
+          <details><summary>Voice command examples</summary><ul><li>Add a 20 minute consultation tomorrow at 10 AM</li><li>Add a one hour coaching session on August 18 at 2 PM</li><li>Remove the slot on August 18 at 2 PM</li><li>Remove all 20 minute consultations on September 30</li><li>Remove every one hour coaching session on September 30</li></ul></details>
+        </div>
+        <div class="owner-agenda">
+          <div class="owner-agenda-heading"><h3>Upcoming calendar</h3><button type="button" class="secondary-button" data-owner-refresh>Refresh</button></div>
+          <div class="owner-agenda-list" data-owner-agenda-list><p>Loading your calendar...</p></div>
+        </div>
+        <div class="assistant-setup-card" data-assistant-setup>
+          <div>
+            <p class="eyebrow">Hands-free access</p>
+            <h3>Use Siri without opening the website.</h3>
+            <p>Create one private voice key, add it to an Apple Shortcut, and then say “Siri, Luxia Calendar” from your iPhone, Apple Watch, AirPods, or HomePod.</p>
+          </div>
+          <button type="button" data-assistant-key-create>Create a private voice key</button>
+          <p class="auth-status" data-assistant-key-status hidden aria-live="polite"></p>
+          <div class="assistant-credential" data-assistant-credential hidden>
+            <p><strong>Save this key now.</strong> For security, Luxia cannot show it again. Creating another key disables the previous one.</p>
+            <label>Shortcut endpoint<input data-assistant-endpoint readonly></label>
+            <button type="button" class="secondary-button" data-copy-assistant-endpoint>Copy endpoint</button>
+            <label>Private voice key<textarea data-assistant-token rows="3" readonly></textarea></label>
+            <button type="button" class="secondary-button" data-copy-assistant-token>Copy private key</button>
+          </div>
+          <details class="assistant-shortcut-guide">
+            <summary>One-time Siri Shortcut setup</summary>
+            <ol>
+              <li>Open Shortcuts on your iPhone and create a shortcut named <strong>Luxia Calendar</strong>.</li>
+              <li>Add <strong>Dictate Text</strong> so Siri asks for your calendar command.</li>
+              <li>Add <strong>Get Contents of URL</strong>, select POST, and paste the endpoint shown above.</li>
+              <li>Add the header <strong>Authorization</strong> with the value <strong>Bearer</strong>, one space, then your private key.</li>
+              <li>Set the JSON request body field <strong>command</strong> to the dictated text.</li>
+              <li>Add <strong>Get Dictionary Value</strong> for <strong>message</strong>, then add <strong>Speak Text</strong>.</li>
+            </ol>
+          </details>
+          <p class="assistant-platform-note"><strong>Siri:</strong> this private Shortcut provides hands-free calendar access.</p>
+        </div>
+      </section>
+
+      <section class="business-consultation" aria-labelledby="business-consultation-title">
+        <div class="business-consultation-copy">
+          <p class="eyebrow">Business Clients</p>
+          <h2 id="business-consultation-title">Solutions tailored to your people, culture, and goals.</h2>
+          <p>Every organization is unique. That is why I believe in solutions that are tailored to the people, culture, and goals of your business rather than relying on a one-size-fits-all approach.</p>
+          <p>Whether your objective is to create a safer workplace, strengthen collaboration, support employee well-being, or guide your organization through change, Luxia Prevention &amp; Coaching provides practical and people-focused support designed around your specific needs.</p>
+          <p>Together, we can create solutions that help your employees thrive, encourage stronger teamwork, and build a resilient, future-ready organization.</p>
+        </div>
+        <div class="business-conversation-card">
+          <p class="eyebrow">Let's Start the Conversation</p>
+          <h3>Tell me about your organization.</h3>
+          <p>If you are looking to enhance workplace safety, develop your leaders, support your teams, or create a more positive and productive work environment, I would be delighted to discuss how I can support your organization.</p>
+          <p>Every partnership begins with understanding your challenges, opportunities, and ambitions.</p>
+          <p>Contact me today to explore how we can work together to create meaningful and lasting impact within your organization.</p>
+          <a href="contact.html">Contact Luxia</a>
+        </div>
+        <div class="business-consultation-finale">
+          <blockquote>“Because strong and sustainable businesses are built by people.”</blockquote>
+          <strong>Safer Workplaces. Stronger Teams. Sustainable Growth.</strong>
+        </div>
+      </section>
+    </main>
+    <script src="../loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-config.js"></script>
+    <script src="../auth.js"></script>
+    <script src="../calendar.js"></script>
+  </body>
+</html>
