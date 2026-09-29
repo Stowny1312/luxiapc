@@ -560,6 +560,7 @@ Voice command examples|||Przykłady poleceń głosowych
 Add a 20 minute consultation tomorrow at 10 AM|||Dodaj jutro o 10:00 konsultację 20-minutową
 Add a one hour coaching session on August 18 at 2 PM|||Dodaj 18 sierpnia o 14:00 sesję coachingu na 1 godzinę
 Remove the slot on August 18 at 2 PM|||Usuń termin 18 sierpnia o 14:00
+Remove all 20 minute consultations on September 30|||Usuń wszystkie konsultacje 20-minutowe 30 września
 Upcoming calendar|||Nadchodzące terminy
 Refresh|||Odśwież
 Loading your calendar...|||Ładowanie Twojego kalendarza...
@@ -617,6 +618,7 @@ for|||dla
 Speak Text|||Mów tekst
 Siri:|||Siri:
 No free slot was found at that date and time.|||Nie znaleziono wolnego terminu na tę datę i godzinę.
+For bulk removal, say 20 minute consultations or one hour coaching sessions.|||Przy usuwaniu zbiorczym podaj konsultacje 20-minutowe albo sesje coachingowe trwające godzinę.
 That time overlaps another published or booked slot.|||Ten termin pokrywa się z innym opublikowanym lub zarezerwowanym terminem.
 The calendar could not be changed.|||Nie udało się zmienić kalendarza.
 Shortcut endpoint copied.|||Adres endpointu skrótu został skopiowany.
@@ -724,6 +726,9 @@ window.LuxiaPolish = (() => {
       [/^Connected, but the last synchronization needs attention: (.+)$/,(_,error)=>`Połączono, ale ostatnia synchronizacja wymaga uwagi: ${copy.get(error)||error}`],
       [/^(Adding|Removing) (.+)\.\.\.$/,(_,action,date)=>`${action==='Adding'?'Dodawanie':'Usuwanie'}: ${dateText(date)}...`],
       [/^Calendar updated: (.+)\.$/,(_,date)=>`Kalendarz zaktualizowany: ${dateText(date)}.`],
+      [/^Checking available (20-minute consultations|1-hour coaching sessions) on (.+)\.\.\.$/,(_,label,date)=>`Sprawdzanie dostępnych ${label==='20-minute consultations'?'konsultacji 20-minutowych':'godzinnych sesji coachingowych'} w dniu ${dateText(date)}...`],
+      [/^No available (20-minute consultations|1-hour coaching sessions) were found on (.+)\.$/,(_,label,date)=>`Nie znaleziono dostępnych ${label==='20-minute consultations'?'konsultacji 20-minutowych':'godzinnych sesji coachingowych'} w dniu ${dateText(date)}.`],
+      [/^Removed (\d+) available (20-minute consultations|1-hour coaching sessions) on (.+)\.$/,(_,count,label,date)=>`Usunięto ${count} ${label==='20-minute consultations'?'dostępnych konsultacji 20-minutowych':'dostępnych godzinnych sesji coachingowych'} w dniu ${dateText(date)}.`],
       [/^Voice recognition could not continue: (.+)\.$/,(_,error)=>`Nie można kontynuować rozpoznawania mowy: ${error}.`],
       [/^Google Calendar synchronized\. (\d+) Luxia event\(s\) found\.$/,(_,n)=>`Kalendarz Google zsynchronizowany. Liczba znalezionych wydarzeń Luxia: ${n}.`],
       [/^(20 minute consultation|1 hour coaching) with (.+) on (.+)\.$/,(_,label,name,date)=>`${copy.get(label)} — ${name==='the client'?'klient':name}, ${dateText(date)}.`]

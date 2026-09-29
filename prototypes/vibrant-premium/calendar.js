@@ -72,6 +72,13 @@
     hour: "2-digit",
     minute: "2-digit"
   });
+  const dayDateFormatter = new Intl.DateTimeFormat("en-GB", {
+    timeZone,
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
   const shortDateFormatter = new Intl.DateTimeFormat("en-GB", {
     timeZone,
     weekday: "short",
@@ -688,12 +695,12 @@
 
   function parseVoiceCommand(rawCommand) {
     if (window.LuxiaI18n?.language === 'pl') {
-      const words = {dodaj:'add',usun:'remove',jutro:'tomorrow',dzis:'today',dzisiaj:'today',o:'at',coachingu:'coaching',godzinna:'one hour',godzinny:'one hour',godzinne:'one hour',styczen:'January',stycznia:'January',luty:'February',lutego:'February',marzec:'March',marca:'March',kwiecien:'April',kwietnia:'April',maj:'May',maja:'May',czerwiec:'June',czerwca:'June',lipiec:'July',lipca:'July',sierpien:'August',sierpnia:'August',wrzesien:'September',wrzesnia:'September',pazdziernik:'October',pazdziernika:'October',listopad:'November',listopada:'November',grudzien:'December',grudnia:'December'};
+      const words = {dodaj:'add',usun:'remove',wszystkie:'all',wszystkich:'all',kazda:'every',kazde:'every',konsultacje:'consultations',konsultacji:'consultations',sesje:'sessions',sesji:'sessions',jutro:'tomorrow',dzis:'today',dzisiaj:'today',o:'at',coachingu:'coaching',godzinna:'one hour',godzinny:'one hour',godzinne:'one hour',styczen:'January',stycznia:'January',luty:'February',lutego:'February',marzec:'March',marca:'March',kwiecien:'April',kwietnia:'April',maj:'May',maja:'May',czerwiec:'June',czerwca:'June',lipiec:'July',lipca:'July',sierpien:'August',sierpnia:'August',wrzesien:'September',wrzesnia:'September',pazdziernik:'October',pazdziernika:'October',listopad:'November',listopada:'November',grudzien:'December',grudnia:'December'};
       rawCommand = rawCommand.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ł/g,'l').replace(/\b(?:1|jedna) godzine?\b/g,'one hour').replace(/\b[a-z]+\b/g, word => words[word] || word);
     }
     if (window.LuxiaI18n?.language === 'nl') {
-      const words = {'voeg':'add','toevoegen':'add','verwijder':'remove','verwijderen':'remove','morgen':'tomorrow','vandaag':'today','om':'at','een uur':'one hour','1 uur':'1 hour','januari':'January','februari':'February','maart':'March','april':'April','mei':'May','juni':'June','juli':'July','augustus':'August','september':'September','oktober':'October','november':'November','december':'December'};
-      rawCommand = rawCommand.toLowerCase().replace(/\b(een uur|1 uur|toevoegen|verwijderen|voeg|verwijder|morgen|vandaag|om|januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)\b/g, word => words[word]);
+      const words = {'voeg':'add','toevoegen':'add','verwijder':'remove','verwijderen':'remove','alle':'all','elke':'every','sessies':'sessions','consultaties':'consultations','morgen':'tomorrow','vandaag':'today','om':'at','een uur':'one hour','1 uur':'1 hour','januari':'January','februari':'February','maart':'March','april':'April','mei':'May','juni':'June','juli':'July','augustus':'August','september':'September','oktober':'October','november':'November','december':'December'};
+      rawCommand = rawCommand.toLowerCase().replace(/\b(een uur|1 uur|toevoegen|verwijderen|voeg|verwijder|alle|elke|sessies|consultaties|morgen|vandaag|om|januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)\b/g, word => words[word]);
     }
     const command = rawCommand
       .toLowerCase()
@@ -727,6 +734,29 @@
       }
     }
 
+    const isCoaching = /\b(60|one hour|1 hour|coaching)\b/.test(command);
+    const isConsultation = /\b(20|consultation|consultations)\b/.test(command);
+    const bulkRemove = removeAction && /\b(all|every)\b/.test(command);
+    if (bulkRemove) {
+      if (!isCoaching && !isConsultation) throw new Error("For bulk removal, say 20 minute consultations or one hour coaching sessions.");
+      let dayStart = brusselsDateToUtc(dateParts.year, dateParts.monthIndex, dateParts.day, 0, 0);
+      let nextParts = addCalendarDays({ year: dateParts.year, month: dateParts.monthIndex + 1, day: dateParts.day }, 1);
+      let dayEnd = brusselsDateToUtc(nextParts.year, nextParts.monthIndex, nextParts.day, 0, 0);
+      if (!/\b(20\d{2})\b/.test(command) && dayEnd <= now && !/\b(today|tomorrow)\b/.test(command)) {
+        dayStart = brusselsDateToUtc(dateParts.year + 1, dateParts.monthIndex, dateParts.day, 0, 0);
+        nextParts = addCalendarDays({ year: dateParts.year + 1, month: dateParts.monthIndex + 1, day: dateParts.day }, 1);
+        dayEnd = brusselsDateToUtc(nextParts.year, nextParts.monthIndex, nextParts.day, 0, 0);
+      }
+      return {
+        action: "remove",
+        bulk: true,
+        start: dayStart,
+        dayEnd,
+        duration: isCoaching ? 60 : 20,
+        slotType: isCoaching ? "coaching" : "consultation"
+      };
+    }
+
     const timeMatch = command.match(/\b(?:at|for)\s+(\d{1,2})(?:[:](\d{2}))?\s*(am|pm)?\b/);
     if (!timeMatch) throw new Error("Say a time such as at 10 AM or at 14:30.");
     let hour = Number(timeMatch[1]);
@@ -742,7 +772,6 @@
     }
     if (addAction && start <= now) throw new Error("New availability must be in the future.");
 
-    const isCoaching = /\b(60|one hour|1 hour|coaching)\b/.test(command);
     return {
       action: addAction ? "add" : "remove",
       start,
@@ -765,8 +794,12 @@
     }
 
     applyCommandButton.disabled = true;
-    setStatus(commandStatus, `${parsed.action === "add" ? "Adding" : "Removing"} ${longDateFormatter.format(parsed.start)}...`, "info");
+    const bulkLabel = parsed.duration === 60 ? "1-hour coaching sessions" : "20-minute consultations";
+    setStatus(commandStatus, parsed.bulk
+      ? `Checking available ${bulkLabel} on ${dayDateFormatter.format(parsed.start)}...`
+      : `${parsed.action === "add" ? "Adding" : "Removing"} ${longDateFormatter.format(parsed.start)}...`, "info");
     let error;
+    let removedCount = 0;
     if (parsed.action === "add") {
       const end = new Date(parsed.start.getTime() + parsed.duration * 60000);
       ({ error } = await client.from("consultation_slots").insert({
@@ -777,6 +810,30 @@
         status: "available",
         created_by: state.user.id
       }));
+    } else if (parsed.bulk) {
+      const { data: matchingSlots, error: findError } = await client
+        .from("consultation_slots")
+        .select("id")
+        .eq("status", "available")
+        .eq("slot_type", parsed.slotType)
+        .eq("duration_minutes", parsed.duration)
+        .gte("starts_at", parsed.start.toISOString())
+        .lt("starts_at", parsed.dayEnd.toISOString())
+        .order("starts_at", { ascending: true });
+      if (findError) {
+        error = findError;
+      } else if (!matchingSlots || !matchingSlots.length) {
+        error = { message: `No available ${bulkLabel} were found on ${dayDateFormatter.format(parsed.start)}.` };
+      } else {
+        const { data: removedSlots, error: deleteError } = await client
+          .from("consultation_slots")
+          .delete()
+          .in("id", matchingSlots.map((slot) => slot.id))
+          .eq("status", "available")
+          .select("id");
+        error = deleteError;
+        removedCount = removedSlots ? removedSlots.length : 0;
+      }
     } else {
       const from = new Date(parsed.start.getTime() - 60000).toISOString();
       const to = new Date(parsed.start.getTime() + 60000).toISOString();
@@ -806,7 +863,9 @@
       return;
     }
 
-    setStatus(commandStatus, `Calendar updated: ${longDateFormatter.format(parsed.start)}.`, "success");
+    setStatus(commandStatus, parsed.bulk
+      ? `Removed ${removedCount} available ${bulkLabel} on ${dayDateFormatter.format(parsed.start)}.`
+      : `Calendar updated: ${longDateFormatter.format(parsed.start)}.`, "success");
     commandInput.value = "";
     await Promise.all([loadAllCalendars(), loadOwnerAgenda()]);
   }

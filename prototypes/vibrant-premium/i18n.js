@@ -32,6 +32,9 @@
       [/^Connected, but the last synchronization needs attention: (.+)$/, (_,error)=>`Gekoppeld, maar de laatste synchronisatie vereist aandacht: ${dictionary.get(error)||error}`],
       [/^(Adding|Removing) (.+)\.\.\.$/, (_,action,date)=>`${action==='Adding'?'Toevoegen':'Verwijderen'}: ${dateText(date)}...`],
       [/^Calendar updated: (.+)\.$/, (_,date)=>`Agenda bijgewerkt: ${dateText(date)}.`],
+      [/^Checking available (20-minute consultations|1-hour coaching sessions) on (.+)\.\.\.$/, (_,label,date)=>`Beschikbare ${label==='20-minute consultations'?'consultaties van 20 minuten':'coachingsessies van één uur'} controleren op ${dateText(date)}...`],
+      [/^No available (20-minute consultations|1-hour coaching sessions) were found on (.+)\.$/, (_,label,date)=>`Geen beschikbare ${label==='20-minute consultations'?'consultaties van 20 minuten':'coachingsessies van één uur'} gevonden op ${dateText(date)}.`],
+      [/^Removed (\d+) available (20-minute consultations|1-hour coaching sessions) on (.+)\.$/, (_,count,label,date)=>`${count} beschikbare ${label==='20-minute consultations'?'consultaties van 20 minuten':'coachingsessies van één uur'} verwijderd op ${dateText(date)}.`],
       [/^Voice recognition could not continue: (.+)\.$/, (_,error)=>`Spraakherkenning kon niet doorgaan: ${error}.`]
       ,[/^Google Calendar synchronized\. (\d+) Luxia event\(s\) found\.$/, (_,n)=>`Google Agenda gesynchroniseerd. ${n} Luxia-afspraken gevonden.`]
       ,[/^(20 minute consultation|1 hour coaching) with (.+) on (.+)\.$/, (_,label,name,date)=>`${dictionary.get(label)} met ${name==='the client'?'de cliënt':name} op ${dateText(date)}.`]

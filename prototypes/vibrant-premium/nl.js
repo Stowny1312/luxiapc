@@ -560,6 +560,7 @@ Voice command examples|||Voorbeelden van spraakopdrachten
 Add a 20 minute consultation tomorrow at 10 AM|||Voeg morgen om 10:00 een kennismakingsgesprek van 20 minuten toe
 Add a one hour coaching session on August 18 at 2 PM|||Voeg op 18 augustus om 14:00 een coachingsessie van 1 uur toe
 Remove the slot on August 18 at 2 PM|||Verwijder het tijdstip op 18 augustus om 14:00
+Remove all 20 minute consultations on September 30|||Verwijder alle consultaties van 20 minuten op 30 september
 Upcoming calendar|||Toekomstige beschikbaarheid
 Refresh|||Vernieuwen
 Loading your calendar...|||Je agenda laden...
@@ -617,6 +618,7 @@ for|||voor
 Speak Text|||Spreek tekst uit
 Siri:|||Siri:
 No free slot was found at that date and time.|||Er is geen vrij tijdstip gevonden op die datum en dat uur.
+For bulk removal, say 20 minute consultations or one hour coaching sessions.|||Noem voor bulkverwijdering consultaties van 20 minuten of coachingsessies van één uur.
 That time overlaps another published or booked slot.|||Dat tijdstip overlapt met een ander gepubliceerd of geboekt tijdstip.
 The calendar could not be changed.|||De agenda kon niet worden gewijzigd.
 Shortcut endpoint copied.|||Endpoint van de opdracht gekopieerd.
