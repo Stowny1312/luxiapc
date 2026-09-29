@@ -42,6 +42,7 @@
             <label><input type="radio" name="preferred_contact" value="phone" required><span>Phone number</span></label>
           </fieldset>
           <label>Message<textarea name="message" minlength="2" maxlength="5000" required placeholder="Write your message here..."></textarea></label>
+          <label class="legal-consent"><input type="checkbox" name="legal_consent" required><span class="legal-consent-copy"><span data-language-content="en">I have read the <a href="terms.html" target="_blank" rel="noopener">Privacy Notice</a> and consent to the processing of my data so Luxia can respond to my enquiry.</span><span data-language-content="nl" hidden>Ik heb de <a href="terms.html" target="_blank" rel="noopener">privacyverklaring</a> gelezen en stem in met de verwerking van mijn gegevens zodat Luxia mijn vraag kan beantwoorden.</span><span data-language-content="pl" hidden>Zapoznałem(-am) się z <a href="terms.html" target="_blank" rel="noopener">polityką prywatności</a> i wyrażam zgodę na przetwarzanie moich danych, aby Luxia mogła odpowiedzieć na zapytanie.</span></span></label>
           <button type="submit">Send message</button>
           <p class="auth-status" data-contact-status hidden></p>
         </form>

@@ -46,6 +46,13 @@ module.exports = async function handler(request, response) {
   const preferredContact = String((payload && payload.preferredContact) || "").trim().toLowerCase();
   const message = String((payload && payload.message) || "").trim();
   const clientAccount = String((payload && payload.clientAccount) || "not logged in").trim();
+  const legalConsent = payload && payload.legalConsent === true;
+  const legalPolicyVersion = String((payload && payload.legalPolicyVersion) || "").trim();
+
+  if (!legalConsent || legalPolicyVersion !== "2026-09-29") {
+    sendJson(response, 400, { error: "Please acknowledge the Privacy Notice before sending your message." });
+    return;
+  }
 
   if (!fullName || fullName.length > 120) {
     sendJson(response, 400, { error: "Please enter a valid full name." });
@@ -91,6 +98,7 @@ module.exports = async function handler(request, response) {
         `Phone: ${phone}`,
         `Preferred contact method: ${preferredContact}`,
         `Client account: ${clientAccount}`,
+        `Privacy notice accepted: ${legalPolicyVersion}`,
         "",
         "Message:",
         message
@@ -104,7 +112,8 @@ module.exports = async function handler(request, response) {
           ["Email", email],
           ["Phone", phone],
           ["Preferred contact", preferredContact],
-          ["Client account", clientAccount]
+          ["Client account", clientAccount],
+          ["Privacy notice accepted", legalPolicyVersion]
         ]) + paragraph("Message") + `<div style="padding:16px 18px;background:#f5faf8;border-radius:12px;font-size:15px;line-height:1.7;color:#587078;white-space:pre-wrap">${escapeHtml(message)}</div>`,
         footer: "Reply directly to this email to answer the sender."
       })

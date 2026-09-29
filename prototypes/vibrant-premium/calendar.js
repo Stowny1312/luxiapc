@@ -518,6 +518,12 @@
     if (!state.selectedSlot || !state.user) return;
     const submitButton = bookingForm.querySelector('button[type="submit"]');
     const formData = new FormData(bookingForm);
+    const legalConsent = formData.get("legal_consent") === "on";
+    if (!bookingForm.checkValidity() || !legalConsent) {
+      bookingForm.reportValidity();
+      setStatus(bookingStatus, "Please accept the Terms and Conditions and Cancellation Policy before booking.", "error");
+      return;
+    }
     submitButton.disabled = true;
     setStatus(bookingStatus, "Confirming your booking...", "info");
 
@@ -535,7 +541,9 @@
         body: JSON.stringify({
           slotId: state.selectedSlot.id,
           preferredContact: String(formData.get("preferred_contact") || "email"),
-          message: String(formData.get("message") || "").trim() || null
+          message: String(formData.get("message") || "").trim() || null,
+          legalConsent,
+          legalPolicyVersion: "2026-09-29"
         })
       });
       result = await bookingResponse.json().catch(() => ({}));
@@ -548,7 +556,7 @@
     }
 
     if (result.paymentRequired && result.checkoutUrl) {
-      setStatus(bookingStatus, "Your time is reserved for 30 minutes. Opening secure payment…", "info");
+      setStatus(bookingStatus, "Your time is reserved for 15 minutes. Opening secure payment…", "info");
       window.location.assign(result.checkoutUrl);
       return;
     }

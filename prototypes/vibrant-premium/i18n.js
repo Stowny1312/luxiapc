@@ -76,6 +76,9 @@
   }
   function menus() {
     document.documentElement.lang = language;
+    document.querySelectorAll('[data-language-content]').forEach(node => {
+      node.hidden = node.getAttribute('data-language-content') !== language;
+    });
     document.querySelectorAll('[data-language-current]').forEach(node => { node.textContent = language.toUpperCase(); });
     document.querySelectorAll('[data-language-options]').forEach(panel => {
       panel.replaceChildren(...['en', 'nl', 'pl'].map(code => {
@@ -91,12 +94,21 @@
       const why = drawer.querySelector('[data-page="why-luxia"], a[href$="why-luxia.html"]');
       const about = drawer.querySelector('[data-page="aboutme"], a[href$="aboutme.html"]');
       if (why && about && why.nextElementSibling !== about) why.after(about);
+      if (!drawer.querySelector('[data-page="terms"]')) {
+        const contact = drawer.querySelector('[data-page="contact"], a[href$="contact.html"]');
+        const link = document.createElement('a');
+        link.dataset.page = 'terms';
+        link.href = 'terms.html';
+        link.textContent = 'Terms & policies';
+        if (contact) contact.before(link); else drawer.append(link);
+      }
     });
     if (!document.querySelector('.site-credits')) {
       const footer = document.createElement('footer');
       footer.className = 'site-credits';
       footer.setAttribute('aria-label', 'Website credits');
-      footer.innerHTML = '<div class="site-business-number"><span>BTW / VAT number</span><strong>BE1032.415.045</strong></div><div class="site-credit-line"><span>Luxia Prevention &amp; Coaching</span><span class="site-credits-separator" aria-hidden="true">•</span><span>Website thoughtfully developed by <strong>Antonio Stoev</strong></span></div>';
+      const termsHref = location.pathname.includes('/pages/') ? 'terms.html' : 'pages/terms.html';
+      footer.innerHTML = `<div class="site-business-number"><span>BTW / VAT number</span><strong>BE1032.415.045</strong></div><div class="site-legal-links"><a href="${termsHref}">Terms, cancellation & privacy</a></div><div class="site-credit-line"><span>Luxia Prevention &amp; Coaching</span><span class="site-credits-separator" aria-hidden="true">•</span><span>Website thoughtfully developed by <strong>Antonio Stoev</strong></span></div>`;
       document.body.append(footer);
     }
   }

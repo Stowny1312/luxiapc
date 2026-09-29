@@ -337,8 +337,9 @@
       const phone = phoneInput.startsWith("+") ? `+${phoneInput.replace(/\D/g, "")}` : `+${phoneCountry}${phoneDigits}`;
       const password = String(formData.get("password") || "");
       const confirmPassword = String(formData.get("confirm_password") || "");
+      const legalConsent = formData.get("legal_consent") === "on";
 
-      if (!form.checkValidity() || !firstName || !lastName || !dateOfBirth || !gender || !email || !phone || !password || !confirmPassword) {
+      if (!form.checkValidity() || !firstName || !lastName || !dateOfBirth || !gender || !email || !phone || !password || !confirmPassword || !legalConsent) {
         form.reportValidity();
         showStatus("Please fill in all required fields before creating your account.", "error");
         return;
@@ -359,7 +360,9 @@
             last_name: lastName,
             date_of_birth: dateOfBirth,
             gender,
-            phone
+            phone,
+            legal_policy_version: "2026-09-29",
+            legal_policy_accepted_at: new Date().toISOString()
           }
         }
       });
@@ -433,6 +436,7 @@
         ? accountName || "Luxia client"
         : String(formData.get("full_name") || "").trim();
       const message = String(formData.get("message") || "").trim();
+      const legalConsent = formData.get("legal_consent") === "on";
       const email = user && user.email
         ? user.email
         : String(formData.get("email") || "").trim().toLowerCase();
@@ -447,7 +451,7 @@
         return;
       }
 
-      if (!form.checkValidity() || !fullName || !email || !phone || !["email", "phone"].includes(preferredContact)) {
+      if (!form.checkValidity() || !fullName || !email || !phone || !["email", "phone"].includes(preferredContact) || !legalConsent) {
         form.reportValidity();
         showNodeStatus(status, "Please complete your contact details and choose how you prefer to be contacted.", "error");
         return;
@@ -469,6 +473,8 @@
             phone,
             preferredContact,
             message,
+            legalConsent,
+            legalPolicyVersion: "2026-09-29",
             clientAccount: user ? user.id : "not logged in"
           })
         });

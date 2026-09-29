@@ -65,6 +65,8 @@ module.exports = async function handler(request, response) {
   const preferredContact = String((payload && payload.preferredContact) || "email").trim().toLowerCase();
   const phone = String((payload && payload.phone) || "").trim();
   const message = String((payload && payload.message) || "").trim();
+  const legalConsent = payload && payload.legalConsent === true;
+  const legalPolicyVersion = String((payload && payload.legalPolicyVersion) || "").trim();
 
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(slotId)) {
     sendJson(response, 400, { error: "Please select a valid available time." });
@@ -72,6 +74,10 @@ module.exports = async function handler(request, response) {
   }
   if (!["email", "phone"].includes(preferredContact) || phone.length > 30 || message.length > 5000) {
     sendJson(response, 400, { error: "Please check your booking details." });
+    return;
+  }
+  if (!legalConsent || legalPolicyVersion !== "2026-09-29") {
+    sendJson(response, 400, { error: "Please accept the current Terms and Conditions and Cancellation Policy before booking." });
     return;
   }
 
@@ -89,7 +95,9 @@ module.exports = async function handler(request, response) {
         p_slot_id: slotId,
         p_preferred_contact: preferredContact,
         p_phone: phone || null,
-        p_message: message || null
+        p_message: message || null,
+        p_legal_consent: legalConsent,
+        p_legal_policy_version: legalPolicyVersion
       })
     });
   } catch (error) {

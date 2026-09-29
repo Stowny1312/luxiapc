@@ -692,6 +692,17 @@ Verified client reviews will be published here with permission.|||Zweryfikowane 
 Your next chapter|||Twój kolejny rozdział
 Ready to create your own positive change?|||Gotowi na własną pozytywną zmianę?
 Start with a private consultation and discover which support suits you best.|||Zacznij od prywatnej konsultacji i odkryj, jaka forma wsparcia najlepiej Ci odpowiada.
+Terms & policies|||Regulamin i polityki
+Terms, Cancellation & Privacy - Luxia|||Regulamin, anulowanie i prywatność - Luxia
+Terms, cancellation & privacy|||Regulamin, anulowanie i prywatność
+I have read and accept the Terms and Conditions and Cancellation Policy, and I acknowledge the Privacy Notice.|||Przeczytałem(-am) i akceptuję regulamin oraz zasady anulowania, a także potwierdzam zapoznanie się z polityką prywatności.
+Terms and Conditions and Cancellation Policy|||Regulamin i zasady anulowania
+Privacy Notice|||Polityka prywatności
+I have read the Privacy Notice and consent to the processing of my data so Luxia can respond to my enquiry.|||Zapoznałem(-am) się z polityką prywatności i wyrażam zgodę na przetwarzanie moich danych, aby Luxia mogła odpowiedzieć na zapytanie.
+Please accept the Terms and Conditions and Cancellation Policy before booking.|||Przed rezerwacją zaakceptuj regulamin i zasady anulowania.
+Please accept the current Terms and Conditions and Cancellation Policy before booking.|||Przed rezerwacją zaakceptuj aktualny regulamin i zasady anulowania.
+Please acknowledge the Privacy Notice before sending your message.|||Przed wysłaniem wiadomości potwierdź zapoznanie się z polityką prywatności.
+Your time is reserved for 15 minutes. Opening secure payment…|||Termin jest zarezerwowany przez 15 minut. Otwieranie bezpiecznej płatności…
 `.trim().split('\n').map(line => line.split('|||')));
 
 /* Parameterized messages keep client identities and stored values unchanged. */

@@ -3443,3 +3443,25 @@ body[data-page="contact"] .drawer a[data-page="contact"] {
 .reviews-cta .primary-button { flex: 0 0 auto; text-align: center; }
 @media (max-width: 900px) { .reviews-hero { grid-template-columns: 1fr; }.reviews-featured { min-height: 260px; }.testimonial-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 620px) { .reviews-page { gap: 18px; }.reviews-hero, .reviews-stories { padding: 25px 18px; border-radius: 24px; }.reviews-hero h1 { font-size: clamp(2.15rem, 12vw, 3.1rem); }.reviews-featured { min-height: 0; padding: 25px; border-radius: 22px; }.review-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }.review-summary div { min-width: 0; padding: 11px 8px; text-align: center; }.review-summary span { font-size: .68rem; }.reviews-heading { grid-template-columns: 1fr; gap: 14px; }.testimonial-grid { grid-template-columns: 1fr; }.testimonial-card { min-height: 245px; }.reviews-cta { align-items: stretch; flex-direction: column; padding: 27px 21px; border-radius: 24px; } }
+
+body[data-page="terms"] .drawer a[data-page="terms"] { background: linear-gradient(135deg, rgba(112,203,215,.16), rgba(168,202,116,.12)); box-shadow: inset 3px 0 0 var(--cyan); }
+.legal-consent { display: grid !important; grid-template-columns: 22px minmax(0,1fr); align-items: start; gap: 11px; padding: 15px 16px; border: 1px solid rgba(66,119,126,.18); border-radius: 16px; background: rgba(244,250,249,.84); font-size: .9rem; line-height: 1.55; }
+.legal-consent input { width: 19px; min-height: 19px; height: 19px; margin: 3px 0 0; accent-color: #477b79; }
+.legal-consent a, .site-legal-links a, .legal-document a { color: #356d72; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.site-legal-links { margin: 8px 0; font-size: .82rem; }
+.legal-page, .legal-document { display: grid; gap: 22px; }
+.legal-hero { padding: clamp(34px,6vw,72px); border: 1px solid rgba(66,119,126,.14); border-radius: 34px; background: radial-gradient(circle at 10% 8%,rgba(208,181,225,.26),transparent 22rem),radial-gradient(circle at 92% 8%,rgba(255,209,184,.36),transparent 20rem),linear-gradient(145deg,rgba(255,255,255,.98),rgba(235,247,245,.9)); box-shadow: 0 28px 70px rgba(48,76,80,.1); }
+.legal-hero h1 { max-width: 880px; margin: 10px 0 18px; font-size: clamp(2.35rem,5.3vw,5rem); line-height: .98; letter-spacing: -.045em; }
+.legal-hero > p:not(.eyebrow) { max-width: 760px; color: var(--muted); font-size: clamp(1rem,1.5vw,1.18rem); line-height: 1.75; }
+.legal-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.legal-meta span { padding: 8px 12px; border: 1px solid rgba(66,119,126,.12); border-radius: 999px; background: rgba(255,255,255,.7); color: var(--muted); font-size: .76rem; }
+.legal-jump { display: flex; flex-wrap: wrap; gap: 10px; padding: 16px; border-radius: 20px; background: rgba(255,255,255,.78); box-shadow: 0 14px 34px rgba(48,76,80,.07); }
+.legal-jump a { padding: 10px 14px; border-radius: 999px; background: linear-gradient(135deg,rgba(220,243,246,.98),rgba(235,246,221,.96)); color: var(--ink); font-weight: 800; text-decoration: none; }
+.legal-document > section { scroll-margin-top: 110px; padding: clamp(28px,5vw,58px); border: 1px solid rgba(66,119,126,.12); border-radius: 28px; background: linear-gradient(145deg,rgba(255,255,255,.96),rgba(239,247,248,.82)); box-shadow: 0 18px 48px rgba(48,76,80,.07); }
+.legal-document section h2 { max-width: 850px; margin: 8px 0 28px; font-size: clamp(1.8rem,3.4vw,3rem); line-height: 1.05; letter-spacing: -.03em; }
+.legal-document section h3 { margin: 27px 0 8px; font-size: 1.05rem; }
+.legal-document section p { max-width: 940px; color: var(--muted); line-height: 1.78; }
+.legal-notice { margin-top: 28px; padding: 22px; border: 1px solid rgba(66,119,126,.18); border-radius: 20px; background: linear-gradient(135deg,rgba(228,245,247,.9),rgba(240,247,230,.78)); }
+.legal-notice strong { color: var(--ink); }
+.legal-notice p { margin-bottom: 0; }
+@media (max-width:620px) { .legal-hero,.legal-document>section{padding:26px 19px;border-radius:24px}.legal-jump{display:grid}.legal-jump a{text-align:center}.legal-consent{font-size:.84rem} }

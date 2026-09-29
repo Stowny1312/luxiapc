@@ -692,4 +692,15 @@ Verified client reviews will be published here with permission.|||Geverifieerde 
 Your next chapter|||Jouw volgende hoofdstuk
 Ready to create your own positive change?|||Klaar om je eigen positieve verandering te creëren?
 Start with a private consultation and discover which support suits you best.|||Begin met een persoonlijk gesprek en ontdek welke ondersteuning het beste bij je past.
+Terms & policies|||Voorwaarden & beleid
+Terms, Cancellation & Privacy - Luxia|||Voorwaarden, annulering & privacy - Luxia
+Terms, cancellation & privacy|||Voorwaarden, annulering & privacy
+I have read and accept the Terms and Conditions and Cancellation Policy, and I acknowledge the Privacy Notice.|||Ik heb de algemene voorwaarden en het annuleringsbeleid gelezen en aanvaard, en ik bevestig dat ik de privacyverklaring heb gelezen.
+Terms and Conditions and Cancellation Policy|||Algemene voorwaarden en annuleringsbeleid
+Privacy Notice|||Privacyverklaring
+I have read the Privacy Notice and consent to the processing of my data so Luxia can respond to my enquiry.|||Ik heb de privacyverklaring gelezen en stem in met de verwerking van mijn gegevens zodat Luxia mijn vraag kan beantwoorden.
+Please accept the Terms and Conditions and Cancellation Policy before booking.|||Aanvaard de algemene voorwaarden en het annuleringsbeleid voordat je boekt.
+Please accept the current Terms and Conditions and Cancellation Policy before booking.|||Aanvaard de actuele algemene voorwaarden en het annuleringsbeleid voordat je boekt.
+Please acknowledge the Privacy Notice before sending your message.|||Bevestig dat je de privacyverklaring hebt gelezen voordat je het bericht verstuurt.
+Your time is reserved for 15 minutes. Opening secure payment…|||Je tijdstip is 15 minuten gereserveerd. De beveiligde betaling wordt geopend…
 `.trim().split('\n').map(line => line.split('|||')));
