@@ -15,7 +15,7 @@
   loader.setAttribute("aria-live", "polite");
   loader.innerHTML = [
     '<div class="luxia-loader-mark" aria-hidden="true">',
-    `  <img src="${assetPrefix}assets/luxia-loader-logo.png" alt="">`,
+    `  <img src="${assetPrefix}assets/luxia-header-logo.png" alt="">`,
     "</div>",
     '<span class="screen-reader-text">Loading Luxia P&amp;C</span>'
   ].join("");

@@ -83,8 +83,6 @@ body {
   height: auto;
   display: block;
   border-radius: 0;
-  -webkit-mask-image: radial-gradient(ellipse 76% 66% at center, #000 58%, rgba(0, 0, 0, 0.9) 72%, transparent 100%);
-  mask-image: radial-gradient(ellipse 76% 66% at center, #000 58%, rgba(0, 0, 0, 0.9) 72%, transparent 100%);
 }
 @keyframes loaderLogoArrive {
   from {
