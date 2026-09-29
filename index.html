@@ -3,8 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Coming Soon</title>
-    <meta name="description" content="Coming Soon">
+    <meta name="theme-color" content="#f2f7f8">
+    <title>Luxia P&amp;C — Opening 1 October</title>
+    <meta name="description" content="Luxia Prevention &amp; Coaching launches on 1 October 2026.">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="/favicon.png">
     <style>
       :root {
         color-scheme: dark;
@@ -162,13 +165,39 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="/coming-soon.css">
   </head>
   <body>
-    <main aria-label="Coming Soon">
-      <div class="line top"></div>
-      <div class="mark" aria-hidden="true"></div>
-      <h1>Coming Soon!</h1>
-      <div class="line bottom"></div>
+    <main class="launch-shell" aria-labelledby="page-title">
+      <section class="intro">
+        <img
+          class="logo"
+          src="/prototypes/vibrant-premium/assets/luxia-header-logo.png"
+          alt="Luxia P&amp;C — Prevention &amp; Coaching"
+        >
+        <p class="eyebrow" id="launch-kicker">Launching soon</p>
+        <h1 id="page-title">A thoughtful new space is almost ready.</h1>
+        <p class="lead">
+          A calm place for clarity, confidence and practical next steps — for individuals and businesses ready to grow.
+        </p>
+      </section>
+
+      <section class="countdown-panel" aria-labelledby="countdown-title">
+        <p class="launch-date" id="countdown-title">
+          Opening <time datetime="2026-10-01T00:00:00+02:00">1 October 2026</time>
+        </p>
+        <div class="countdown" role="timer" aria-live="off" aria-label="Time remaining until Luxia opens">
+          <div class="unit"><span class="value" id="days">00</span><span class="label">Days</span></div>
+          <div class="unit"><span class="value" id="hours">00</span><span class="label">Hours</span></div>
+          <div class="unit"><span class="value" id="minutes">00</span><span class="label">Minutes</span></div>
+          <div class="unit"><span class="value" id="seconds">00</span><span class="label">Seconds</span></div>
+        </div>
+        <p class="status" aria-live="polite">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="status-text">We are putting the final touches in place.</span>
+        </p>
+      </section>
     </main>
+    <script src="/coming-soon.js"></script>
   </body>
 </html>
