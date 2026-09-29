@@ -2,7 +2,7 @@ const OWNER_EMAIL = process.env.OWNER_NOTIFICATION_EMAIL || "luxiapc@outlook.com
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://tapvkveybfotgskqjeof.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || "sb_publishable__BsA8Xl7RTgowZRkw5cjSQ_K-2FaQt5";
 const { actionButton, detailsCard, escapeHtml, luxiaEmail, paragraph } = require("../lib/luxia-email");
-const { stripeRequest, stripeSiteOrigin } = require("../lib/stripe");
+const { coachingPriceCents, stripeRequest, stripeSiteOrigin } = require("../lib/stripe");
 
 function sendJson(response, statusCode, payload) {
   response.statusCode = statusCode;
@@ -135,11 +135,10 @@ module.exports = async function handler(request, response) {
       return;
     }
     const serviceHeaders = { apikey: serviceKey, Authorization: `Bearer ${serviceKey}`, "Content-Type": "application/json" };
-    const amount = Number(process.env.COACHING_PRICE_CENTS || 100);
+    const amount = coachingPriceCents();
     const origin = stripeSiteOrigin(`https://${request.headers["x-forwarded-host"] || request.headers.host || "dev.luxiapc.com"}`);
     const expiresAt = Math.floor(Date.now() / 1000) + 30 * 60;
     try {
-      if (!Number.isInteger(amount) || amount < 50) throw new Error("Payment is not configured yet.");
       const checkoutBody = {
         mode: "payment",
         "line_items[0][quantity]": "1",
