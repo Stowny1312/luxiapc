@@ -19,7 +19,7 @@ function confirmationUrl(request, bookingId) {
   const forwardedHost = String(request.headers["x-forwarded-host"] || request.headers.host || "dev.luxiapc.com");
   const forwardedProtocol = String(request.headers["x-forwarded-proto"] || "https");
   const origin = process.env.PUBLIC_SITE_URL || `${forwardedProtocol}://${forwardedHost}`;
-  return `${origin.replace(/\/$/, "")}/prototypes/vibrant-premium/pages/administration.html?booking=${encodeURIComponent(bookingId)}`;
+  return `${origin.replace(/\/$/, "")}/pages/administration.html?booking=${encodeURIComponent(bookingId)}`;
 }
 
 function formatBrusselsDate(value) {
@@ -150,8 +150,8 @@ module.exports = async function handler(request, response) {
         "metadata[booking_id]": bookingId,
         "payment_intent_data[metadata][booking_id]": bookingId,
         expires_at: String(expiresAt),
-        success_url: `${origin}/prototypes/vibrant-premium/pages/payment.html?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${origin}/prototypes/vibrant-premium/pages/payment.html?cancelled=1&booking=${encodeURIComponent(bookingId)}`
+        success_url: `${origin}/pages/payment.html?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/pages/payment.html?cancelled=1&booking=${encodeURIComponent(bookingId)}`
       };
       if (String(process.env.STRIPE_INVOICE_CREATION_ENABLED || "false").toLowerCase() === "true") {
         checkoutBody["invoice_creation[enabled]"] = "true";
@@ -171,7 +171,15 @@ module.exports = async function handler(request, response) {
         body: JSON.stringify({ p_booking_id: bookingId, p_checkout_session_id: session.id, p_amount_cents: amount, p_currency: "eur", p_expires_at: new Date(expiresAt * 1000).toISOString() })
       });
       const attached = await readJson(attachResponse);
-      if (!attachResponse.ok || attached !== true) throw new Error("The payment could not be attached to the booking.");
+      if (!attachResponse.ok || attached !== true) {
+        console.error("Payment checkout attachment failed.", {
+          bookingId,
+          status: attachResponse.status,
+          attached,
+          checkoutSessionId: session.id
+        });
+        throw new Error("The payment could not be attached to the booking.");
+      }
       sendJson(response, 201, { ok: true, bookingId, paymentRequired: true, checkoutUrl: session.url });
       return;
     } catch (error) {

@@ -1,4 +1,16 @@
 {
+  "redirects": [
+    {
+      "source": "/prototypes/vibrant-premium/pages/:path*",
+      "destination": "/pages/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/prototypes/vibrant-premium",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/", "destination": "/prototypes/vibrant-premium/index.html" },
     { "source": "/styles.css", "destination": "/prototypes/vibrant-premium/styles.css" },

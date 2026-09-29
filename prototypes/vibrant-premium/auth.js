@@ -1,4 +1,8 @@
 (function () {
+  document.querySelectorAll("a.brand").forEach((brandLink) => {
+    brandLink.href = "/";
+  });
+
   const config = window.LUXIA_SUPABASE;
   const statusNode = document.querySelector("[data-auth-status]");
 

@@ -146,7 +146,7 @@ module.exports = async function handler(request, response) {
     const zoomMeeting = await readJson(zoomResponse);
     if (!zoomResponse.ok || !zoomMeeting.id || !zoomMeeting.password) throw new Error((zoomMeeting && zoomMeeting.message) || "Zoom could not create the meeting.");
 
-    const meetingUrl = `${siteOrigin(request)}/prototypes/vibrant-premium/pages/private-session.html?booking=${booking.id}`;
+    const meetingUrl = `${siteOrigin(request)}/pages/private-session.html?booking=${booking.id}`;
     await supabaseRpc("store_booking_zoom_session", {
       p_booking_id: booking.id,
       p_meeting_number: String(zoomMeeting.id),

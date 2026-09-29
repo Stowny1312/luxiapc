@@ -32,7 +32,7 @@ async function serviceRpc(name, body) {
 
 function confirmationUrl(bookingId) {
   const origin = stripeSiteOrigin("https://dev.luxiapc.com");
-  return `${origin}/prototypes/vibrant-premium/pages/administration.html?booking=${encodeURIComponent(bookingId)}`;
+  return `${origin}/pages/administration.html?booking=${encodeURIComponent(bookingId)}`;
 }
 
 async function notifyOwner(bookingId) {

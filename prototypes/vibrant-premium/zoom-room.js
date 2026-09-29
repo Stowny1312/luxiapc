@@ -11,7 +11,7 @@
     window.ZoomMtg.preLoadWasm();
     window.ZoomMtg.prepareWebSDK();
     window.ZoomMtg.init({
-      leaveUrl: `${parentOrigin}/prototypes/vibrant-premium/pages/client-space.html`,
+      leaveUrl: `${parentOrigin}/pages/client-space.html`,
       patchJsMedia: true,
       leaveOnPageUnload: true,
       defaultView: "speaker",

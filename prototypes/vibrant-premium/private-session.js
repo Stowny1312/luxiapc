@@ -114,7 +114,7 @@
       window.ZoomMtg.preLoadWasm();
       window.ZoomMtg.prepareWebSDK();
       window.ZoomMtg.init({
-        leaveUrl: `${window.location.origin}/prototypes/vibrant-premium/pages/client-space.html`,
+        leaveUrl: `${window.location.origin}/pages/client-space.html`,
         patchJsMedia: true,
         leaveOnPageUnload: true,
         defaultView: "speaker",
@@ -163,7 +163,7 @@
         statusNode.hidden = true;
         const mobileEndDelay = new Date(access.endsAt).getTime() - Date.now();
         if (mobileEndDelay > 0) window.setTimeout(() => {
-          window.location.replace(`${window.location.origin}/prototypes/vibrant-premium/pages/client-space.html`);
+          window.location.replace(`${window.location.origin}/pages/client-space.html`);
         }, Math.min(mobileEndDelay, 2147483647));
         return;
       }
