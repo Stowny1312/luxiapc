@@ -1,5 +1,6 @@
 const { stripeSiteOrigin, verifyWebhook } = require("../lib/stripe");
 const { actionButton, detailsCard, luxiaEmail, paragraph } = require("../lib/luxia-email");
+const { calendarAttachment } = require("../lib/calendar-invite");
 
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://tapvkveybfotgskqjeof.supabase.co";
 
@@ -38,18 +39,19 @@ async function notifyOwner(bookingId) {
   const key = String(process.env.SUPABASE_SERVICE_ROLE_KEY || "");
   const resendKey = String(process.env.RESEND_API_KEY || "");
   if (!key || !resendKey) return;
-  const result = await fetch(`${SUPABASE_URL}/rest/v1/bookings?id=eq.${encodeURIComponent(bookingId)}&select=id,starts_at,client_name,client_email,client_phone,preferred_contact,client_message,payment_amount_cents,payment_currency`, {
+  const result = await fetch(`${SUPABASE_URL}/rest/v1/bookings?id=eq.${encodeURIComponent(bookingId)}&select=id,session_type,starts_at,ends_at,client_name,client_email,client_phone,preferred_contact,client_message,payment_amount_cents,payment_currency`, {
     headers: { apikey: key, Authorization: `Bearer ${key}` }
   });
   const booking = (await result.json())[0];
   if (!result.ok || !booking) return;
   const confirmUrl = confirmationUrl(booking.id);
-  await fetch("https://api.resend.com/emails", {
+  const ownerEmail = process.env.OWNER_NOTIFICATION_EMAIL || "luxiapc@outlook.com";
+  const emailResponse = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": `paid-booking-owner/${booking.id}` },
     body: JSON.stringify({
       from: process.env.CONTACT_FROM_EMAIL || "Luxia P&C <onboarding@resend.dev>",
-      to: process.env.OWNER_NOTIFICATION_EMAIL || "luxiapc@outlook.com",
+      to: ownerEmail,
       reply_to: booking.client_email,
       subject: "New paid Luxia coaching booking",
       text: `A coaching payment was received.\nClient: ${booking.client_name}\nEmail: ${booking.client_email}\nStarts: ${booking.starts_at}\nBooking: ${booking.id}\n\nConfirm booking and create the private Zoom session: ${confirmUrl}`,
@@ -57,11 +59,16 @@ async function notifyOwner(bookingId) {
         eyebrow: "Paid booking",
         title: "A coaching payment was received",
         intro: "The payment was verified by Stripe and the booking is now confirmed.",
-        content: detailsCard([["Client", booking.client_name], ["Email", booking.client_email], ["Phone", booking.client_phone], ["Starts", new Date(booking.starts_at).toLocaleString("en-GB", { timeZone: "Europe/Brussels" })], ["Amount", `€${(booking.payment_amount_cents / 100).toFixed(2)}`], ["Booking ID", booking.id]]) + paragraph("The payment is approved. Confirm the booking below to create the private Zoom session.") + actionButton(confirmUrl, "Review and confirm booking"),
-        footer: "Owner login is required before a booking can be confirmed."
-      })
+        content: detailsCard([["Client", booking.client_name], ["Email", booking.client_email], ["Phone", booking.client_phone], ["Starts", new Date(booking.starts_at).toLocaleString("en-GB", { timeZone: "Europe/Brussels" })], ["Amount", `€${(booking.payment_amount_cents / 100).toFixed(2)}`], ["Booking ID", booking.id]]) + paragraph("Open the attached Luxia calendar file to add this paid booking to Outlook on your phone. It includes a 30-minute reminder.") + paragraph("The payment is approved. Confirm the booking below to create the private Zoom session.") + actionButton(confirmUrl, "Review and confirm booking"),
+        footer: "The attached calendar file can be opened directly in Outlook. Owner login is required before the private Zoom session is created."
+      }),
+      attachments: [calendarAttachment(booking, { ownerEmail, actionUrl: confirmUrl })]
     })
   });
+  if (!emailResponse.ok) {
+    const providerError = await emailResponse.text();
+    throw new Error(`Paid booking email with calendar invitation failed (${emailResponse.status}): ${providerError}`);
+  }
 }
 
 module.exports = async function handler(request, response) {

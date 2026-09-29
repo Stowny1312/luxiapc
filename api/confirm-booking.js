@@ -1,5 +1,6 @@
 const { SUPABASE_URL, bearerToken, getSupabaseUser, readJson, sendJson, siteOrigin, supabaseHeaders, supabaseRpc, zoomAccessToken } = require("../lib/zoom-common");
 const { actionButton, detailsCard, luxiaEmail, paragraph } = require("../lib/luxia-email");
+const { calendarAttachment } = require("../lib/calendar-invite");
 
 function bookingLabel(sessionType) {
   return sessionType === "coaching" ? "1 hour coaching" : "20 minute consultation";
@@ -59,6 +60,42 @@ async function notifyClient(booking, meetingUrl) {
   return true;
 }
 
+async function notifyOwnerCalendar(booking, meetingUrl) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const ownerEmail = process.env.OWNER_NOTIFICATION_EMAIL || "luxiapc@outlook.com";
+  if (!apiKey || !ownerEmail) return false;
+  const label = bookingLabel(booking.session_type);
+  const start = formatBrusselsDate(booking.starts_at);
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+      "Idempotency-Key": `confirmed-booking-owner-calendar/${booking.id}`
+    },
+    body: JSON.stringify({
+      from: process.env.CONTACT_FROM_EMAIL || "Luxia P&C <onboarding@resend.dev>",
+      to: ownerEmail,
+      reply_to: booking.client_email,
+      subject: `Calendar: confirmed Luxia ${label}`,
+      text: `The confirmed ${label} with ${booking.client_name || booking.client_email || "the client"} starts ${start}. Open the attached calendar event to add it to Outlook.\n\nPrivate session: ${meetingUrl}`,
+      html: luxiaEmail({
+        eyebrow: "Calendar invitation",
+        title: "Add the confirmed session to Outlook",
+        intro: `The ${label} with ${booking.client_name || booking.client_email || "the client"} is confirmed for ${start}.`,
+        content: paragraph("Open the attached Luxia calendar file to add the appointment to Outlook on your phone. A 30-minute calendar reminder is included.") + actionButton(meetingUrl, "Open private session"),
+        footer: "The attached calendar file is the free Outlook synchronization fallback."
+      }),
+      attachments: [calendarAttachment(booking, { ownerEmail, actionUrl: meetingUrl })]
+    })
+  });
+  if (!response.ok) {
+    console.error("Confirmed booking owner calendar email failed.", booking.id, await readJson(response));
+    return false;
+  }
+  return true;
+}
+
 module.exports = async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -73,7 +110,7 @@ module.exports = async function handler(request, response) {
   try {
     const user = await getSupabaseUser(authorization);
     if (!user.app_metadata || user.app_metadata.luxia_role !== "owner") return sendJson(response, 403, { error: "Owner access is required." });
-    const bookingResponse = await fetch(`${SUPABASE_URL}/rest/v1/bookings?id=eq.${bookingId}&select=id,session_type,starts_at,ends_at,status,client_name,client_email,meeting_url`, { headers: supabaseHeaders(authorization) });
+    const bookingResponse = await fetch(`${SUPABASE_URL}/rest/v1/bookings?id=eq.${bookingId}&select=id,session_type,starts_at,ends_at,status,client_name,client_email,client_phone,preferred_contact,meeting_url`, { headers: supabaseHeaders(authorization) });
     const bookings = await readJson(bookingResponse);
     const booking = Array.isArray(bookings) ? bookings[0] : null;
     if (!bookingResponse.ok || !booking || booking.status !== "upcoming" || new Date(booking.ends_at) <= new Date()) {
@@ -122,7 +159,13 @@ module.exports = async function handler(request, response) {
     } catch (emailError) {
       console.error("Booking confirmed but client notification was unavailable.", booking.id, emailError.message);
     }
-    sendJson(response, 200, { ok: true, meetingUrl, notificationSent });
+    let ownerCalendarSent = false;
+    try {
+      ownerCalendarSent = await notifyOwnerCalendar(booking, meetingUrl);
+    } catch (calendarError) {
+      console.error("Booking confirmed but owner calendar notification was unavailable.", booking.id, calendarError.message);
+    }
+    sendJson(response, 200, { ok: true, meetingUrl, notificationSent, ownerCalendarSent });
   } catch (error) {
     console.error("Booking confirmation failed.", error.message);
     sendJson(response, 502, { error: error.message || "The Zoom meeting could not be created." });
