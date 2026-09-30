@@ -149,6 +149,8 @@ module.exports = async function handler(request, response) {
         client_reference_id: bookingId,
         "metadata[booking_id]": bookingId,
         "payment_intent_data[metadata][booking_id]": bookingId,
+        "payment_intent_data[description]": "Luxia P&C — 1-hour coaching session",
+        "payment_intent_data[statement_descriptor_suffix]": "COACHING",
         expires_at: String(expiresAt),
         success_url: `${origin}/pages/payment.html?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/pages/payment.html?cancelled=1&booking=${encodeURIComponent(bookingId)}`
