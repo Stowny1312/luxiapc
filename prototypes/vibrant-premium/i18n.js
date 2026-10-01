@@ -98,7 +98,7 @@
         const contact = drawer.querySelector('[data-page="contact"], a[href$="contact.html"]');
         const link = document.createElement('a');
         link.dataset.page = 'terms';
-        link.href = 'terms.html';
+        link.href = location.pathname.includes('/pages/') ? 'terms.html' : 'pages/terms.html';
         link.textContent = 'Terms & Conditions';
         if (contact) contact.before(link); else drawer.append(link);
       }
