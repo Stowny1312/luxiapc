@@ -99,7 +99,7 @@
         const link = document.createElement('a');
         link.dataset.page = 'terms';
         link.href = 'terms.html';
-        link.textContent = 'Terms & policies';
+        link.textContent = 'Terms & Conditions';
         if (contact) contact.before(link); else drawer.append(link);
       }
     });

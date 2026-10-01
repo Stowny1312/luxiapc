@@ -692,7 +692,7 @@ Verified client reviews will be published here with permission.|||Zweryfikowane 
 Your next chapter|||Twój kolejny rozdział
 Ready to create your own positive change?|||Gotowi na własną pozytywną zmianę?
 Start with a private consultation and discover which support suits you best.|||Zacznij od prywatnej konsultacji i odkryj, jaka forma wsparcia najlepiej Ci odpowiada.
-Terms & policies|||Regulamin i polityki
+Terms & Conditions|||Regulamin i polityki
 Terms, Cancellation & Privacy - Luxia|||Regulamin, anulowanie i prywatność - Luxia
 Terms, cancellation & privacy|||Regulamin, anulowanie i prywatność
 I have read and accept the Terms and Conditions and Cancellation Policy, and I acknowledge the Privacy Notice.|||Przeczytałem(-am) i akceptuję regulamin oraz zasady anulowania, a także potwierdzam zapoznanie się z polityką prywatności.

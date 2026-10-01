@@ -692,7 +692,7 @@ Verified client reviews will be published here with permission.|||Geverifieerde 
 Your next chapter|||Jouw volgende hoofdstuk
 Ready to create your own positive change?|||Klaar om je eigen positieve verandering te creëren?
 Start with a private consultation and discover which support suits you best.|||Begin met een persoonlijk gesprek en ontdek welke ondersteuning het beste bij je past.
-Terms & policies|||Voorwaarden & beleid
+Terms & Conditions|||Voorwaarden & beleid
 Terms, Cancellation & Privacy - Luxia|||Voorwaarden, annulering & privacy - Luxia
 Terms, cancellation & privacy|||Voorwaarden, annulering & privacy
 I have read and accept the Terms and Conditions and Cancellation Policy, and I acknowledge the Privacy Notice.|||Ik heb de algemene voorwaarden en het annuleringsbeleid gelezen en aanvaard, en ik bevestig dat ik de privacyverklaring heb gelezen.
