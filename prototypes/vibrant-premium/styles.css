@@ -1001,6 +1001,8 @@ code { overflow-wrap: anywhere; color: var(--cyan); }
   min-height: 100vh;
 }
 .sub-header {
+  position: relative;
+  z-index: 10;
   min-height: 96px;
   display: flex;
   align-items: center;
