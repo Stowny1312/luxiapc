@@ -54,8 +54,17 @@
       const origin = window.location.origin;
       let joinRequested = false;
       let settled = false;
+      const sendPing = () => {
+        if (!settled && !joinRequested && desktopFrame.contentWindow) {
+          desktopFrame.contentWindow.postMessage({ type: "luxia-zoom-ping" }, origin);
+        }
+      };
+      const handleFrameLoad = () => sendPing();
+      const pingInterval = window.setInterval(sendPing, 500);
       const cleanup = () => {
         window.clearTimeout(timeout);
+        window.clearInterval(pingInterval);
+        desktopFrame.removeEventListener("load", handleFrameLoad);
         window.removeEventListener("message", handleMessage);
       };
       const finish = (callback, value) => {
@@ -79,9 +88,10 @@
         }
       };
       window.addEventListener("message", handleMessage);
+      desktopFrame.addEventListener("load", handleFrameLoad);
       desktopFrame.hidden = false;
       desktopControls.hidden = false;
-      desktopFrame.contentWindow.postMessage({ type: "luxia-zoom-ping" }, origin);
+      sendPing();
     });
   }
 
