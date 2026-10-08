@@ -53,18 +53,23 @@
     desktopFrame.hidden = false;
     desktopControls.hidden = false;
     const roomSource = desktopFrame.dataset.zoomRoomSrc || "zoom-room.html";
-    await new Promise((resolve, reject) => {
-      const timeout = window.setTimeout(() => reject(new Error("The Zoom room could not finish loading.")), 15000);
-      desktopFrame.addEventListener("load", () => {
-        window.clearTimeout(timeout);
-        resolve();
-      }, { once: true });
-      desktopFrame.src = roomSource;
+    desktopFrame.src = roomSource;
+    const bridge = await new Promise((resolve, reject) => {
+      const startedAt = Date.now();
+      const checkBridge = () => {
+        const candidate = desktopFrame.contentWindow && desktopFrame.contentWindow.LuxiaZoomRoom;
+        if (candidate && typeof candidate.whenReady === "function" && typeof candidate.join === "function") {
+          resolve(candidate);
+          return;
+        }
+        if (Date.now() - startedAt >= 15000) {
+          reject(new Error("The Zoom room bridge could not be initialized."));
+          return;
+        }
+        window.setTimeout(checkBridge, 100);
+      };
+      checkBridge();
     });
-    const bridge = desktopFrame.contentWindow && desktopFrame.contentWindow.LuxiaZoomRoom;
-    if (!bridge || typeof bridge.whenReady !== "function" || typeof bridge.join !== "function") {
-      throw new Error("The Zoom room bridge could not be initialized.");
-    }
     await bridge.whenReady();
     await bridge.join(access);
   }
