@@ -9,7 +9,7 @@
     <title>Private session - Luxia P&amp;C</title>
     <meta name="robots" content="noindex,nofollow">
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../styles.css?v=20261008-6">
   </head>
   <body class="subpage private-session-page" data-page="private-session">
     <header class="sub-header">
@@ -26,16 +26,12 @@
       </section>
       <section class="zoom-meeting-shell" data-meeting-shell hidden aria-label="Private Zoom meeting">
         <div class="meeting-room-bar"><strong>Private coaching room</strong><span data-room-note>The room is open during the reserved time.</span></div>
-        <div id="meetingSDKElement"><iframe class="desktop-zoom-frame" data-desktop-zoom-frame data-zoom-room-src="zoom-room.html?v=20261008-5" title="Luxia private Zoom meeting" src="about:blank" allow="camera; microphone; display-capture; fullscreen" hidden></iframe></div>
-        <div class="meeting-controls" data-desktop-meeting-controls hidden>
-          <span>Camera and microphone controls are available inside the meeting.</span>
-          <button class="meeting-fullscreen-button" type="button" data-meeting-fullscreen aria-pressed="false">Full screen</button>
-        </div>
+        <div id="meetingSDKElement"></div>
       </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase-config.js"></script>
     <script src="../auth.js"></script>
-    <script src="../private-session.js?v=20261008-5"></script>
+    <script src="../private-session.js?v=20261008-6"></script>
   </body>
 </html>

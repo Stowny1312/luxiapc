@@ -2534,14 +2534,14 @@ body.session-connected:not(.zoom-client-view) #meetingSDKElement {
   overflow: hidden;
 }
 body.session-connected:not(.zoom-client-view) .meeting-controls { flex: 0 0 auto; }
-@media (max-width: 820px), (pointer: coarse) {
-  body.zoom-client-view .sub-header,
-  body.zoom-client-view .private-session-main { display: none !important; }
-  body.zoom-client-view { margin: 0; overflow: hidden; background: #000; }
-  body.zoom-client-view #zmmtg-root { display: block !important; width: 100vw !important; height: 100dvh !important; min-width: 0 !important; }
-  body.zoom-client-view .meeting-app { width: 100vw !important; height: 100dvh !important; min-width: 0 !important; }
-  body.zoom-client-view .meeting-client { width: 100vw !important; height: 100dvh !important; }
-}
+body.zoom-client-view .sub-header,
+body.zoom-client-view .private-session-main,
+body.zoom-client-view .site-credits,
+body.zoom-client-view > footer { display: none !important; }
+body.zoom-client-view { margin: 0; overflow: hidden; background: #000; }
+body.zoom-client-view #zmmtg-root { display: block !important; width: 100vw !important; height: 100dvh !important; min-width: 0 !important; }
+body.zoom-client-view .meeting-app { width: 100vw !important; height: 100dvh !important; min-width: 0 !important; }
+body.zoom-client-view .meeting-client { width: 100vw !important; height: 100dvh !important; }
 .assistant-setup-card h3,
 .assistant-setup-card p {
   margin: 0;
