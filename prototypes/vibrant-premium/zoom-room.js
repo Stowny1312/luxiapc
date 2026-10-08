@@ -1,13 +1,16 @@
 (function () {
   "use strict";
   const parentOrigin = window.location.origin;
+  let meetingState = "idle";
 
   function notify(type, message) {
     window.parent.postMessage({ type, message }, parentOrigin);
   }
 
   function joinMeeting(access) {
+    if (meetingState !== "idle") return;
     if (!window.ZoomMtg) return notify("luxia-zoom-error", "Zoom could not load the meeting controls.");
+    meetingState = "joining";
     window.ZoomMtg.preLoadWasm();
     window.ZoomMtg.prepareWebSDK();
     window.ZoomMtg.init({
@@ -24,10 +27,19 @@
         passWord: access.password,
         userName: access.userName,
         zak: access.zak || "",
-        success: () => notify("luxia-zoom-joined"),
-        error: (error) => notify("luxia-zoom-error", (error && error.reason) || "The Zoom meeting could not be joined.")
+        success: () => {
+          meetingState = "joined";
+          notify("luxia-zoom-joined");
+        },
+        error: (error) => {
+          meetingState = "idle";
+          notify("luxia-zoom-error", (error && error.reason) || "The Zoom meeting could not be joined.");
+        }
       }),
-      error: (error) => notify("luxia-zoom-error", (error && error.reason) || "The Zoom meeting could not be initialized.")
+      error: (error) => {
+        meetingState = "idle";
+        notify("luxia-zoom-error", (error && error.reason) || "The Zoom meeting could not be initialized.");
+      }
     });
   }
 
