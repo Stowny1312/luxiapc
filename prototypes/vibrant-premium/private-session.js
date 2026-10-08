@@ -54,12 +54,16 @@
       const origin = window.location.origin;
       let joinRequested = false;
       let settled = false;
+      let frameLoaded = false;
       const sendPing = () => {
         if (!settled && !joinRequested && desktopFrame.contentWindow) {
           desktopFrame.contentWindow.postMessage({ type: "luxia-zoom-ping" }, origin);
         }
       };
-      const handleFrameLoad = () => sendPing();
+      const handleFrameLoad = () => {
+        frameLoaded = true;
+        sendPing();
+      };
       const pingInterval = window.setInterval(sendPing, 500);
       const cleanup = () => {
         window.clearTimeout(timeout);
@@ -74,7 +78,8 @@
         callback(value);
       };
       const timeout = window.setTimeout(() => {
-        finish(reject, new Error("The desktop Zoom room took too long to load. Please refresh the page."));
+        const detail = frameLoaded ? "The Zoom room loaded but did not respond." : "The Zoom room could not finish loading.";
+        finish(reject, new Error(`${detail} Please refresh the page.`));
       }, 30000);
       const handleMessage = (event) => {
         if (event.origin !== origin || event.source !== desktopFrame.contentWindow || !event.data) return;
@@ -91,7 +96,8 @@
       desktopFrame.addEventListener("load", handleFrameLoad);
       desktopFrame.hidden = false;
       desktopControls.hidden = false;
-      sendPing();
+      const roomSource = desktopFrame.dataset.zoomRoomSrc || "zoom-room.html";
+      desktopFrame.src = roomSource;
     });
   }
 
