@@ -49,56 +49,24 @@
   });
   document.addEventListener("fullscreenchange", setFullscreenLabel);
 
-  function initializeDesktopMeeting(access) {
-    return new Promise((resolve, reject) => {
-      const origin = window.location.origin;
-      let joinRequested = false;
-      let settled = false;
-      let frameLoaded = false;
-      const sendPing = () => {
-        if (!settled && !joinRequested && desktopFrame.contentWindow) {
-          desktopFrame.contentWindow.postMessage({ type: "luxia-zoom-ping" }, origin);
-        }
-      };
-      const handleFrameLoad = () => {
-        frameLoaded = true;
-        sendPing();
-      };
-      const pingInterval = window.setInterval(sendPing, 500);
-      const cleanup = () => {
+  async function initializeDesktopMeeting(access) {
+    desktopFrame.hidden = false;
+    desktopControls.hidden = false;
+    const roomSource = desktopFrame.dataset.zoomRoomSrc || "zoom-room.html";
+    await new Promise((resolve, reject) => {
+      const timeout = window.setTimeout(() => reject(new Error("The Zoom room could not finish loading.")), 15000);
+      desktopFrame.addEventListener("load", () => {
         window.clearTimeout(timeout);
-        window.clearInterval(pingInterval);
-        desktopFrame.removeEventListener("load", handleFrameLoad);
-        window.removeEventListener("message", handleMessage);
-      };
-      const finish = (callback, value) => {
-        if (settled) return;
-        settled = true;
-        cleanup();
-        callback(value);
-      };
-      const timeout = window.setTimeout(() => {
-        const detail = frameLoaded ? "The Zoom room loaded but did not respond." : "The Zoom room could not finish loading.";
-        finish(reject, new Error(`${detail} Please refresh the page.`));
-      }, 30000);
-      const handleMessage = (event) => {
-        if (event.origin !== origin || event.source !== desktopFrame.contentWindow || !event.data) return;
-        if (event.data.type === "luxia-zoom-ready" && !joinRequested) {
-          joinRequested = true;
-          desktopFrame.contentWindow.postMessage({ type: "luxia-zoom-join", access }, origin);
-        } else if (event.data.type === "luxia-zoom-joined") {
-          finish(resolve);
-        } else if (event.data.type === "luxia-zoom-error") {
-          finish(reject, new Error(event.data.message || "The desktop Zoom room could not be opened."));
-        }
-      };
-      window.addEventListener("message", handleMessage);
-      desktopFrame.addEventListener("load", handleFrameLoad);
-      desktopFrame.hidden = false;
-      desktopControls.hidden = false;
-      const roomSource = desktopFrame.dataset.zoomRoomSrc || "zoom-room.html";
+        resolve();
+      }, { once: true });
       desktopFrame.src = roomSource;
     });
+    const bridge = desktopFrame.contentWindow && desktopFrame.contentWindow.LuxiaZoomRoom;
+    if (!bridge || typeof bridge.whenReady !== "function" || typeof bridge.join !== "function") {
+      throw new Error("The Zoom room bridge could not be initialized.");
+    }
+    await bridge.whenReady();
+    await bridge.join(access);
   }
 
   function loadStyleOnce(href) {
@@ -204,7 +172,7 @@
       await initializeDesktopMeeting(access);
       document.body.classList.add("session-connected");
       statusNode.hidden = true;
-      leaveAtSessionEnd({ leaveMeeting: () => desktopFrame.contentWindow.postMessage({ type: "luxia-zoom-leave" }, window.location.origin) }, access.endsAt);
+      leaveAtSessionEnd({ leaveMeeting: () => desktopFrame.contentWindow.LuxiaZoomRoom.leave() }, access.endsAt);
     } catch (error) {
       meetingShell.hidden = true;
       setStatus(error.message || "This private session is unavailable.", "error");

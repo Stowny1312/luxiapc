@@ -1,12 +1,7 @@
 (function () {
   "use strict";
-  const parentOrigin = window.location.origin;
   let meetingState = "idle";
   let sdkReady = false;
-
-  function notify(type, message) {
-    window.parent.postMessage({ type, message }, parentOrigin);
-  }
 
   function loadScript(src) {
     return new Promise((resolve, reject) => {
@@ -30,50 +25,51 @@
     for (const dependency of dependencies) await loadScript(dependency);
     if (!window.ZoomMtg) throw new Error("Zoom loaded without meeting controls.");
     sdkReady = true;
-    notify("luxia-zoom-ready");
   }
 
   function joinMeeting(access) {
-    if (meetingState !== "idle") return;
-    if (!sdkReady || !window.ZoomMtg) return notify("luxia-zoom-error", "Zoom could not load the meeting controls.");
+    if (meetingState === "joined") return Promise.resolve();
+    if (meetingState !== "idle") return Promise.reject(new Error("The Zoom meeting is already opening."));
+    if (!sdkReady || !window.ZoomMtg) return Promise.reject(new Error("Zoom could not load the meeting controls."));
     meetingState = "joining";
     window.ZoomMtg.preLoadWasm();
     window.ZoomMtg.prepareWebSDK();
-    window.ZoomMtg.init({
-      leaveUrl: `${parentOrigin}/pages/client-space.html`,
-      patchJsMedia: true,
-      leaveOnPageUnload: true,
-      defaultView: "speaker",
-      isLockBottom: true,
-      disableJoinAudio: false,
-      isSupportAV: true,
-      success: () => window.ZoomMtg.join({
-        signature: access.signature,
-        meetingNumber: access.meetingNumber,
-        passWord: access.password,
-        userName: access.userName,
-        zak: access.zak || "",
-        success: () => {
-          meetingState = "joined";
-          notify("luxia-zoom-joined");
-        },
+    return new Promise((resolve, reject) => {
+      window.ZoomMtg.init({
+        leaveUrl: `${window.location.origin}/pages/client-space.html`,
+        patchJsMedia: true,
+        leaveOnPageUnload: true,
+        defaultView: "speaker",
+        isLockBottom: true,
+        disableJoinAudio: false,
+        isSupportAV: true,
+        success: () => window.ZoomMtg.join({
+          signature: access.signature,
+          meetingNumber: access.meetingNumber,
+          passWord: access.password,
+          userName: access.userName,
+          zak: access.zak || "",
+          success: () => {
+            meetingState = "joined";
+            resolve();
+          },
+          error: (error) => {
+            meetingState = "idle";
+            reject(new Error((error && error.reason) || "The Zoom meeting could not be joined."));
+          }
+        }),
         error: (error) => {
           meetingState = "idle";
-          notify("luxia-zoom-error", (error && error.reason) || "The Zoom meeting could not be joined.");
+          reject(new Error((error && error.reason) || "The Zoom meeting could not be initialized."));
         }
-      }),
-      error: (error) => {
-        meetingState = "idle";
-        notify("luxia-zoom-error", (error && error.reason) || "The Zoom meeting could not be initialized.");
-      }
+      });
     });
   }
 
-  window.addEventListener("message", (event) => {
-    if (event.origin !== parentOrigin || event.source !== window.parent || !event.data) return;
-    if (event.data.type === "luxia-zoom-ping" && sdkReady) notify("luxia-zoom-ready");
-    if (event.data.type === "luxia-zoom-join") joinMeeting(event.data.access);
-    if (event.data.type === "luxia-zoom-leave" && window.ZoomMtg) window.ZoomMtg.leaveMeeting({});
-  });
-  loadZoomSdk().catch((error) => notify("luxia-zoom-error", error.message || "Zoom dependencies could not be loaded."));
+  const sdkPromise = loadZoomSdk();
+  window.LuxiaZoomRoom = {
+    whenReady: () => sdkPromise,
+    join: joinMeeting,
+    leave: () => window.ZoomMtg && window.ZoomMtg.leaveMeeting({})
+  };
 })();
